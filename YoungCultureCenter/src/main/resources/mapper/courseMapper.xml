@@ -6,56 +6,106 @@
 <mapper namespace="com.youngtvjobs.ycc.course.courseMapper">
 
 	<sql id="selectFromCourse">
-		SELECT * FROM tb_course
+		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
+					, course_start_date, course_end_date, course_day, course_time, course_target
+					, course_cost, course_info, tb_course.user_id, croom_id, user_name, tb_course.course_cate_cd
+		FROM tb_course
+		join tb_user
+		on tb_course.user_id = tb_user.user_id 
+		join course_type
+		on tb_course.course_cate_cd = course_type.course_cate_cd
 	</sql>
 	
-	<sql id="searchCondition">
+	<sql id="searchCate">
 		<choose>
-			<when test='option=="S"'>
-				AND course_nm LIKE concat('%', #{keyword}, '%')
+			<when test='cate == "Spo"'>
+				AND tb_course.course_cate_cd = 'Spo'
+				AND course_nm LIKE concat('%', #{keyword}, '%') 
 			</when>
-			<when test='option=="C"'>
-				AND course_nm LIKE concat('%', #{keyword}, '%')
+			<when test='cate == "Cul"'>
+				AND tb_course.course_cate_cd = 'Cul'
+				AND course_nm LIKE concat('%', #{keyword}, '%') 
 			</when>
-			<when test='option=="E"'>
-				AND course_nm LIKE concat('%', #{keyword}, '%')
+			<when test='cate == "Edu"'>
+				AND tb_course.course_cate_cd = 'Edu'
+				AND course_nm LIKE concat('%', #{keyword}, '%') 
 			</when>
 			<otherwise>
-				AND (course_nm LIKE concat('%', #{keyword}, '%')
-				OR user_id LIKE concat('%', #{keyword}, '%'))
+				AND course_nm LIKE concat('%', #{keyword}, '%')
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<sql id="searchTarget">
+		<choose>
+			<when test='target == "Adu"'>
+				AND tb_course.course_target = '성인' 
+			</when>
+			<when test='target == "Stu"'>
+				AND tb_course.course_target = '청소년' 
+			</when>
+			<when test='target == "Chd"'>
+				AND tb_course.course_target = '유아' 
+			</when>
+			<when test='target == "Old"'>
+				AND tb_course.course_target = '노인' 
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<sql id="orderby">
+		<choose>
+			<!-- 접수마감일순 -->
+			<when test='orderby=="End"'>
+				order by course_reg_end_date
+			</when>
+			<!-- 수강시작일순 -->
+			<when test='orderby=="Start"'>
+				order by course_start_date
+			</when>
+			<!-- <when test='orderby=="Star"'>
+				order by course_reg_end_date 
+			</when> -->
+			<!-- 기본값 -->
+			<otherwise>
+				order by course_nm
 			</otherwise>
 		</choose>
 	</sql>
 	
 	<!-- 강좌 목록 보여주기 -->
 	<select id="selectCourselist">
-		SELECT course_id, course_nm, course_reg_start_date, course_reg_end_date, course_day, course_time, course_cost, course_reg_stat
+		SELECT course_id, course_nm, course_reg_start_date, course_reg_end_date, course_day, course_time, course_cost
 		FROM tb_course
 	</select>
 	
 	<select id="selectPage" parameterType="map" resultType="CourseDto">
 		<include refid="selectFromCourse" />
-		order by course_reg_stat , course_reg_start_date desc
+		order by course_reg_start_date desc
 		limit #{pageSize} offset #{offset}
 	</select>
 	
 	<!-- 검색된 강좌의수 -->
-	<select id="searchResultCnt" parameterType="SearchItem" resultType="int">
+	<select id="searchResultCnt" parameterType="CourseSearchItem" resultType="int">
 		select count(*)
 		from tb_course 
 		where true 
-		<include refid="searchCondition" />
+		<include refid="searchCate" />
+		<!-- <include refid="searchTarget" /> -->
 	</select> 
 
 	<!-- 검색된 강좌 리스트 -->
-	<select id="searchSelectPage" parameterType="SearchItem" resultType="CourseDto">
+	<select id="searchSelectPage" parameterType="CourseSearchItem" resultType="CourseDto">
 		<include refid="selectFromCourse" />
 		where true 
-		<include refid="searchCondition" />
-		order by course_reg_stat desc, course_reg_start_date, course_reg_end_date desc
+		<include refid="searchCate" />
+		<include refid="searchTarget" />
+		<include refid="orderby" />
 		limit #{pageSize} offset #{offset}
 	</select> 
-	
+
 	<delete id="deleteAll">
 		delete from tb_course
 	</delete>
@@ -63,9 +113,9 @@
 	<insert id="insert" parameterType="CourseDto">
 		INSERT INTO public.tb_course
 		(course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date
-		, course_end_date, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_reg_stat)
+		, course_end_date, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id)
 		VALUES(#{course_id}, #{course_nm}, #{course_image}, #{course_reg_start_date}, #{course_reg_end_date}, #{course_start_date}
-		, #{course_end_date}, #{course_day}, #{course_time}, #{course_target}, #{course_cost}, #{course_info}, #{user_id}, #{croom_id}, #{course_reg_stat})
+		, #{course_end_date}, #{course_day}, #{course_time}, #{course_target}, #{course_cost}, #{course_info}, #{user_id}, #{croom_id})
 	</insert>
 
 </mapper>

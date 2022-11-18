@@ -4,45 +4,78 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static java.util.Objects.requireNonNullElse;
 import static java.lang.Math.*;
 
-public class SearchItem {
+public class CourseSearchItem {
 	public static final int DEFAULT_PAGE_SIZE = 10;
 	public static final int MIN_PAGE_SIZE = 5;
 	public static final int MAX_PAGE_SIZE = 50;
 
 	private Integer page = 1;
 	private Integer pageSize = DEFAULT_PAGE_SIZE;
-	private String option = "";
+	private String cate = "";
+	private String target = "";
+	private String stat = "";
 	private String keyword = "";
 	private Integer offset;
+	private String orderby = "";
 	
-	public SearchItem() {
+	public CourseSearchItem() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public SearchItem(Integer page, Integer pageSize) {
-		this(page, pageSize, "", "");
+	public CourseSearchItem(Integer page, Integer pageSize) {
+		this(page, pageSize, "", "", "", "", "");
 	}
 
-	public SearchItem(Integer page, Integer pageSize, String option, String keyword) {
+	public CourseSearchItem(Integer page, Integer pageSize, String cate, String target, String stat, String keyword, String orderby) {
 		// super();
 		this.page = page;
 		this.pageSize = pageSize;
-		this.option = option;
+		this.cate = cate;
+		this.target = target;
+		this.stat = stat;
 		this.keyword = keyword;
+		this.orderby = orderby;
 	}
 	
 	public String getQueryString() {
 		return getQueryString(page);
 	}
 	
-	// ?page=10&pageSize=10&option=A&keyword=title
+	// ?page=10&pageSize=10&cate=All&target=All&stat=All&keyword=title
 	public String getQueryString(Integer page) {
 		return UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
 				.queryParam("pageSize", pageSize)
-				.queryParam("option", option)
+				.queryParam("cate", cate)
+				.queryParam("target", target)
+				.queryParam("stat", stat)
 				.queryParam("keyword", keyword)
+				.queryParam("orderby", orderby)
 				.build().toString();
+	}
+	
+	public String getStat() {
+		return stat;
+	}
+
+	public void setStat(String stat) {
+		this.stat = stat;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public String getOrderby() {
+		return orderby;
+	}
+
+	public void setOrderby(String orderby) {
+		this.orderby = orderby;
 	}
 
 	public Integer getPage() {
@@ -64,12 +97,12 @@ public class SearchItem {
 		this.pageSize = max(MIN_PAGE_SIZE, min(this.pageSize, MAX_PAGE_SIZE));
 	}
 
-	public String getOption() {
-		return option;
+	public String getCate() {
+		return cate;
 	}
 
-	public void setOption(String option) {
-		this.option = option;
+	public void setCate(String cate) {
+		this.cate = cate;
 	}
 
 	public String getKeyword() {
@@ -89,7 +122,8 @@ public class SearchItem {
 
 	@Override
 	public String toString() {
-		return "SearchItem [page=" + page + ", pageSize=" + pageSize + ", option=" + option + ", keyword=" + keyword
-				+ ", offset=" + offset + "]";
+		return "SearchItem [page=" + page + ", pageSize=" + pageSize + ", cate=" + cate + ", target=" + target
+				+ ", stat=" + stat + ", keyword=" + keyword + ", offset=" + offset + ", orderby=" + orderby + "]";
 	}
+
 }

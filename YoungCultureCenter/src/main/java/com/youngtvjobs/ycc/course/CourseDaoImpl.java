@@ -15,12 +15,12 @@ public class CourseDaoImpl implements CourseDao{
 	private static String namespace = "com.youngtvjobs.ycc.course.courseMapper.";
 	
 	@Override
-	public int searchResultCnt(SearchItem sc) throws Exception {
+	public int searchResultCnt(CourseSearchItem sc) throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectOne(namespace + "searchResultCnt", sc);
 	}
 	@Override
-	public List<CourseDto> searchSelectPage(SearchItem sc) throws Exception {
+	public List<CourseDto> searchSelectPage(CourseSearchItem sc) throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace + "searchSelectPage", sc);
 	}
@@ -38,6 +38,11 @@ public class CourseDaoImpl implements CourseDao{
 	public List<CourseDto> selectPage(Map map) throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace + "selectPage", map);
+	}
+	@Override
+	public List<CourseDto> orderbyPage(CourseSearchItem sc) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + "searchSelectPage", sc);
 	}
 
 

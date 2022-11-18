@@ -7,6 +7,8 @@ public interface CourseService {
 	
 	List<CourseDto> getPage(Map map) throws Exception;
 
-	int getsearchResultCnt(SearchItem sc) throws Exception;
-	List<CourseDto> getsearchResultPage(SearchItem sc) throws Exception;
+	int getsearchResultCnt(CourseSearchItem sc) throws Exception;
+	List<CourseDto> getsearchResultPage(CourseSearchItem sc) throws Exception;
+
+	List<CourseDto> orderbyPage(CourseSearchItem sc) throws Exception;
 }

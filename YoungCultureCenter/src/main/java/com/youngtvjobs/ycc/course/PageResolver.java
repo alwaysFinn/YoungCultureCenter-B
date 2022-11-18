@@ -2,7 +2,7 @@ package com.youngtvjobs.ycc.course;
 
 public class PageResolver {
 	
-	private SearchItem sc;
+	private CourseSearchItem sc;
 	
 	private int totalCnt;
 	public final int NAV_SIZE =10;
@@ -15,21 +15,21 @@ public class PageResolver {
 	private boolean showPrev = false;
 	
 	public PageResolver(int totalCnt, Integer page) {
-		this(totalCnt, new SearchItem(page, 10));
+		this(totalCnt, new CourseSearchItem(page, 10));
 	}
 
 	public PageResolver(int totalCnt, Integer page, Integer pageSize) {
-		this(totalCnt, new SearchItem(page, pageSize));
+		this(totalCnt, new CourseSearchItem(page, pageSize));
 	}
 	
-	public PageResolver(int totalCnt, SearchItem sc) {
+	public PageResolver(int totalCnt, CourseSearchItem sc) {
 		this.totalCnt = totalCnt;
 		this.sc = sc;
 		
 		doPaging(totalCnt, sc);
 	}
 
-	private void doPaging(int totalCnt, SearchItem sc) {
+	private void doPaging(int totalCnt, CourseSearchItem sc) {
 		this.totalPage = totalCnt / sc.getPageSize() + (totalCnt % sc.getPageSize() == 0 ? 0 : 1);
 		this.sc.setPage(Math.min(sc.getPage(), totalPage));
 		this.beginPage = (this.sc.getPage()-1) / NAV_SIZE * NAV_SIZE + 1;
@@ -54,11 +54,11 @@ public class PageResolver {
 				+ beginPage + ", endPage=" + endPage + ", showNext=" + showNext + ", showPrev=" + showPrev + "]";
 	}
 
-	public SearchItem getSc() {
+	public CourseSearchItem getSc() {
 		return sc;
 	}
 
-	public void setSc(SearchItem sc) {
+	public void setSc(CourseSearchItem sc) {
 		this.sc = sc;
 	}
 

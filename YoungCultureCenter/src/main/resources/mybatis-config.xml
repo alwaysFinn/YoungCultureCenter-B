@@ -8,6 +8,6 @@
 	<typeAliases>
 		<typeAlias alias="MemberDto" type="com.youngtvjobs.ycc.member.MemberDto" />
 		<typeAlias alias="CourseDto" type="com.youngtvjobs.ycc.course.CourseDto" />
-		<typeAlias alias="SearchItem" type="com.youngtvjobs.ycc.course.SearchItem"/>
+		<typeAlias alias="CourseSearchItem" type="com.youngtvjobs.ycc.course.CourseSearchItem"/>
 	</typeAliases>
 </configuration>
