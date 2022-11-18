@@ -1,3 +1,4 @@
+------------------------------------------------------공통------------------------------------------------------
 -- tb_user dummy data
 INSERT INTO public.tb_user
 (user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, user_addr, user_regdate, user_grade, user_social_type)
@@ -7,45 +8,43 @@ INSERT INTO public.tb_user
 (user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, user_addr, user_regdate, user_grade, user_social_type)
 VALUES('ezen', '이젠', '0111', 'm', '2022-11-12', 'ezenT@gmail.com', '01012345678', '강남', 'now()', '강사', '');
 
+
+
+------------------------------------------------------지호------------------------------------------------------
 -- classroom dummy data
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(101, '1층', '30', '101호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(201, '2층', '30', '201호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(301, '3층', '30', '301호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values('수영장', '외부', '60', '수영장');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(102, '1층', '30', '102호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(202, '2층', '30', '202호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(302, '3층', '30', '302호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values('축구장', '외부', '60', '축구장');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(103, '1층', '30', '103호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(203, '2층', '30', '203호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values(303, '3층', '30', '303호');
-insert INTO classroom
-(croom_id, croom_location, croom_mpop, croom_name)
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values('풋살장', '외부', '20', '풋살장');
 
-select * from classroom;
+
+
+------------------------------------------------------성호------------------------------------------------------
+-- course_type dummy data
+INSERT INTO public.course_type (course_cate_cd, course_cate_name) VALUES('Spo', '운동');
+INSERT INTO public.course_type (course_cate_cd, course_cate_name) VALUES('Cul', '문화');
+INSERT INTO public.course_type (course_cate_cd, course_cate_name) VALUES('Edu', '교육');
+
 
 -- tb_course dummy data
 INSERT INTO public.tb_course
@@ -114,8 +113,33 @@ INSERT INTO public.tb_course
 VALUES(11, '크리스마스', '', '2022-12-01', '2023-12-31', '2023-01-01', '2023-01-31'
 , '금', '18:00~21:00', '성인', 20000, '크리스마스시즌', 'ezen', '201', 'Cul');
 
+
+
+
+------------------------------------------------------연희------------------------------------------------------
 -- article dummy data 
 INSERT INTO public.article (article_id, article_date, artilce_contents, article_board_type, user_id, article_title) 
 VALUES(1, now(), '공지사항입니다', 'notice', 'admin', '23년 수영장 일정 공지');  
+
 INSERT INTO public.article (article_id, article_date, artilce_contents, article_board_type, user_id, article_title) 
 VALUES(2, now(), '이벤트입니다', 'event', 'admin', '헬스장 이벤트 안내');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
