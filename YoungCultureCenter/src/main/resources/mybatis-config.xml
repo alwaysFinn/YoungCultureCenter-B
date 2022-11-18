@@ -13,5 +13,6 @@
 		<typeAlias alias="SearchItem" type="com.youngtvjobs.ycc.search.SearchItem" />
 		<typeAlias alias="BoardDto" type="com.youngtvjobs.ycc.board.BoardDto" />
 		<typeAlias alias="ClubDto" type="com.youngtvjobs.ycc.club.ClubDto" />
+		<typeAlias alias="RentalDto" type="com.youngtvjobs.ycc.rental.RentalDto" />
 	</typeAliases>
 </configuration>
