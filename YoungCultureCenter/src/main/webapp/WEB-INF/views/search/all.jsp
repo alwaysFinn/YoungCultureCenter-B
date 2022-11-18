@@ -64,7 +64,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+
+			      <c:forEach var="BoardDto" items="${allList }">
+				      <tr>
+				        <th scope="row">${BoardDto.article_title }</th>
+				        <td>${BoardDto.user_id }</td>
+				        <td>${BoardDto.article_date }</td>
+				        <td>112</td>
+				       <tr>
+				  </c:forEach>
+
+		   		
+		   		
+                <!-- <tr>
                     <th scope="row">23년 수영장 일정 공지</th>
                     <td>관리자</td>
                     <td>2022-11-01</td>
@@ -111,7 +123,7 @@
                     <td>관리자</td>
                     <td>2022-09-01</td>
                     <td>109</td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
             <nav aria-label="Page navigation">

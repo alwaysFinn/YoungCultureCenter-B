@@ -6,6 +6,7 @@
 <head>
 <!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>	  
 <title>Young문화센터 - 통합검색</title>
 </head>
 <body>
@@ -13,6 +14,21 @@
 <%@include file="/WEB-INF/views/header.jsp"%>
 
 <body>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		
+		$("button[name='moreBtn']").on("click", function(){
+			location.href = "<c:url value='/search/all' />"
+			alert($('input[type=hidden]').val());		
+		})
+		
+	})
+
+</script>
+
+
   <div class="container">
     <div class="container">
       <form action="https://search.naver.com/search.naver" method="GET">
@@ -60,92 +76,57 @@
 
     <table class="table table-hover">
       <h1>전체보기</h1>
-      <h3 style="float: right;"><a href="search/all">더보기</a></h3>
-      <tr>
-        <th scope="row">23년 수영장 일정 공지</th>
-        <td>관리자</td>
-        <td>2022-11-01</td>
-        <td>112</td>
-      </tr>
-      <tr>
-        <th scope="row">2022.10.30 대관 관련 공지</th>
-        <td>관리자</td>
-        <td>2022-10-30</td>
-        <td>211</td>
-      </tr>
-      <tr>
-        <th scope="row">수능 응시생들과 함께하는 기력 회복 이벤트</th>
-        <td>관리자</td>
-        <td>2022-10-01</td>
-        <td>109</td>
-      </tr>
-      <tr>
-        <th scope="row">[긴급]대관 시스템 오류 관련 공지</th>
-        <td>관리자</td>
-        <td>2022-09-12</td>
-        <td>822</td>
-      </tr>
+    	 <button style="float: right;" type="button" name="moreBtn" class="btn btn-write">더보기</button>
+	     <table class="table table-hover">
+		      <c:forEach var="BoardDto" items="${allList }">
+			      <tr>
+			        <th scope="row">${BoardDto.article_title }</th>
+			        <td>${BoardDto.user_id }</td>
+			        <td>${BoardDto.article_date }</td>
+			        <td>112</td>
+			       <tr>
+			  </c:forEach>
+	   		</table>
     </table>
 
     <hr>
-    <table class="table table-hover">
+    <div>
       <h1>공지사항</h1>
-      <h3 style="float: right;"><a href="">더보기</a></h3>
-      <tr>
-        <th scope="row">23년 수영장 일정 공지</th>
-        <td>관리자</td>
-        <td>2022-11-01</td>
-        <td>112</td>
-      </tr>
-      <tr>
-        <th scope="row">2022.10.30 대관 관련 공지</th>
-        <td>관리자</td>
-        <td>2022-10-30</td>
-        <td>211</td>
-      </tr>
-      <tr>
-        <th scope="row">[긴급]대관 시스템 오류 관련 공지</th>
-        <td>관리자</td>
-        <td>2022-09-12</td>
-        <td>822</td>
-      </tr>
-      <tr>
-        <th scope="row">화장실 공사 안내</th>
-        <td>관리자</td>
-        <td>2022-08-24</td>
-        <td>402</td>
-      </tr>
-    </table>
-
+      
+      
+    <%--  <form action="<c:url value="/search/all" />">   --%>
+      	
+      		<form action="<c:url value="/search/all?type=${BoardDto.article_board_type }" />">
+      		<c:set var="BoardDto" value="${moreList }" />
+	  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
+	  		<input type="hidden" name="type" value="${BoardDto.article_board_type }" />
+	  		<table class="table table-hover">
+	  		<c:forEach var="BoardDto" items="${noticeList }">
+			      <tr>
+			        <th scope="row">${BoardDto.article_title }</th>
+			        <td>${BoardDto.user_id }</td>
+			        <td>${BoardDto.article_date }</td>
+			        <td>112</td>
+			       <tr>
+			</c:forEach>  
+	   		</table>
+	   		
+    		</form>
+   		
+	</div>	
+		
     <hr>
     <table class="table table-hover`">
       <h1>이벤트</h1>
-      <h3 style="float: right;"><a href="">더보기</a></h3>
-      <tr>
-        <th scope="row">헬스장 이벤트 안내</th>
-        <td>관리자</td>
-        <td>2022-11-01</td>
-        <td>112</td>
-      </tr>
-      <tr>
-        <th scope="row">행운의 주인공을 찾아라!</th>
-        <td>관리자</td>
-        <td>2022-10-30</td>
-        <td>211</td>
-      </tr>
-      <tr>
-        <th scope="row">수능 응시생들과 함께하는 기력 회복 이벤트</th>
-        <td>관리자</td>
-        <td>2022-10-01</td>
-        <td>10992</td>
-      </tr>
-      <tr>
-        <th scope="row">설립 5주년 이벤트</th>
-        <td>관리자</td>
-        <td>2022-09-01</td>
-        <td>109</td>
-      </tr>
-
+      <button style="float: right;" type="button" name="moreBtn" class="btn btn-write">더보기</button>
+      <c:forEach var="BoardDto" items="${eventList }">
+	      <tr>
+	        <th scope="row">${BoardDto.article_title }</th>
+	        <td>${BoardDto.user_id }</td>
+	        <td>${BoardDto.article_date }</td>
+	        <td>112</td>
+	       <tr>
+	    </c:forEach>
     </table>
     <hr class="pb-5">
   </div>
