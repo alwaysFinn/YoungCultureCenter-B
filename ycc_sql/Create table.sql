@@ -174,7 +174,7 @@ CREATE TABLE tb_course (
     course_info    character varying(5000) NOT NULL,
     user_id    varchar(16) NOT NULL,
     croom_id    varchar(10) NOT null,
-    course_reg_stat varchar(20) not null
+    course_cate_cd varchar(10) NOT NULL
 );
 ALTER TABLE tb_course ADD CONSTRAINT tb_course_PK PRIMARY KEY ( course_id );
 
@@ -248,8 +248,6 @@ alter table class_comment  add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) 
 
 alter table attend add FOREIGN KEY(course_id) REFERENCES tb_course(course_id) ON DELETE CASCADE;
 alter table attend add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
-
-alter table course_type add FOREIGN KEY(course_id) REFERENCES tb_course(course_id) ON DELETE CASCADE;
 
 alter table tb_permission add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 
