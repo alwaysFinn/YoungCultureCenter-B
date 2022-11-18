@@ -10,40 +10,42 @@ VALUES('ezen', '이젠', '0111', 'm', '2022-11-12', 'ezenT@gmail.com', '01012345
 -- classroom dummy data
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(1, '1', '30', '101호');
+values(101, '1층', '30', '101호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(2, '2', '30', '201호');
+values(201, '2층', '30', '201호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(3, '3', '30', '301호');
+values(301, '3층', '30', '301호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(4, '0', '60', '수영장');
+values('수영장', '외부', '60', '수영장');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(5, '1', '30', '102호');
+values(102, '1층', '30', '102호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(6, '2', '30', '202호');
+values(202, '2층', '30', '202호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(7, '3', '30', '302호');
+values(302, '3층', '30', '302호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(8, '0', '60', '축구장');
+values('축구장', '외부', '60', '축구장');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(9, '1', '30', '103호');
+values(103, '1층', '30', '103호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(10, '2', '30', '203호');
+values(203, '2층', '30', '203호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(11, '3', '30', '303호');
+values(303, '3층', '30', '303호');
 insert INTO classroom
 (croom_id, croom_location, croom_mpop, croom_name)
-values(12, '0', '20', '풋살장');
+values('풋살장', '외부', '20', '풋살장');
+
+select * from classroom;
 
 -- tb_course dummy data
 INSERT INTO public.tb_course
