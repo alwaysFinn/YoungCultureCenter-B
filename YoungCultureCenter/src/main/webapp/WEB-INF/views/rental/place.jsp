@@ -71,32 +71,23 @@
             <option value="">장소 선택</option>
             <optgroup label="외부"> <!-- 외부 location code = 0 -->
             <c:forEach var="result" items="${placelist }">
-              <option value="${result.croom_id}">${result.croom_location eq 0 ? result.croom_name : ""}<c:if test='${result.croom_name eq "" }' >hidden</c:if></option>
+              <option value="${result.croom_id }" <c:if test="${result.croom_location ne 0}">hidden</c:if> >${result.croom_name}</option>
             </c:forEach>
             </optgroup>
             <optgroup label="1층"> <!-- 1층 location code = 1 -->
             <c:forEach var="result" items="${placelist }">
-              <option value="${result.croom_id }" <c:if test="${result.croom_location == 1}">hidden</c:if> >${result.croom_location == 1 ? result.croom_name : ""}</option>
+              <option value="${result.croom_id }" <c:if test="${result.croom_location ne 1}">hidden</c:if> >${result.croom_name}</option>
             </c:forEach>
-              <option value=""></option>
-              <option value=""></option>
-              <option value=""></option>
             </optgroup>
             <optgroup label="2층"> <!-- 2층 location code = 2 -->
             <c:forEach var="result" items="${placelist }">
-              <option value="${result.croom_id }"><%-- <c:if test="${result.croom_location == 2>"result.croom_name</c:if> --%></option>
+              <option value="${result.croom_id }" <c:if test="${result.croom_location ne 2}">hidden</c:if> >${result.croom_name}</option>
             </c:forEach>
-              <option value=""></option>
-              <option value=""></option>
-              <option value=""></option>
             </optgroup>
             <optgroup label="3층"> <!-- 3층 location code = 3 -->
             <c:forEach var="result" items="${placelist }">
-              <option value="${result.croom_id }">${result.croom_location == 3 ? result.croom_name : ""}</option>
+              <option value="${result.croom_id }" <c:if test="${result.croom_location ne 3}">hidden</c:if> >${result.croom_name}</option>
             </c:forEach>
-              <option value=""></option>
-              <option value=""></option>
-              <option value=""></option>
             </optgroup>
           </select>
         </p>
