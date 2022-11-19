@@ -10,5 +10,6 @@ public interface CourseService {
 	int getsearchResultCnt(CourseSearchItem sc) throws Exception;
 	List<CourseDto> getsearchResultPage(CourseSearchItem sc) throws Exception;
 
-	List<CourseDto> orderbyPage(CourseSearchItem sc) throws Exception;
+	CourseDto readCourseDetail(Integer course_id) throws Exception;
+
 }

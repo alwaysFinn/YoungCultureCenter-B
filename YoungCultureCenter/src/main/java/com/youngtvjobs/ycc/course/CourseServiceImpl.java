@@ -31,9 +31,10 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<CourseDto> orderbyPage(CourseSearchItem sc) throws Exception {
-		// TODO Auto-generated method stub
-		return courseDao.orderbyPage(sc);
+	public CourseDto readCourseDetail(Integer course_id) throws Exception {
+		CourseDto courseDto = courseDao.courseDetail(course_id);
+		
+		return courseDto;
 	}
 
 }

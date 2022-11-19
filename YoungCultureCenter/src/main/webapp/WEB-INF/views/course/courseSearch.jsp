@@ -11,13 +11,12 @@
   <style type="text/css">
   	.searchBox { background-color: #f1f1f1; }
   	.tdeco-none { text-decoration: none; color: black; }
-  	.
   </style>
 	
 	<title>YOUNG문화체육센터</title>
 </head>
 <body>
-	<!-- header inlcude -->
+	<!-- header include -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
 
 	<!-- 본문 -->
@@ -62,7 +61,6 @@
 									<option value="All" ${pr.sc.stat=='All' || pr.sc.stat=='' ? "selected" : ""}>전체</option>
 									<option value="P" ${pr.sc.stat=='P' ? "selected" : ""}>접수가능</option>
 									<option value="O" ${pr.sc.stat=='O' ? "selected" : ""}>오픈예정</option>
-									<option value="E" ${pr.sc.stat=='E' ? "selected" : ""}>접수마감</option>
 								</select>
 							</div>
 						</div>
@@ -85,6 +83,7 @@
 					<option value="New" ${pr.sc.orderby=='New' || pr.sc.orderby=='' ? "selected" : ""}>강좌명순</option>
 					<option value="End" ${pr.sc.orderby=='End' ? "selected" : ""}>접수마감일순</option>
 					<option value="Start" ${pr.sc.orderby=='Start' ? "selected" : ""}>수강시작일순</option>
+					<%-- <option value="Star" ${pr.sc.orderby=='Star' ? "selected" : ""}>평점순</option> --%>
 				</select>
 				<button class="col-auto btn btn-secondary">조회</button>
 			</div>
@@ -121,7 +120,7 @@
 			<c:if test="${totalCnt == null || totalCnt == 0}">
 				<div class="text-center mb-5">게시물이 없습니다.</div>
 			</c:if>
-			<c:if test="${totalCnt != null || totalCnt != 0}">
+			<c:if test="${totalCnt != null && totalCnt != 0}">
 				<ul class="pagination justify-content-center">
 					<c:if test="${pr.showPrev }">
 						<li class="page-item"><a class="page-link" href="<c:url value="/course/search${pr.sc.getQueryString(pr.beginPage-1) }" />"> &lt; </a></li>
