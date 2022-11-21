@@ -28,10 +28,20 @@ public class SearchServiceImpl implements SearchService{
 	public List<BoardDto> getEventPage() throws Exception {
 		return searchDao.selectEventPage();
 	}
+	
+	@Override
+	public List<BoardDto> getEventPageAll() throws Exception {
+		return searchDao.selectEventPageAll();
+	}
 
 	@Override
 	public List<BoardDto> getAllPage() throws Exception {
 		return searchDao.selectAllPage();
+	}
+	
+	@Override
+	public List<BoardDto> getAllPageMore() throws Exception {
+		return searchDao.selectAllPageMore();
 	}
 
 	@Override

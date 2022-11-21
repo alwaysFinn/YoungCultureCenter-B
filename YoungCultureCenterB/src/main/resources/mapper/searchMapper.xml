@@ -31,26 +31,34 @@
 	<include refid="selectFromArticle" />
 	limit 5
   </select>
+  
+   <select id="selectAllPageMore" resultType="BoardDto">
+	<include refid="selectFromArticle" />
+  </select>
 	
   <!-- 공지사항 -->
   <select id="selectNoticePage" resultType="BoardDto">
   	<include refid="selectFromArticle" />
-  	where article_board_type = 'notice'
+  	where article_board_type = '공지사항'
   	limit 5
   </select>
   
    <select id="selectNoticePageAll" resultType="BoardDto">
   	<include refid="selectFromArticle" />
-  	where article_board_type = 'notice'
+  	where article_board_type = '공지사항'
   </select>
   
    <!-- 이벤트 -->
     <select id="selectEventPage" resultType="BoardDto">
   	<include refid="selectFromArticle" />
-  	where article_board_type = 'event'
+  	where article_board_type = '이벤트'
   	limit 5
-  </select>
-  
+  	</select>
+  	
+  	<select id="selectEventPageAll" resultType="BoardDto">
+  	<include refid="selectFromArticle" />
+  	where article_board_type = '이벤트'
+  	</select>
   </mapper>
   
   

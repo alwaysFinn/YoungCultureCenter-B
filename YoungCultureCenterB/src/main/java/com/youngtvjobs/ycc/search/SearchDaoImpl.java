@@ -34,10 +34,20 @@ public class SearchDaoImpl implements SearchDao {
 	public List<BoardDto> selectEventPage() throws Exception {
 		return session.selectList(namespace+"selectEventPage");
 	}
+	
+	@Override
+	public List<BoardDto> selectEventPageAll() throws Exception {
+		return session.selectList(namespace+"selectEventPageAll");
+	}
 
 	@Override
 	public List<BoardDto> selectAllPage() throws Exception {
 		return session.selectList(namespace+"selectAllPage");
+	}
+	
+	@Override
+	public List<BoardDto> selectAllPageMore() throws Exception {
+		return session.selectList(namespace+"selectAllPageMore");
 	}
 
 	@Override

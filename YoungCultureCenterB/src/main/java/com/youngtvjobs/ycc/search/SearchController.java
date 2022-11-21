@@ -37,9 +37,6 @@ public class SearchController {
 
 			List<BoardDto> allList = searchService.getAllPage();
 			m.addAttribute("allList", allList);
-			
-			List<BoardDto> moreList = searchService.morePage(article_board_type);
-			m.addAttribute("moreList", moreList);
 
 //				int totalCnt = searchService.getNoticePageCnt();
 //				m.addAttribute("totalCnt", totalCnt);
@@ -62,6 +59,12 @@ public class SearchController {
 			
 			List<BoardDto> noticeListAll = searchService.getNoticePageAll();
 			m.addAttribute("noticeListAll", noticeListAll);
+			
+			List<BoardDto> eventListAll = searchService.getEventPageAll();
+			m.addAttribute("eventListAll", eventListAll);
+			
+			List<BoardDto> allListMore = searchService.getAllPageMore();
+			m.addAttribute("allListMore", allListMore);
 			 
 		} catch (Exception e) {
 			e.printStackTrace();
