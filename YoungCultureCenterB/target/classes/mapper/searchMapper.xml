@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.youngtvjobs.ycc.search.SearchMapper">
+  
+  <insert id="insert" parameterType="BoardDto">
+  	INSERT INTO public.article
+	(article_id, article_date, article_board_type, user_id, article_title, article_contents, article_viewcnt)
+	VALUES
+	(#{article_id},  #{article_date}, #{article_board_type}, #{user_id}, #{article_title}, #{article_contents}, #{article_viewcnt})
+  </insert>
+  
+  <sql id="selectFromArticle">
+  	SELECT article_id, article_date, article_board_type, user_id, article_title, article_contents, article_viewcnt
+	FROM article
+  </sql>
+  
+  <select id="select" parameterType="BoardDto" resultType="BoardDto">
+ 	 <include refid="selectFromArticle" />
+ 	 where article_board_type = #{article_board_type}
+  </select>
+	
+	
+	
+	
+	
+  <!-- 전체 -->
+  <select id="selectAllPage" resultType="BoardDto">
+	<include refid="selectFromArticle" />
+	limit 5
+  </select>
+	
+  <!-- 공지사항 -->
+  <select id="selectNoticePage" resultType="BoardDto">
+  	<include refid="selectFromArticle" />
+  	where article_board_type = 'notice'
+  	limit 5
+  </select>
+  
+   <select id="selectNoticePageAll" resultType="BoardDto">
+  	<include refid="selectFromArticle" />
+  	where article_board_type = 'notice'
+  </select>
+  
+   <!-- 이벤트 -->
+    <select id="selectEventPage" resultType="BoardDto">
+  	<include refid="selectFromArticle" />
+  	where article_board_type = 'event'
+  	limit 5
+  </select>
+  
+  </mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

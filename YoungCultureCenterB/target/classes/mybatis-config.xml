@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+	<typeAliases>
+		<typeAlias alias="MemberDto" type="com.youngtvjobs.ycc.member.MemberDto" />
+		<typeAlias alias="CourseDto" type="com.youngtvjobs.ycc.course.CourseDto" />
+		<typeAlias alias="CourseSearchItem" type="com.youngtvjobs.ycc.course.CourseSearchItem"/>
+		<typeAlias alias="PageResolver" type="com.youngtvjobs.ycc.course.PageResolver" />
+		<typeAlias alias="SearchItem" type="com.youngtvjobs.ycc.search.SearchItem" />
+		<typeAlias alias="BoardDto" type="com.youngtvjobs.ycc.board.BoardDto" />
+		<typeAlias alias="ClubDto" type="com.youngtvjobs.ycc.club.ClubDto" />
+		<typeAlias alias="RentalDto" type="com.youngtvjobs.ycc.rental.RentalDto" />
+	</typeAliases>
+</configuration>
