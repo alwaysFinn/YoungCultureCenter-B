@@ -39,6 +39,7 @@ public class CourseDto {
 	private String user_id; // 강사아이디
 	private String croom_id; // 강의실 아이디
 	private int course_applicants; // 신청인원
+	private double course_rating; // 강의평점
 	
 	// JOIN tb_user
 	private String user_name; // 강사명
@@ -54,7 +55,7 @@ public class CourseDto {
 	public CourseDto(int course_id, String course_nm, String course_image, Date course_reg_start_date
 					, Date course_reg_end_date, Date course_start_date, Date course_end_date, String course_day
 					, String course_time, String course_target, int course_cost, String course_info, String user_id
-					, String croom_id, int course_applicants, String user_name, String croom_name, int croom_mpop) {
+					, String croom_id, int course_applicants, double course_rating, String user_name, String croom_name, int croom_mpop) {
 		// super();
 		this.course_id = course_id;
 		this.course_nm = course_nm;
@@ -71,6 +72,7 @@ public class CourseDto {
 		this.user_id = user_id;
 		this.croom_id = croom_id;
 		this.course_applicants = course_applicants;
+		this.course_rating = course_rating;
 		this.user_name = user_name;
 		this.croom_name = croom_name;
 		this.croom_mpop = croom_mpop;
@@ -78,9 +80,9 @@ public class CourseDto {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(course_cost, course_day, course_end_date, course_id, course_image, course_info, course_nm,
-				course_reg_end_date, course_reg_start_date, course_start_date, course_target,
-				course_time, croom_id, user_id, course_applicants, user_name, croom_name, croom_mpop);
+		return Objects.hash(course_cost, course_day, course_end_date, course_id, course_image, course_info, course_nm
+							, course_reg_end_date, course_reg_start_date, course_start_date, course_target, course_time
+							, croom_id, user_id, course_applicants, course_rating, user_name, croom_name, croom_mpop);
 	}
 
 	@Override
@@ -101,35 +103,42 @@ public class CourseDto {
 				&& Objects.equals(course_target, other.course_target) && Objects.equals(course_time, other.course_time)
 				&& Objects.equals(croom_id, other.croom_id) && Objects.equals(user_id, other.user_id)
 				&& Objects.equals(user_name, other.user_name) && Objects.equals(croom_name, other.croom_name)
-				&& Objects.equals(course_applicants, other.course_applicants) && Objects.equals(croom_mpop, other.croom_mpop);
+				&& Objects.equals(course_applicants, other.course_applicants) && Objects.equals(croom_mpop, other.croom_mpop)
+				&& Objects.equals(course_rating, other.course_rating);
 	}
 	
 	// 상태(오픈예정, 접수가능, 접수마감)
 	public String course_stat() {
 		Date nowdate = new Date();
-		System.out.println(nowdate);
-		int result1 = nowdate.compareTo(course_reg_start_date); // 오늘-접수시작일
-		int result2 = nowdate.compareTo(course_reg_end_date); // 오늘-접수마감일
+		
+		// 목표 날짜
+        SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+
+        // 현재 날짜
+        final Date todayDate = new Date();
+        final String todayDay = yyyyMMdd.format(todayDate);
+
+        long rsd_now = course_reg_start_date.getTime() - todayDate.getTime(); // d-day 계산
+        long now_rsd = todayDate.getTime() - course_reg_start_date.getTime(); // 오늘-접수시작일 
+        long now_red = todayDate.getTime() - course_reg_end_date.getTime(); // 오늘-접수마감일
+
+//		int result1 = nowdate.compareTo(course_reg_start_date); // 오늘-접수시작일
+//		int result2 = nowdate.compareTo(course_reg_end_date); // 오늘-접수마감일
 		String stat = null;
 
 		// nowdate는 접수시작일 이전 
-		if (result1 < 0) {
-			// stat = course_reg_start_date.compareTo(nowdate);
-			stat = "오픈예정";
-			System.out.println(stat);
+		if (now_rsd < 0) {
+			stat ="오픈예정<br/>"+"[D-"+(rsd_now / (24 * 60 * 60 * 1000) + 1)+"]";
 		}
 		
 		// nowdate는 접수시작일과 접수마감일 사이
-		else if(result1 >= 0 && result2 <= 1) { 
+		else if(now_rsd >= 0 && now_red < 86400000) { 
 			stat = "접수가능";
-			System.out.println(result1);
-			System.out.println(result2);
 		}
 		 
 		// nowdate는 접수마감일 이후
 		else {
 			stat = "접수마감";
-			System.out.println(stat); 
 		}
 		
 		return stat;
@@ -163,12 +172,19 @@ public class CourseDto {
 		
 		return end_date;
 	}
-	//END //Date -> String으로 형변환(course_reg_start_date, course_reg_end_date, course_start_date, course_end_date)//
+	// END //Date -> String으로 형변환(course_reg_start_date, course_reg_end_date, course_start_date, course_end_date)//
 	
-	//getter setter
-	
+	// getter setter
 	public String getCroom_name() {
 		return croom_name;
+	}
+
+	public double getCourse_rating() {
+		return course_rating;
+	}
+
+	public void setCourse_rating(double course_rating) {
+		this.course_rating = course_rating;
 	}
 
 	public int getCourse_applicants() {

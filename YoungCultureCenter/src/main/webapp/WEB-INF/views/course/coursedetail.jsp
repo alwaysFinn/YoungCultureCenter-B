@@ -45,11 +45,11 @@
 						</tr>
 						<tr>
 							<th scope="row">수강료</th>
-							<td>${courseDto.course_cost } 원</td>
+							<td>${courseDto.course_cost }원</td>
 						</tr>
 						<tr>
 							<th scope="row">접수기간</th>
-							<td>${courseDto.reg_sd() } ~ ${courseDto.reg_ed() }</td>
+							<td>${courseDto.reg_sd() }~${courseDto.reg_ed() }</td>
 						</tr>
 						<tr>
 							<th>수강대상</th>
@@ -70,7 +70,7 @@
 						</tr>
 						<tr>
 							<th>수강기간</th>
-							<td>${courseDto.course_sd() } ~ ${courseDto.course_ed() }</td>
+							<td>${courseDto.course_sd() }~${courseDto.course_ed() }</td>
 						</tr>
 						<tr>
 							<th>수강시간</th>
@@ -79,11 +79,11 @@
 						</tr>
 						<tr>
 							<th>총정원</th>
-							<td>${courseDto.croom_mpop } 명</td>
+							<td>${courseDto.croom_mpop }명</td>
 						</tr>
 						<tr>
 							<th>신청인원</th>
-							<td>${courseDto.course_applicants } 명</td>
+							<td>${courseDto.course_applicants }명</td>
 						</tr>
 						</tbody>
 					</table>
@@ -122,7 +122,7 @@
 								<th>강사명</th>
 								<td>
 									<div class="row">
-										<div class="col-6 align-self-center">추호진</div>
+										<div class="col-6 align-self-center">${courseDto.user_name }</div>
 										<div class="col-6 text-end">
 											<a href="#" type="button" class="btn btn-sm btn-outline-primary">강사소개</a> 
 										</div>
@@ -130,26 +130,16 @@
 								</td>
 							</tr>
 							<tr>
-								<th>강좌기간</th>
-								<td>2022.08.10 ~ 2023.01.11</td>
+								<th>수강기간</th>
+								<td>${courseDto.course_sd() }~${courseDto.course_ed() }</td>
 							</tr>
 							<tr>
-								<th>강좌시간</th>
-								<td>08/10~08/26 [16:30~21:30], 08/29~12/29 [09:20~18:00]<br>
-									12/30~01/11 [08:50~16:20] (점심 13:10~14:00)
-								</td>
+								<th>수강시간</th>
+								<td>${courseDto.course_day } / ${courseDto.course_time }</td>
 							</tr>
 							<tr>
-								<th>횟수/수강료</th>
-								<td>800시간 - 6,851,200원 (전액지원)</td>
-							</tr>
-							<tr>
-								<th>재료비/교재비</th>
-								<td>전액지원</td>
-							</tr>
-							<tr>
-								<th>첫시간준비물</th>
-								<td>노트북</td>
+								<th>수강료</th>
+								<td>${courseDto.course_cost }원</td>
 							</tr>
 							</tbody>
 						</table>
@@ -165,29 +155,24 @@
 					</colgroup>
 					<tr>
 						<th scope="row">강의실</th>
-						<td>달콤한방</td>
+						<td>${courseDto.croom_name }</td>
 					</tr>
 					<tr>
 						<th scope="row">강좌 소개</th>
-						<td>▶ 장보고 재료손질하고 반찬고민 끝~<br>MSG 걱정없이 자극적이지 않아 아이들도 안심하고
-							먹을 수 있는<br>우리가족의 건강까지 책임지는 프리미엄 반찬입니다.<br>
-						<br>▶ 매 주마다 새로운 식단으로 1~2인분의 프리미엄 음식을 가정에서 바로 드실 수 있습니다.<br>
-						</td>
+						<td>${courseDto.course_info }</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<th scope="row">강좌 수강 Tip</th>
 						<td>※ 본 강좌는 단기 강좌로 개강 후 환불이 불가합니다.<br>※ 취소는 3일 전일까지만 가능합니다.<br><br>
-							★요리 강좌 당일 소진 재료로(재사용 및 재료로 지급 불가)<br>수업 미참여 후 취소시에도
-							지나간 수업분 재료비 납부 필수!★<br><br>
-							[함께 하는 문화센터 방역 수칙]<br>1. 마스크 착용 필수<br> 
-							2. 수업 전 손 소독하기 <br> 3. 강의실 내 거리두기 및 취식 금지<br>
+							★요리 강좌 당일 소진 재료로(재사용 및 재료로 지급 불가)<br>수업 미참여 후 취소시에도 지나간 수업분 재료비 납부 필수!★<br><br>
+							[함께 하는 문화센터 방역 수칙]<br>1. 마스크 착용 필수<br>2. 수업 전 손 소독하기 <br> 3. 강의실 내 거리두기 및 취식 금지<br> 
 						</td>
-					</tr>
+					</tr> -->
 					</tbody>
 				</table>
 
 				<!-- 강의 계획서 -->
-				<h6>| 강의계획서</h6>
+				<!-- <h6>| 강의계획서</h6>
 				<table class="table table-bordered text-center">
 					<tbody>
 					<thead>
@@ -254,7 +239,7 @@
 						<td id="wcol"></td>
 					</tr>
 					</tbody>
-				</table>
+				</table> -->
 
 				<!-- 안내사항 -->
 				<h6>| 안내사항</h6>
@@ -282,8 +267,8 @@
 					<div class="col-sm-12">
 						<div class="row text-center bg-light p-1">
 							<div class="col-sm-3 fs-3 align-self-center">평균 평점</div>
-							<div class="col-sm-3 fs-3 align-self-center">4.3/5.0</div>
-							<div class="Stars col-sm-6" style="-rating: 4.3;" aria-label="Rating of this product is 4.3 out of 5."></div>
+							<div class="col-sm-3 fs-3 align-self-center">${courseDto.course_rating }/5.00</div>
+							<div class="Stars col-sm-6" style="--rating: ${courseDto.course_rating };" aria-label="Rating of this product is ${courseDto.course_rating } out of 5."></div>
 						</div>
 					</div>
 
@@ -306,12 +291,11 @@
 									<td class="text-start">
 										<div class="accordion accordion-flush" id="accordionFlushExample">
 											<div class="accordion-item">
-												<h2 class="accordion-header" id="flush-headingOne">
+												<h2 class="accordion-header" id="flush-heading1">
 													<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
 													data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">제목제목제목제목제목</button>
 												</h2>
-												<div id="flush-collapseOne" class="accordion-collapse collapse"
-													aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+												<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 													<div class="accordion-body">
 														내용내용내용내용내용
 														<div class="row text-center" id="dcol"><hr>
@@ -484,7 +468,26 @@
 							</ul>
 						</nav>
 						<!-- 글쓰기 btn -->
-						<div class="text-end"><a class="btn btn-primary" href="#">글쓰기</a></div>
+						<div class="text-end"><a class="btn btn-primary mb-1" href="#">후기작성</a></div>
+						<div class="row mb-1">
+							<div class="col-sm-10">
+								<input placeholder="후기를 작성해주세요." type="text" name="comment" class="form-control mb-1" />
+							</div>
+							<div class="col-sm-2">
+								<select class="form-select">
+									<option value="5" >5</option>
+									<option value="4" >4</option>
+									<option value="3" >3</option>
+									<option value="2" >2</option>
+									<option value="1" >1</option>
+								</select>
+							</div>
+						</div>
+						<div class="gap-1 d-grid d-sm-block text-end">
+							<button id="sendBtn" type="button" class="btn btn-primary">후기작성</button>
+							<button id="modBtn" type="button" class="btn btn-primary">수정하기</button>
+						</div>
+						<div id="commentList"></div>
 					</div>
 				</div>
 			</div>

@@ -43,7 +43,7 @@ public class CourseController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/course/courseSearch";
+			return "redirect:/course/search";
 		}
 		
 		return "/course/coursedetail";
@@ -64,11 +64,6 @@ public class CourseController {
 			List<CourseDto> list = courseService.getsearchResultPage(sc);
 			m.addAttribute("list", list);
 			m.addAttribute("pr", pageResolver);
-			
-//			String course_stat = courseService.getCourseStat(courseDto);
-			
-//			List<CourseDto> orderby = courseService.getsearchResultPage(sc);
-//			m.addAttribute("orderby", orderby); 
 			
 			System.out.println(list.get(0).toString());
 //			System.out.println(courseDto.toString());

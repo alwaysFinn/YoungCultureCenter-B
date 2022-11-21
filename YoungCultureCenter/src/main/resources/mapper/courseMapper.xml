@@ -10,12 +10,12 @@
 		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
 					, course_start_date, course_end_date, course_day, course_time, course_target
 					, course_cost, course_info, tb_course.user_id, croom_id, user_name, tb_course.course_cate_cd
-					, current_date - course_reg_end_date::Date
+					, current_date - course_reg_end_date::Date, course_rating, course_applicants
 		FROM tb_course
-		join tb_user
-		on tb_course.user_id = tb_user.user_id 
-		join course_type
-		on tb_course.course_cate_cd = course_type.course_cate_cd
+		JOIN tb_user
+		ON tb_course.user_id = tb_user.user_id 
+		JOIN course_type
+		ON tb_course.course_cate_cd = course_type.course_cate_cd
 	</sql>
 	
 	<!-- 강좌카테고리('운동(Spo)', '문화(Cul)', '교육(Edu)') -->
@@ -66,16 +66,16 @@
 					오늘날짜 - 접수시작일 >= 0 ==> '접수가능', '접수마감'
 					오늘날짜 - 접수마감일 <= 0 ==> '오픈예정', '접수가능' -->
 			<when test='stat == "P"'> 
-			and current_date - course_reg_start_date::Date <![CDATA[>=]]> 0 
-			and current_date - course_reg_end_date::Date <![CDATA[<=]]> 0
+			AND current_date - course_reg_start_date::Date <![CDATA[>=]]> 0 
+			AND current_date - course_reg_end_date::Date <![CDATA[<=]]> 0
 			</when>
 			<!-- O: '오픈예정' 오늘날짜 - 접수시작일 < 0 ==> '오픈예정' -->
 			<when test='stat == "O"'>
-			and current_date - course_reg_start_date::Date <![CDATA[<]]> 0
+			AND current_date - course_reg_start_date::Date <![CDATA[<]]> 0
 			</when>
 			<!-- All: 오늘날짜 - 접수마감일 <= 0 ==> '오픈예정', '접수가능'  -->
 			<otherwise>
-			and current_date - course_reg_end_date::Date <![CDATA[<=]]> 0
+			AND current_date - course_reg_end_date::Date <![CDATA[<=]]> 0
 			</otherwise>
 		</choose>
 	</sql>
@@ -85,18 +85,19 @@
 		<choose>
 			<!-- 접수마감일순 -->
 			<when test='orderby=="End"'>
-				order by course_reg_end_date
+				ORDER BY course_reg_end_date
 			</when>
 			<!-- 수강시작일순 -->
 			<when test='orderby=="Start"'>
-				order by course_start_date
+				ORDER BY course_start_date
 			</when>
-			<!-- <when test='orderby=="Star"'>
-				order by course_reg_end_date 
-			</when> -->
+			<!-- 강의평점순 -->
+			<when test='orderby=="Star"'>
+				ORDER BY course_rating desc
+			</when>
 			<!-- 기본값 -->
 			<otherwise>
-				order by course_nm
+				ORDER BY course_nm
 			</otherwise>
 		</choose>
 	</sql>
@@ -104,8 +105,8 @@
 	<!-- 강좌 상세 보여주기 -->
 	<select id="selectCourseDetail" parameterType="int" resultType="CourseDto">
 		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
-		, course_start_date, course_end_date, course_day, course_time, course_target
-		, course_cost, course_info, tb_course.user_id, course_applicants, croom_name, user_name, croom_mpop
+		, course_start_date, course_end_date, course_day, course_time, course_target, course_cost
+		, course_info, tb_course.user_id, course_applicants, croom_name, user_name, croom_mpop, course_rating
 		FROM tb_course
 		JOIN tb_user
 		ON tb_course.user_id = tb_user.user_id 
@@ -116,9 +117,9 @@
 	
 	<!-- 검색된 강좌리스트의 수 -->
 	<select id="searchResultCnt" parameterType="CourseSearchItem" resultType="int">
-		select count(*)
-		from tb_course 
-		where true 
+		SELECT count(*)
+		FROM tb_course 
+		WHERE true 
 		<include refid="searchCate" />
 		<include refid="searchTarget" /> 
 		<include refid="searchCourseStat" /> 
@@ -127,25 +128,24 @@
 	<!-- 검색된 강좌 리스트 -->
 	<select id="searchSelectPage" parameterType="CourseSearchItem" resultType="CourseDto">
 		<include refid="selectFromCourse" />
-		where true 
+		WHERE true 
 		<include refid="searchCate" />
 		<include refid="searchTarget" />
 		<include refid="searchCourseStat" />
 		<include refid="orderby" />
-		limit #{pageSize} offset #{offset}
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select> 
 
 	<delete id="deleteAll">
-		delete from tb_course
+		DELETE FROM tb_course
 	</delete>
 	
 	<insert id="insert" parameterType="CourseDto">
-		INSERT INTO public.tb_course
+		INSERT INTO tb_course
 		(course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date
 		, course_end_date, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id)
 		VALUES(#{course_id}, #{course_nm}, #{course_image}, #{course_reg_start_date}, #{course_reg_end_date}, #{course_start_date}
 		, #{course_end_date}, #{course_day}, #{course_time}, #{course_target}, #{course_cost}, #{course_info}, #{user_id}, #{croom_id})
 	</insert>
-
 </mapper>
   	

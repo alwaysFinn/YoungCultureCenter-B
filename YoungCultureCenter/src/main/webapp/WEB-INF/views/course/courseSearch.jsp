@@ -8,6 +8,8 @@
 	<!-- head & meta tag include -->
 	<%@include file="/WEB-INF/views/metahead.jsp"%>
   
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  
   <style type="text/css">
   	.searchBox { background-color: #f1f1f1; }
   	.tdeco-none { text-decoration: none; color: black; }
@@ -18,6 +20,14 @@
 <body>
 	<!-- header include -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
+
+	<script>
+    function test() {
+        $('#cate').val("");
+        $('#target').val("");
+        $('#stat').val("");
+    }
+	</script>
 
 	<!-- 본문 -->
 	<div class="container mt-5">
@@ -30,7 +40,7 @@
 						<div class="row">
 							<label for="sidebar-position2" class="col-4 align-self-center text-center">분류</label>
 							<div class="col-8">
-								<select class="form-select" aria-label=".form-select-sm example" name="cate">
+								<select class="form-select" aria-label=".form-select-sm example" name="cate" id="cate">
 									<option value="All" ${pr.sc.cate=='All' || pr.sc.cate=='' ? "selected" : ""}>전체</option>
 									<option value="Spo" ${pr.sc.cate=='Spo' ? "selected" : ""}>운동</option>
 									<option value="Cul" ${pr.sc.cate=='Cul' ? "selected" : ""}>문화</option>
@@ -43,7 +53,7 @@
 						<div class="row">
 							<label for="sidebar-position2" class="col-4 align-self-center text-center">수강대상</label>
 							<div class="col-8">
-								<select class="form-select"	aria-label=".form-select example" name="target">
+								<select class="form-select"	aria-label=".form-select example" name="target" id="target">
 									<option value="All" ${pr.sc.target=='All' || pr.sc.target=='' ? "selected" : ""}>전체</option>
 									<option value="Adu" ${pr.sc.target=='Adu' ? "selected" : ""}>성인</option>
 									<option value="Stu" ${pr.sc.target=='Stu' ? "selected" : ""}>청소년</option>
@@ -57,7 +67,7 @@
 						<div class="row">
 							<label for="sidebar-position3" class="col-4 align-self-center text-center">접수상태</label>
 							<div class="col-8">
-								<select class="form-select"	aria-label=".form-select example" name="stat">
+								<select class="form-select"	aria-label=".form-select example" name="stat" id="stat">
 									<option value="All" ${pr.sc.stat=='All' || pr.sc.stat=='' ? "selected" : ""}>전체</option>
 									<option value="P" ${pr.sc.stat=='P' ? "selected" : ""}>접수가능</option>
 									<option value="O" ${pr.sc.stat=='O' ? "selected" : ""}>오픈예정</option>
@@ -66,7 +76,7 @@
 						</div>
 					</div>
 					<div class="col-md-2 d-grid d-md-block">
-						<button type="reset" class="btn btn-danger">초기화</button>
+						<button onclick="test()" class="btn btn-danger">초기화</button>
 					</div>
 				</div>
 				<div role="search" class="row gap-1">
@@ -83,7 +93,7 @@
 					<option value="New" ${pr.sc.orderby=='New' || pr.sc.orderby=='' ? "selected" : ""}>강좌명순</option>
 					<option value="End" ${pr.sc.orderby=='End' ? "selected" : ""}>접수마감일순</option>
 					<option value="Start" ${pr.sc.orderby=='Start' ? "selected" : ""}>수강시작일순</option>
-					<%-- <option value="Star" ${pr.sc.orderby=='Star' ? "selected" : ""}>평점순</option> --%>
+					<option value="Star" ${pr.sc.orderby=='Star' ? "selected" : ""}>강의평점순</option>
 				</select>
 				<button class="col-auto btn btn-secondary">조회</button>
 			</div>
@@ -108,7 +118,7 @@
 						<td>${courseDto.course_sd() }<br>~${courseDto.course_ed() }</td>
 						<td>${courseDto.course_day }<br>${courseDto.course_time }</td>
 						<td>${courseDto.user_name }</td>
-						<td>${courseDto.course_cost }</td>
+						<td>${courseDto.course_cost }원</td>
 						<td>${courseDto.reg_sd() }<br>~${courseDto.reg_ed() }</td>
 						<td class="${courseDto.course_stat() == '접수가능' ? 'text-primary' : 'text-secondary' }">${courseDto.course_stat() }</td>
 					</tr>
