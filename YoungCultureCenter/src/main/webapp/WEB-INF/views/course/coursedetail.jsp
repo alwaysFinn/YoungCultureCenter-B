@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,27 +33,27 @@
 						<colgroup><col width="25%"></colgroup>
 						<tr>
 							<th scope="row">강좌명</th>
-							<td>(산대특)_AI플랫폼 활용 이커머스 웹서비스 개발_육성</td>
+							<td>${courseDto.course_nm }</td>
 						</tr>
 						<tr>
 							<th scope="row">강사명</th>
-							<td>추호진</td>
+							<td>${courseDto.user_name }</td>
 						</tr>
 						<tr>
 							<th scope="row">강의실</th>
-							<td>강의실 4</td>
+							<td>${courseDto.croom_name }</td>
 						</tr>
 						<tr>
 							<th scope="row">수강료</th>
-							<td>6,851,200원 (전액지원)</td>
+							<td>${courseDto.course_cost } 원</td>
 						</tr>
 						<tr>
 							<th scope="row">접수기간</th>
-							<td>2022.02.01 ~ 2022.07.31</td>
+							<td>${courseDto.reg_sd() } ~ ${courseDto.reg_ed() }</td>
 						</tr>
 						<tr>
 							<th>수강대상</th>
-							<td>관련분야 학력수준 및 관련분야 전공 제한 없음</td>
+							<td>${courseDto.course_target }</td>
 						</tr>
 						</tbody>
 					</table>
@@ -63,25 +66,24 @@
 						<colgroup><col width="25%"></colgroup>
 						<tr>
 							<th scope="row">수강요일</th>
-							<td>월 화 수 목 금</td>
+							<td>${courseDto.course_day }</td>
 						</tr>
 						<tr>
 							<th>수강기간</th>
-							<td>2022.08.10 ~ 2023.01.11</td>
+							<td>${courseDto.course_sd() } ~ ${courseDto.course_ed() }</td>
 						</tr>
 						<tr>
 							<th>수강시간</th>
-							<td>08/10~08/26 [16:30~21:30], 08/29~12/29 [09:20~18:00] <br>
-								12/30~01/11 [08:50~16:20] (점심 13:10~14:00)
+							<td>${courseDto.course_time }
 							</td>
 						</tr>
 						<tr>
 							<th>총정원</th>
-							<td>30명</td>
+							<td>${courseDto.croom_mpop } 명</td>
 						</tr>
 						<tr>
 							<th>신청인원</th>
-							<td>25명</td>
+							<td>${courseDto.course_applicants } 명</td>
 						</tr>
 						</tbody>
 					</table>

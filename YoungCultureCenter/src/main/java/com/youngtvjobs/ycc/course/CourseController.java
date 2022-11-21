@@ -32,31 +32,46 @@ public class CourseController {
 		return "/course/courseRegComplete";
 	}
 	
-	@RequestMapping("/course/detail")
-	public String coursedetail() {
+	@GetMapping("/course/detail")
+	public String coursedetail(Integer course_id, CourseSearchItem sc, Model m, HttpServletRequest request) {
+		if(!logincheck(request)) 
+			return "redirect:/login?toURL="+request.getRequestURL();
+		
+		try {
+			CourseDto courseDto = courseService.readCourseDetail(course_id);
+			m.addAttribute(courseDto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/course/courseSearch";
+		}
+		
 		return "/course/coursedetail";
 	}
 	
 	@GetMapping("/course/search")
 	public String courseSearch(CourseSearchItem sc, Model m, HttpServletRequest request) {
-		if(!logincheck(request)) 
-			return "redirect:/login?toURL="+request.getRequestURL();
+//		if(!logincheck(request)) 
+//			return "redirect:/login?toURL="+request.getRequestURL();
+		
 		try {
 			int totalCnt = courseService.getsearchResultCnt(sc);
 			m.addAttribute("totalCnt", totalCnt);
 			
 			PageResolver pageResolver = new PageResolver(totalCnt, sc);
-			CourseDto courseDto = new CourseDto();
+//			CourseDto courseDto = new CourseDto();
 			
 			List<CourseDto> list = courseService.getsearchResultPage(sc);
 			m.addAttribute("list", list);
 			m.addAttribute("pr", pageResolver);
 			
-			List<CourseDto> orderby = courseService.getsearchResultPage(sc);
-			m.addAttribute("orderby", orderby);
+//			String course_stat = courseService.getCourseStat(courseDto);
+			
+//			List<CourseDto> orderby = courseService.getsearchResultPage(sc);
+//			m.addAttribute("orderby", orderby); 
 			
 			System.out.println(list.get(0).toString());
-			System.out.println(courseDto.toString());
+//			System.out.println(courseDto.toString());
 			System.out.println(sc.toString());
 			System.out.println(sc.getQueryString());
 			                       
