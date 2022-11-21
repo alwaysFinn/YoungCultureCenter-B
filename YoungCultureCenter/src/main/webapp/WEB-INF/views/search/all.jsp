@@ -6,9 +6,13 @@
 <head>
 <!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>	
 <title>Young문화센터 - 전체보기</title>
 </head>
 <body>
+
+
+
 <!-- header inlcude -->
 <%@include file="/WEB-INF/views/header.jsp"%>
 
@@ -58,74 +62,28 @@
 	          <option value="3">인기순</option>
         	</select>
 
-            <thead>
-                <tr>
-                    <th colspan="4" scope="col">전체보기</th>
-                </tr>
-            </thead>
-            <tbody>
-
-			      <c:forEach var="BoardDto" items="${allList }">
-				      <tr>
-				        <th scope="row">${BoardDto.article_title }</th>
-				        <td>${BoardDto.user_id }</td>
-				        <td>${BoardDto.article_date }</td>
-				        <td>112</td>
-				       <tr>
-				  </c:forEach>
-
-		   		
-		   		
-                <!-- <tr>
-                    <th scope="row">23년 수영장 일정 공지</th>
-                    <td>관리자</td>
-                    <td>2022-11-01</td>
-                    <td>112</td>
-                </tr>
-                <tr>
-                    <th scope="row">2022.10.30 대관 관련 공지</th>
-                    <td>관리자</td>
-                    <td>2022-10-30</td>
-                    <td>211</td>
-                </tr>
-                <tr>
-                    <th scope="row">수능 응시생들과 함께하는 기력 회복 이벤트</th>
-                    <td>관리자</td>
-                    <td>2022-10-01</td>
-                    <td>109</td>
-                </tr>
-                <tr>
-                    <th scope="row">[긴급]대관 시스템 오류 관련 공지</th>
-                    <td>관리자</td>
-                    <td>2022-09-12</td>
-                    <td>822</td>
-                </tr>
-                <tr>
-                    <th scope="row">화장실 공사 안내</th>
-                    <td>관리자</td>
-                    <td>2022-08-24</td>
-                    <td>402</td>
-                </tr>
-                <tr>
-                    <th scope="row">헬스장 이벤트 안내</th>
-                    <td>관리자</td>
-                    <td>2022-11-01</td>
-                    <td>112</td>
-                </tr>
-                <tr>
-                    <th scope="row">행운의 주인공을 찾아라!</th>
-                    <td>관리자</td>
-                    <td>2022-10-30</td>
-                    <td>211</td>
-                </tr>
-                <tr>
-                    <th scope="row">설립 5주년 이벤트</th>
-                    <td>관리자</td>
-                    <td>2022-09-01</td>
-                    <td>109</td>
-                </tr> -->
-            </tbody>
+			
+	            <thead>
+	                <tr>
+	                    <th colspan="4" scope="col">전체보기</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	            <%-- <input type="hidden" name="type" value="${param.type}" /> --%>
+				     <c:forEach var="BoardDto" items="${noticeListAll }">
+					      <tr>
+					        <th scope="row">${BoardDto.article_title }</th>
+					        <td>${BoardDto.user_id }</td>
+					        <td>${BoardDto.article_date }</td>
+					        <td>112</td>
+					       <tr>
+					 </c:forEach>
+	            </tbody>
+           
         </table>
+        
+        <div id="commentList"></div>
+        
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
                     <li class="page-item disabled">

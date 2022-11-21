@@ -19,6 +19,11 @@ public class SearchDaoImpl implements SearchDao {
 	public List<BoardDto> selectNoticePage() throws Exception {
 		return session.selectList(namespace+"selectNoticePage");
 	}
+	
+	@Override
+	public List<BoardDto> selectNoticePageAll() throws Exception {
+		return session.selectList(namespace+"selectNoticePageAll");
+	}
 
 	@Override
 	public int insert(BoardDto boardDto) throws Exception {

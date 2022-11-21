@@ -18,6 +18,11 @@ public class SearchServiceImpl implements SearchService{
 	public List<BoardDto> getNoticePage() throws Exception {
 		return searchDao.selectNoticePage();
 	}
+	
+	@Override
+	public List<BoardDto> getNoticePageAll() throws Exception {
+		return searchDao.selectNoticePageAll();
+	}
 
 	@Override
 	public List<BoardDto> getEventPage() throws Exception {

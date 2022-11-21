@@ -17,14 +17,12 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function() {
+/* 	$(document).ready(function() {
 		
-		$("button[name='moreBtn']").on("click", function(){
-			location.href = "<c:url value='/search/all' />"
-			alert($('input[type=hidden]').val());		
-		})
+		let article_board_type = $("input[name=type]").val(); 
+		alert(article_board_type)
 		
-	})
+	}) */
 
 </script>
 
@@ -95,22 +93,28 @@
       
       
     <%--  <form action="<c:url value="/search/all" />">   --%>
-      	
-      		<form action="<c:url value="/search/all?type=${BoardDto.article_board_type }" />">
-      		<c:set var="BoardDto" value="${moreList }" />
+      		<form action="<c:url value="/search/all?type=${noticeList[0].article_board_type }" />">
+      		<input type="hidden" name="type" value="${noticeList[0].article_board_type }" />
 	  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
-	  		<input type="hidden" name="type" value="${BoardDto.article_board_type }" />
 	  		<table class="table table-hover">
-	  		<c:forEach var="BoardDto" items="${noticeList }">
-			      <tr>
-			        <th scope="row">${BoardDto.article_title }</th>
-			        <td>${BoardDto.user_id }</td>
-			        <td>${BoardDto.article_date }</td>
-			        <td>112</td>
-			       <tr>
-			</c:forEach>  
+<  		  		<c:forEach var="BoardDto" items="${noticeList }">
+				      <tr>
+				        <th scope="row">${BoardDto.article_title }</th>
+				        <td>${BoardDto.user_id }</td>
+				        <td>${BoardDto.article_date }</td>
+				        <td>112</td>
+				       <tr>
+				</c:forEach>
+ 				<%-- <c:forEach var="BoardDto" items="${moreList }">
+				      <tr>
+				        <th scope="row">${BoardDto.article_title }</th>
+				        <td>${BoardDto.user_id }</td>
+				        <td>${BoardDto.article_date }</td>
+				        <td>112</td>
+				       <tr>
+				</c:forEach> --%>
+			
 	   		</table>
-	   		
     		</form>
    		
 	</div>	

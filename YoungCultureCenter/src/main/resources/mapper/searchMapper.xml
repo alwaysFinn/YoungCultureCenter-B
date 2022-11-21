@@ -7,16 +7,16 @@
   
   <insert id="insert" parameterType="BoardDto">
 	  INSERT INTO public.article
-		(article_id, article_date, artilce_contents, article_board_type, user_id, article_title)
-		VALUES(#{article_id}, #{article_date}, #{artilce_contents}, #{article_board_type}, #{user_id}, #{article_title});
+		(article_id, article_date, article_contents, article_board_type, user_id, article_title)
+		VALUES(#{article_id}, #{article_date}, #{article_contents}, #{article_board_type}, #{user_id}, #{article_title});
   </insert>
   
   <sql id="selectFromArticle">
-  	SELECT article_id, article_date, artilce_contents, article_board_type, user_id, article_title
-	FROM public.article
+  	SELECT article_id, article_date, article_contents, article_board_type, user_id, article_title
+	FROM article
   </sql>
   
-  <select id="select" parameterType="String" resultType="BoardDto">
+  <select id="select" parameterType="BoardDto" resultType="BoardDto">
  	 <include refid="selectFromArticle" />
  	 where article_board_type = #{article_board_type}
   </select>
@@ -36,6 +36,11 @@
   	<include refid="selectFromArticle" />
   	where article_board_type = 'notice'
   	limit 5
+  </select>
+  
+   <select id="selectNoticePageAll" resultType="BoardDto">
+  	<include refid="selectFromArticle" />
+  	where article_board_type = 'notice'
   </select>
   
    <!-- 이벤트 -->

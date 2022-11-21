@@ -27,7 +27,7 @@ public class SearchTest {
 		DateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		for(int i=1; i<=25; i++) {
-			BoardDto boardDto = new BoardDto(i, sdformat.parse("2022-11-01"), "게시글 내용", "notice", "admin"+i, "23년 수영장 일정 공지"+i);
+			BoardDto boardDto = new BoardDto(i, sdformat.parse("2022-11-01"), "notice article", "notice", "admin"+i, "notice"+i);
 			searchDao.insert(boardDto);
 		}
 		
@@ -40,9 +40,11 @@ public class SearchTest {
 		DateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		for(int i=26; i<=50; i++) {
-			BoardDto boardDto = new BoardDto(i, sdformat.parse("2022-11-01"), "게시글 내용", "event", "admin"+i, "헬스장 이벤트 안내"+i);
+			BoardDto boardDto = new BoardDto(i, sdformat.parse("2022-11-01"), "event article", "event", "admin"+i, "event"+i);
 			searchDao.insert(boardDto);
 		}
 		
 	}
+	
+	
 }
