@@ -90,9 +90,6 @@
     <hr>
     <div>
       <h1>공지사항</h1>
-      
-      
-    <%--  <form action="<c:url value="/search/all" />">   --%>
       		<form action="<c:url value="/search/all?type=${noticeList[0].article_board_type }" />">
       		<input type="hidden" name="type" value="${noticeList[0].article_board_type }" />
 	  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
@@ -105,18 +102,8 @@
 				        <td>112</td>
 				       <tr>
 				</c:forEach>
- 				<%-- <c:forEach var="BoardDto" items="${moreList }">
-				      <tr>
-				        <th scope="row">${BoardDto.article_title }</th>
-				        <td>${BoardDto.user_id }</td>
-				        <td>${BoardDto.article_date }</td>
-				        <td>112</td>
-				       <tr>
-				</c:forEach> --%>
-			
 	   		</table>
     		</form>
-   		
 	</div>	
 		
     <hr>
