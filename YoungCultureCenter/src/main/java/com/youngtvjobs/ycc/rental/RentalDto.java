@@ -3,9 +3,12 @@ package com.youngtvjobs.ycc.rental;
 import java.util.Date;
 import java.util.Objects;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class RentalDto {
 	
 	private int prental_id;		//대여예약번호(pk)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date prental_de;	//대여날짜
 	private int prental_duration;//대여시간
 	private String user_id;		//회원아이디 (fk)

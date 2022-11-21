@@ -2,9 +2,13 @@ package com.youngtvjobs.ycc.rental;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -34,9 +38,14 @@ public class RentalController{
 	}
 	
 	//대관신청
-	@RequestMapping("/rental/place")
-	public String rentalPlace(Model m)
+	@GetMapping("/rental/place")
+	public String rentalPlace(Model m, HttpServletRequest request)
 	{
+		//로그인 확인
+		if(!logincheck(request)) 
+			return "redirect:/login?toURL="+request.getRequestURL();
+		
+		//dto에서 장소 이름들 받아오는 controller
 		try {
 			List<RentalDto> placelist = rentalDao.selectRentalPlace();
 			m.addAttribute("placelist", placelist);
@@ -45,6 +54,12 @@ public class RentalController{
 			e.printStackTrace();
 		}
 		return "rental/place";
+	}
+	
+	private boolean logincheck(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(false);
+		return session != null && session.getAttribute("id") != null;
 	}
 	
 }
