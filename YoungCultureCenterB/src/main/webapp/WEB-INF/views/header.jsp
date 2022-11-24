@@ -61,7 +61,7 @@
                 </ul>
                 <!-- 검색버튼 부분 -->
                 <form class="me-2" role="search" action="/ycc/search/">
-                    <input class="form-control" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <input name="keyword" value="${param.keyword }" class="form-control" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
                 </form>
 
                 <!-- 로그인 세션이 없을 떄 출력되는 부분 -->

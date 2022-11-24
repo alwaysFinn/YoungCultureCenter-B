@@ -1,12 +1,14 @@
 package com.youngtvjobs.ycc.search;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.youngtvjobs.ycc.board.BoardDto;
-import com.youngtvjobs.ycc.search.SearchItem;
+import com.youngtvjobs.ycc.club.ClubDto;
+import com.youngtvjobs.ycc.course.CourseDto;
 
 @Service
 public class SearchServiceImpl implements SearchService{
@@ -15,33 +17,13 @@ public class SearchServiceImpl implements SearchService{
 	SearchDao searchDao;
 
 	@Override
-	public List<BoardDto> getNoticePage() throws Exception {
-		return searchDao.selectNoticePage();
-	}
-	
-	@Override
-	public List<BoardDto> getNoticePageAll() throws Exception {
-		return searchDao.selectNoticePageAll();
+	public List<BoardDto> getNoticePage(SearchItem sc) throws Exception {
+		return searchDao.selectNoticePage(sc);
 	}
 
 	@Override
-	public List<BoardDto> getEventPage() throws Exception {
-		return searchDao.selectEventPage();
-	}
-	
-	@Override
-	public List<BoardDto> getEventPageAll() throws Exception {
-		return searchDao.selectEventPageAll();
-	}
-
-	@Override
-	public List<BoardDto> getAllPage() throws Exception {
-		return searchDao.selectAllPage();
-	}
-	
-	@Override
-	public List<BoardDto> getAllPageMore() throws Exception {
-		return searchDao.selectAllPageMore();
+	public List<BoardDto> getEventPage(SearchItem sc) throws Exception {
+		return searchDao.selectEventPage(sc);
 	}
 
 	@Override
@@ -49,19 +31,19 @@ public class SearchServiceImpl implements SearchService{
 		return searchDao.select(article_board_type);
 	}
 
+	@Override
+	public int getSearchResultCnt(Map map) throws Exception {
+		return searchDao.searchResultCnt(map);
+	}
 
-	/*
-	 * @Override public BoardDto read(String article_board_type) throws Exception {
-	 * return searchDao.select(article_board_type);
-	 * 
-	 * }
-	 */
+	@Override
+	public List<ClubDto> getClubPage(SearchItem sc) throws Exception {
+		return searchDao.selectClubPage(sc);
+	}
 
-
-
-//	@Override
-//	public int getNoticePageCnt() throws Exception {
-//		return searchDao.noticePageCnt();
-//	}
+	@Override
+	public List<CourseDto> getCoursePage(SearchItem sc) throws Exception {
+		return searchDao.selectCoursePage(sc);
+	}
 
 }

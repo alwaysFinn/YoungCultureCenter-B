@@ -16,36 +16,43 @@ public class SearchItem {
 	private String option = "";
 	private String keyword = "";
 	private Integer offset;
-	
+	private String type;
+	private String array = "";
 	
 	public SearchItem() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	public SearchItem(Integer page, Integer paseSize) {
-		this(page, paseSize, "", "");
+		this(page, paseSize, "", "", "", "");
 	}
 	
-	public SearchItem(Integer page, Integer pageSize, String option, String keyword) {
+	public SearchItem(Integer page, Integer pageSize, String option, String keyword, String type, String array) {
 		//super();
 		this.page = page;
 		this.pageSize = pageSize;
 		this.option = option;
 		this.keyword = keyword;
+		this.type = type;
+		this.array = array;
 	}
 	
 	
-//	public String getQueryString() {
-//		return getQueryString(article_board_type);
-//	}
-//	
-//	// ?page=10&pageSize=10&option=A&keyword=title
-//	public String getQueryString(String article_board_type) {
-//		return UriComponentsBuilder.newInstance()	
-//				.queryParam("article_board_type", article_board_type)
-//				.build().toString();
-//	}
+	public String getQueryString() {
+		return getQueryString(page);
+	}
 	
+	// ?page=10&pageSize=10&option=A&keyword=title
+	public String getQueryString(Integer page) {
+		return UriComponentsBuilder.newInstance()	//객체 생성
+				.queryParam("page", page)
+				.queryParam("pageSize", pageSize)
+				.queryParam("option", option)
+				.queryParam("keyword", keyword)
+				.queryParam("array", array)
+				.queryParam("type", type)
+				.build().toString();
+	}
 
 	public Integer getPage() {
 		return page;
@@ -60,10 +67,10 @@ public class SearchItem {
 	}
 
 	public void setPageSize(Integer pageSize) {
-		this.pageSize = requireNonNullElse(pageSize, DEFAULT_PAGE_SIZE);	//pageSize媛� null�씠硫� DEFAULT_PAGE_SIZE 由ы꽩
+		this.pageSize = requireNonNullElse(pageSize, DEFAULT_PAGE_SIZE);	//pageSize가 null이면 DEFAULT_PAGE_SIZE 리턴
 		
 		// MIN_PAGE_SIZE <= pageSize <= MAX_PAGE_SIZE
-		this.pageSize = max(MIN_PAGE_SIZE, min(this.pageSize, MAX_PAGE_SIZE));	//max: �몢 媛� 以� �뜑 �겙 媛믪쓣 諛섑솚
+		this.pageSize = max(MIN_PAGE_SIZE, min(this.pageSize, MAX_PAGE_SIZE));	//max: 두 값 중 더 큰 값을 반환
 	}
 
 	public String getOption() {
@@ -83,12 +90,28 @@ public class SearchItem {
 	}
 
 	public Integer getOffset() {
-		 int result = (page-1) * pageSize; // offset => 蹂�寃�
+		 int result = (page-1) * pageSize; // offset => 변경
 	        if(result <0) {result= 0;}
 	        return result;
 	}
 
+	
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getArray() {
+		return array;
+	}
+
+	public void setArray(String array) {
+		this.array = array;
+	}
 
 	@Override
 	public String toString() {

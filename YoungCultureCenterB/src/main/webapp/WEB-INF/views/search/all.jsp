@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,28 @@
     <%@include file="/WEB-INF/views/metahead.jsp"%>
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>	
 <title>Young문화센터 - 전체보기</title>
+<style type="text/css">
+	.paging {
+		color: black;
+		width: 100%;
+		align-items: center;
+	}
+	
+	.page {
+		color: black;
+		padding: 6px;
+		margin-right: 10px;
+	}
+	
+	.paging-container {
+		width: 100%;
+		height: 70px;
+		display: flex;
+		margin-top: 50px;
+		margin: auto;
+		text-align: center;
+	}
+</style>
 </head>
 <body>
 
@@ -29,7 +52,6 @@
         </div>
       </form>
 
-    <div class="row pt-3" style="text-align: center; justify-content: space-between;">
       <div class="col-4 col-md-2">
         <button type="button" class="btn btn-primary">전체보기</button>
       </div>
@@ -52,7 +74,7 @@
     </div>
   
         <table class="table table-hover">
-            <h1 class="pb-5" style="margin-top:30px">전체보기</h1>
+            <h1 class="pb-5" style="margin-top:30px">${param.type }</h1>
             
             <select class="form-select mt-1" aria-label="Default select example"
 	          style="width: 10%; float: right;">
@@ -69,38 +91,88 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	            <%-- <input type="hidden" name="type" value="${param.type}" /> --%>
-				     <c:forEach var="BoardDto" items="${noticeListAll }">
-					      <tr>
-					        <th scope="row">${BoardDto.article_title }</th>
-					        <td>${BoardDto.user_id }</td>
-					        <td>${BoardDto.article_date }</td>
-					        <td>112</td>
-					       <tr>
-					 </c:forEach>
+	            <c:set var ="type" value ="${param.type}"/>
+	            	<input type="hidden" name="type" value="${param.type}" />
+ 	            		<c:choose>
+	            			<c:when test="${fn:contains(type, '공지사항')}" >
+					     		<c:forEach var="BoardDto" items="${noticeList }">
+							     	<tr>
+							        <th scope="row">
+							        	<a href="<c:url value="/board/post" />">${BoardDto.article_title }</a>
+									</th>
+							        <td>${BoardDto.user_id }</td>
+							        <td>${BoardDto.article_date }</td>
+							        <td>${BoardDto.article_viewcnt }</td>
+							        <tr>
+						 		</c:forEach>
+							</c:when>
+							<c:when test="${fn:contains(type, '이벤트')}" >
+							    <c:forEach var="BoardDto" items="${eventList }">
+							      	<tr>
+							        <th scope="row">
+							        	<a href="<c:url value="/board/post" />">${BoardDto.article_title }</a>
+									</th>
+							        <td>${BoardDto.user_id }</td>
+							        <td>${BoardDto.article_date }</td>
+							        <td>${BoardDto.article_viewcnt }</td>
+							        <tr>
+						 		</c:forEach>
+						 	</c:when>
+						 	<c:when test="${fn:contains(type, '동아리')}" >
+							    <c:forEach var="ClubDto" items="${clubList }">
+							      	<tr>
+							        <th scope="row">
+							        	<a href="<c:url value="/board/post" />">${ClubDto.club_title }</a>
+									</th>
+							        <td>${ClubDto.club_master_id }</td>
+							        <td>${ClubDto.club_info }</td>
+							        <td>${ClubDto.club_create_time }</td>
+							        <tr>
+						 		</c:forEach>
+						 	</c:when>
+						 	<c:when test="${fn:contains(type, '강좌')}" >
+							    <c:forEach var="CourseDto" items="${courseList }">
+									<tr>
+									<th scope="row">
+										<a href="<c:url value="/board/post" />">${CourseDto.course_nm } </a>
+									</th>
+									<td>${CourseDto.user_id }</td>
+									<td>${CourseDto.course_day }</td>
+									<td>${CourseDto.course_cost }원</td>
+									<tr>
+								</c:forEach>
+						 	</c:when>
+						 </c:choose>
 	            </tbody>
            
         </table>
-        
-        <div id="commentList"></div>
-        
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">다음</a>
-                    </li>
-                </ul>
-            </nav>
 
-            <div class="bottomsearch d-flex" style="margin-left: 20%; margin-top:50px";">
+
+ 	<div class="paging-container">
+		<div class="paging">
+			<c:if test="${totalCnt == null || totalCnt == 0 }">
+				<div>게시물이 없습니다.</div>
+			</c:if>
+			<c:if test="${totalCnt != null || totalCnt != 0 }">
+				<c:if test="${pr.showPrev }">
+					<a class="page"
+						href="<c:url value="/search/all${pr.sc.getQueryString(pr.beginPage-1) }" />">
+						&lt; </a>
+				</c:if>
+				<c:forEach var="i" begin="${pr.beginPage }" end="${pr.endPage }">
+					<a class="page"
+						href="<c:url value="/search/all${pr.sc.getQueryString(i)}" />">${i }</a>
+				</c:forEach>
+				<c:if test="${pr.showNext }">
+					<a class="page"
+						href="<c:url value="/search/all${pr.sc.getQueryString(pr.endPage+1) }" />">
+						&gt; </a>
+				</c:if>
+			</c:if>
+		</div>
+	</div>
+
+	<div class="bottomsearch d-flex" style="margin-left: 20%; margin-top:50px";">
                 <select class="form-select form-select-sm" aria-label=".form-select-sm example"
                     style=" width: 90px; margin-right: 10px;">
                     <option value="1">제목</option>

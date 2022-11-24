@@ -1,6 +1,10 @@
 package com.youngtvjobs.ycc.search;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.youngtvjobs.ycc.board.BoardDto;
-import com.youngtvjobs.ycc.course.PageResolver;
+import com.youngtvjobs.ycc.club.ClubDto;
+import com.youngtvjobs.ycc.course.CourseDto;
+import com.youngtvjobs.ycc.search.PageResolver;
 import com.youngtvjobs.ycc.search.SearchItem;
 
 @Controller
@@ -25,25 +31,33 @@ public class SearchController {
 	BoardDto boardDto;
 
 	@RequestMapping("/search")
-	public String searchPage(String article_board_type, Model m) {
+	public String searchPage(SearchItem sc, Model m) {
 
 		try {
-
-			List<BoardDto> noticeList = searchService.getNoticePage();
+			
+//			int totalCnt = searchService.getSearchResultCnt(map);
+//			m.addAttribute("totalCnt", totalCnt);
+//
+//			PageResolver pageResolver = new PageResolver(totalCnt, sc);
+//			m.addAttribute("pr", pageResolver);
+	
+			List<BoardDto> noticeList = searchService.getNoticePage(sc);
 			m.addAttribute("noticeList", noticeList);
 
-			List<BoardDto> eventList = searchService.getEventPage();
+			List<BoardDto> eventList = searchService.getEventPage(sc);
 			m.addAttribute("eventList", eventList);
 
-			List<BoardDto> allList = searchService.getAllPage();
-			m.addAttribute("allList", allList);
-
-//				int totalCnt = searchService.getNoticePageCnt();
-//				m.addAttribute("totalCnt", totalCnt);
-//				
-//				PageResolver pageResolver = new PageResolver(totalCnt, sc);
-//				m.addAttribute("pr", pageResolver);
-
+			List<ClubDto> clubList = searchService.getClubPage(sc);
+			m.addAttribute("clubList", clubList);
+			
+			List<CourseDto> courseList = searchService.getCoursePage(sc);
+			m.addAttribute("courseList", courseList);
+			
+			/*
+			 * List<BoardDto> list = searchService.getSearchResultPage(sc);
+			 * m.addAttribute("list", list);
+			 */
+				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,18 +67,39 @@ public class SearchController {
 	}
 
 	@RequestMapping("/search/all")
-	public String searchAll(Model m) {
+	public String searchAll(SearchItem sc, BoardDto boardDto, Model m, HttpServletRequest req) {
 
 		try {
 			
-			List<BoardDto> noticeListAll = searchService.getNoticePageAll();
-			m.addAttribute("noticeListAll", noticeListAll);
+			String keyword = req.getParameter("keyword");
+			String article_board_type = req.getParameter("type");
+			String type = req.getParameter("type");
 			
-			List<BoardDto> eventListAll = searchService.getEventPageAll();
-			m.addAttribute("eventListAll", eventListAll);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("keyword", keyword);
+			map.put("article_board_type", article_board_type);
+			map.put("type", type);
 			
-			List<BoardDto> allListMore = searchService.getAllPageMore();
-			m.addAttribute("allListMore", allListMore);
+			
+			int totalCnt = searchService.getSearchResultCnt(map);
+			m.addAttribute("totalCnt", totalCnt);
+			
+			PageResolver pageResolver = new PageResolver(totalCnt, sc);
+			m.addAttribute("pr", pageResolver);
+			
+			List<BoardDto> noticeList = searchService.getNoticePage(sc);
+			m.addAttribute("noticeList", noticeList);
+
+			List<BoardDto> eventList = searchService.getEventPage(sc);
+			m.addAttribute("eventList", eventList);
+			
+			List<ClubDto> clubList = searchService.getClubPage(sc);
+			m.addAttribute("clubList", clubList);
+			
+			List<CourseDto> courseList = searchService.getCoursePage(sc);
+			m.addAttribute("courseList", courseList);
+			
+
 			 
 		} catch (Exception e) {
 			e.printStackTrace();

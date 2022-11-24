@@ -2,64 +2,134 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.youngtvjobs.ycc.search.SearchMapper">
-  
-  <insert id="insert" parameterType="BoardDto">
-  	INSERT INTO public.article
-	(article_id, article_date, article_board_type, user_id, article_title, article_contents, article_viewcnt)
-	VALUES
-	(#{article_id},  #{article_date}, #{article_board_type}, #{user_id}, #{article_title}, #{article_contents}, #{article_viewcnt})
-  </insert>
-  
-  <sql id="selectFromArticle">
-  	SELECT article_id, article_date, article_board_type, user_id, article_title, article_contents, article_viewcnt
-	FROM article
-  </sql>
-  
-  <select id="select" parameterType="BoardDto" resultType="BoardDto">
- 	 <include refid="selectFromArticle" />
- 	 where article_board_type = #{article_board_type}
-  </select>
+
+<mapper namespace="com.youngtvjobs.ycc.search.SearchMapper">
+
+	<insert id="insert" parameterType="BoardDto">
+		INSERT INTO public.article
+		(article_id, article_date, article_board_type, user_id, article_title,
+		article_contents, article_viewcnt)
+		VALUES
+		(#{article_id}, #{article_date}, #{article_board_type}, #{user_id}, #{article_title},
+		#{article_contents}, #{article_viewcnt})
+	</insert>
+
+	<sql id="selectFromArticle">
+		SELECT article_id, article_date, article_board_type,
+		user_id, article_title,
+		article_contents, article_viewcnt
+		FROM article
+	</sql>
+
+	<sql id="selectFromClub">
+		SELECT club_id, club_title, club_create_time, club_info,
+		club_master_id
+		FROM public.club
+	</sql>
 	
+	<sql id="selectFromCourse">
+		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date, 
+		course_end_date, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_cate_cd, 
+		course_applicants
+		FROM public.tb_course
+	</sql>
+
+	<select id="select" parameterType="BoardDto"
+		resultType="BoardDto">
+		<include refid="selectFromArticle" />
+		where article_board_type = #{article_board_type}
+	</select>
+
+	<sql id="searchCondition">
+		AND article_title LIKE concat('%',#{keyword},'%')
+	</sql>
+
+	<sql id="searchConditionClub">
+		AND club_title LIKE concat('%',#{keyword},'%')
+	</sql>
 	
+	<sql id="searchConditionCourse">
+		AND course_nm LIKE concat('%',#{keyword},'%')
+	</sql>
+
+	<sql id="arrayCondition">
+		<choose>
+			<when test='option=="N"'>
+				article_date desc, article_id desc
+			</when>
+			<when test='option=="V"'>
+				article_viewcnt desc, article_id desc
+			</when>
+			<otherwise>
+				article_id desc
+			</otherwise>
+		</choose>
+	</sql>
 	
+	<select id="searchResultCnt" parameterType="Map" resultType="int">
+		select count(*)
+		<choose>
+			<when test='type=="동아리"'>
+				from club
+				where true
+				<include refid="searchConditionClub" />
+			</when>
+	 		<when test='type=="강좌"'>
+				from tb_course
+				where true
+				<include refid="searchConditionCourse" />
+			</when>
+			<otherwise>
+				from article
+				where article_board_type = #{article_board_type} and true
+				<include refid="searchCondition" />
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 공지사항 -->
+	<select id="selectNoticePage" parameterType="SearchItem"
+		resultType="BoardDto">
+		<include refid="selectFromArticle" />
+		where
+		article_board_type = '공지사항' and true
+		<include refid="searchCondition" />
+		order by article_date desc, article_id desc
+		limit #{pageSize} offset #{offset}
+	</select>
+
+	<!-- 이벤트 -->
+	<select id="selectEventPage" parameterType="SearchItem"
+		resultType="BoardDto">
+		<include refid="selectFromArticle" />
+		where true
+		<include refid="searchCondition" />
+		and article_board_type = '이벤트'
+		order by article_date desc, article_id desc
+		limit #{pageSize} offset #{offset}
+	</select>
+
+	<!-- 동아리 -->
+	<select id="selectClubPage" parameterType="SearchItem"
+		resultType="ClubDto">
+		<include refid="selectFromClub" />
+		where true
+		<include refid="searchConditionClub" />
+		order by club_id desc
+		limit #{pageSize} offset #{offset}
+	</select>
 	
-	
-  <!-- 전체 -->
-  <select id="selectAllPage" resultType="BoardDto">
-	<include refid="selectFromArticle" />
-	limit 5
-  </select>
-  
-   <select id="selectAllPageMore" resultType="BoardDto">
-	<include refid="selectFromArticle" />
-  </select>
-	
-  <!-- 공지사항 -->
-  <select id="selectNoticePage" resultType="BoardDto">
-  	<include refid="selectFromArticle" />
-  	where article_board_type = '공지사항'
-  	limit 5
-  </select>
-  
-   <select id="selectNoticePageAll" resultType="BoardDto">
-  	<include refid="selectFromArticle" />
-  	where article_board_type = '공지사항'
-  </select>
-  
-   <!-- 이벤트 -->
-    <select id="selectEventPage" resultType="BoardDto">
-  	<include refid="selectFromArticle" />
-  	where article_board_type = '이벤트'
-  	limit 5
-  	</select>
-  	
-  	<select id="selectEventPageAll" resultType="BoardDto">
-  	<include refid="selectFromArticle" />
-  	where article_board_type = '이벤트'
-  	</select>
-  </mapper>
+	<!-- 강좌 -->
+	<select id="selectCoursePage" parameterType="SearchItem"
+		resultType="CourseDto">
+		<include refid="selectFromCourse" />
+		where true
+		<include refid="searchConditionCourse" />
+		order by course_id desc
+		limit #{pageSize} offset #{offset}
+	</select>
+
+</mapper>
   
   
   
