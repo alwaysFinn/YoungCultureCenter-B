@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,14 +85,15 @@
         <button type="button" class="btn btn-primary">FAQ</button>
       </div>
       <div class="input-group ms-auto pt-2" style="width: 20%;">
-      <form id="frm" action="<c:url value="redirect:/search" />" class="search-form" method="get">
+      <form id="frm" action="<c:url value="/search" />" class="search-form" method="get">
+      	<input name="keyword" type="hidden" value="${param.keyword }" />
  	      <select class="form-select form-select-sm" name="array" aria-label=".form-select-sm example"
 	        style="width: 90px; margin-right: 10px;">
-	        <option value="N" ${pr.sc.array=='N' || pr.sc.array=='' ? "selected" : ""} >최신순</option>
+	        <option value="A" ${pr.sc.array=='A' || pr.sc.array=='' ? "selected" : ""} >정확도순</option>
 	        <option value="V" ${pr.sc.array=='V' ? "selected" : ""}>조회순</option>
-	        <option value="R" ${pr.sc.array=='R' ? "selected" : ""}>관련순</option>
+	        <option value="N" ${pr.sc.array=='N' ? "selected" : ""}>최신순</option>
 	      </select>
-	      <button class="btn btn-success m-1" type="submit" style="width: 100%;">정렬</button>
+	     <input type="submit" class="search-button" value="정렬" >	
       </form>
     	</div>
       
@@ -103,103 +105,119 @@
       <h3 class="text-start mt-5">공지사항</h3>
       <hr>
       <div class="p-3">
-      		<form action="<c:url value="/search/all?type=${noticeList[0].article_board_type }" />">
+      	<form action="<c:url value="/search/all?type=${noticeList[0].article_board_type }" />">
+<%--       	<h1>${totalCnt }</h1> --%>
       		<input type="hidden" name="type" value="${noticeList[0].article_board_type }" />
-      		<input type="hidden" name="keyword" value="${param.keyword }" />
-	  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
-	  		<table class="table table-hover" mt-3">
-	  			<colgroup>
-					<col width=46%>
-					<col width=17%>
-					<col width=15%>
-					<col width=22%>
-				</colgroup>
-				<thead>
-		          <tr>
-		            <th scope="col">제목</th>
-		            <th scope="col">작성자</th>
-		            <th scope="col">작성일</th>
-		            <th scope="col">조회수</th>
-		          </tr>
-		        </thead>
-		        <tbody>
-  		  		<c:forEach var="BoardDto" items="${noticeList }">
-				      <tr>
-				        <th scope="row"><a href="<c:url value="/board/post" />">
-							${BoardDto.article_title }
-							</a>
-						</th>
-				        <td>${BoardDto.user_id }</td>
-				        <td>${BoardDto.article_date }</td>
-				        <td>${BoardDto.article_viewcnt }</td>
-				       <tr>
-				</c:forEach>
-				</tbody>
-	   		</table>
-    		</form>
-    		</div>	
+		    <input type="hidden" name="keyword" value="${param.keyword }" /> 
+<%--       		<c:choose>
+				<c:when test="${totalCnt == null || totalCnt == 0 }">
+					<div>검색결과가 없습니다.</div>
+				</c:when>
+				<c:otherwise> --%>
+			  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
+			  		<table class="table table-hover mt-3">
+					<colgroup>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
+					</colgroup>
+					<thead>
+			          <tr>
+			            <th scope="col">제목</th>
+			            <th scope="col">작성자</th>
+			            <th scope="col">작성일</th>
+			            <th scope="col">조회수</th>
+			          </tr>
+			        </thead>
+					<tbody>
+					<c:forEach var="BoardDto" items="${noticeList }">
+						<tr>
+						<th scope="row"><a href="<c:url value="/board/post" />">
+						${BoardDto.article_title } </a></th>
+						<td>${BoardDto.user_id }</td>
+						<td>${BoardDto.article_date }</td>
+						<td>${BoardDto.article_viewcnt }</td>
+						</tr>
+					</c:forEach>
+					</tbody>
+					</table>
+				<%-- </c:otherwise>
+			</c:choose> --%>
+    	</form>
+    </div>	
     
       <h3 class="text-start mt-5">이벤트</h3>
       <hr>
       <div class="p-3">
-      		<form action="<c:url value="/search/all?type=${eventList[0].article_board_type }" />">
+      	<form action="<c:url value="/search/all?type=${eventList[0].article_board_type }" />">
       		<input type="hidden" name="type" value="${eventList[0].article_board_type }" />
-      		<input type="hidden" name="keyword" value="${param.keyword }" />
-	  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
-	  		<table class="table table-hover" mt-3">
-	  			<colgroup>
-					<col width=46%>
-					<col width=17%>
-					<col width=15%>
-					<col width=22%>
-				</colgroup>
-				<thead>
-		          <tr>
-		            <th scope="col">제목</th>
-		            <th scope="col">작성자</th>
-		            <th scope="col">작성일</th>
-		            <th scope="col">조회수</th>
-		          </tr>
-		        </thead>
-		        <tbody>
-  		  		<c:forEach var="BoardDto" items="${eventList }">
-				      <tr>
-				        <th scope="row"><a href="<c:url value="/board/post" />">
-							${BoardDto.article_title }
-							</a>
-						</th>
-				        <td>${BoardDto.user_id }</td>
-				        <td>${BoardDto.article_date }</td>
-				        <td>${BoardDto.article_viewcnt }</td>
-				       <tr>
-				</c:forEach>
-				</tbody>
-	   		</table>
-    		</form>
-    		</div>	
-    		
-    		
-	<h3 class="text-start mt-5">동아리</h3>
+		    <input type="hidden" name="keyword" value="${param.keyword }" />
+<%--       		<c:choose>
+				<c:when test="${totalCnt == null || totalCnt == 0 }">
+					<div>검색결과가 없습니다.</div>
+				</c:when>
+				<c:otherwise> --%>
+			  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
+			  		<table class="table table-hover mt-3">
+					<colgroup>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
+					</colgroup>
+					<thead>
+			          <tr>
+			            <th scope="col">제목</th>
+			            <th scope="col">작성자</th>
+			            <th scope="col">작성일</th>
+			            <th scope="col">조회수</th>
+			          </tr>
+			        </thead>
+					<tbody>
+					<c:forEach var="BoardDto" items="${eventList }">
+						<tr>
+						<th scope="row"><a href="<c:url value="/board/post" />">
+						${BoardDto.article_title } </a></th>
+						<td>${BoardDto.user_id }</td>
+						<td>${BoardDto.article_date }</td>
+						<td>${BoardDto.article_viewcnt }</td>
+						<tr>
+					</c:forEach>
+					</tbody>
+					</table>
+<%-- 				</c:otherwise>
+			</c:choose> --%>
+    	</form>
+    </div>	
+    
+          <h3 class="text-start mt-5">동아리</h3>
       <hr>
       <div class="p-3">
       	<c:set var="club" value ="동아리" />
       		<form action="<c:url value="/search/all?type=${club }" />">
       		<input type="hidden" name="type" value="${club }" />
       		<input type="hidden" name="keyword" value="${param.keyword }" />
-	  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
-	  		<table class="table table-hover" mt-3">
-	  			<colgroup>
-					<col width=46%>
-					<col width=17%>
+<%--       		<c:choose>
+				<c:when test="${totalCnt == null || totalCnt == 0 }">
+					<div>검색결과가 없습니다.</div>
+				</c:when>
+				<c:otherwise> --%>
+	  				<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
+			  		<table class="table table-hover mt-3">
+					<colgroup>
+					<col width=40%>
 					<col width=15%>
-					<col width=22%>
+					<col width=15%>
+					<col width=15%>
+					<col width=15%>
 				</colgroup>
 				<thead>
 		          <tr>
-		            <th scope="col">동아리명</th>
-		            <th scope="col">동아리장</th>
-		            <th scope="col">내용</th>
-		            <th scope="col">생성일</th>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
 		          </tr>
 		        </thead>
 		        <tbody>
@@ -212,28 +230,35 @@
 				        <td>${ClubDto.club_master_id }</td>
 				        <td>${ClubDto.club_info }</td>
 				        <td>${ClubDto.club_create_time }</td>
-				       <tr>
+				       </tr>
 				</c:forEach>
 				</tbody>
-	   		</table>
-    		</form>
-    		</div>	
-    		
-      <h3 class="text-start mt-5">강좌</h3>
+				</table>
+<%-- 				</c:otherwise>
+			</c:choose> --%>
+    	</form>
+    </div>
+    
+              <h3 class="text-start mt-5">강좌</h3>
       <hr>
       <div class="p-3">
       	<c:set var="course" value ="강좌" />
       		<form action="<c:url value="/search/all?type=${course }" />">
       		<input type="hidden" name="type" value="${course }" />
       		<input type="hidden" name="keyword" value="${param.keyword }" />
-	  		<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
-	  		<table class="table table-hover" mt-3">
-	  			<colgroup>
-					<col width=46%>
-					<col width=17%>
-					<col width=15%>
-					<col width=22%>
-				</colgroup>
+<%--       		<c:choose>
+				<c:when test="${totalCnt == null || totalCnt == 0 }">
+					<div>검색결과가 없습니다.</div>
+				</c:when>
+				<c:otherwise> --%>
+	  				<input style="float: right;" class="btn btn-write" type="submit" value="더보기" />
+			  		<table class="table table-hover mt-3">
+					<colgroup>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
+					</colgroup>
 				<thead>
 		          <tr>
 		            <th scope="col">강좌명</th>
@@ -255,13 +280,17 @@
 				       <tr>
 				</c:forEach>
 				</tbody>
-	   		</table>
-    		</form>
-    		</div>
+				</table>
+<%-- 				</c:otherwise>
+			</c:choose> --%>
+    	</form>
+    </div>
+
     		
+      
 	 </div>
 
-	<div class="paging-container">
+<div class="paging-container">
 		<div class="paging">
 			<c:if test="${totalCnt == null || totalCnt == 0 }">
 				<div>게시물이 없습니다.</div>

@@ -10,7 +10,8 @@
 		(article_id, article_date, article_board_type, user_id, article_title,
 		article_contents, article_viewcnt)
 		VALUES
-		(#{article_id}, #{article_date}, #{article_board_type}, #{user_id}, #{article_title},
+		(#{article_id},
+		#{article_date}, #{article_board_type}, #{user_id}, #{article_title},
 		#{article_contents}, #{article_viewcnt})
 	</insert>
 
@@ -23,14 +24,16 @@
 
 	<sql id="selectFromClub">
 		SELECT club_id, club_title, club_create_time, club_info,
-		club_master_id
+		club_master_id, club_viewcnt
 		FROM public.club
 	</sql>
-	
+
 	<sql id="selectFromCourse">
-		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date, 
-		course_end_date, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_cate_cd, 
-		course_applicants
+		SELECT course_id, course_nm, course_image,
+		course_reg_start_date, course_reg_end_date, course_start_date,
+		course_end_date, course_day, course_time, course_target, course_cost,
+		course_info, user_id, croom_id, course_cate_cd,
+		course_applicants, course_viewcnt
 		FROM public.tb_course
 	</sql>
 
@@ -47,45 +50,98 @@
 	<sql id="searchConditionClub">
 		AND club_title LIKE concat('%',#{keyword},'%')
 	</sql>
-	
+
 	<sql id="searchConditionCourse">
 		AND course_nm LIKE concat('%',#{keyword},'%')
 	</sql>
 
 	<sql id="arrayCondition">
 		<choose>
-			<when test='option=="N"'>
+			<when test='array=="N"'>
 				article_date desc, article_id desc
 			</when>
-			<when test='option=="V"'>
+			<when test='array=="V"'>
 				article_viewcnt desc, article_id desc
 			</when>
 			<otherwise>
-				article_id desc
+				case when article_title like #{keyword} then 0
+				when article_title like concat('%', #{keyword}) then 1
+				when article_title like concat('%', #{keyword}, '%') then 2
+				when article_title like concat(#{keyword}, '%') then 3
+				else 4 end
 			</otherwise>
 		</choose>
 	</sql>
-	
-	<select id="searchResultCnt" parameterType="Map" resultType="int">
-		select count(*)
+
+	<sql id="arrayConditionClub">
+		<choose>
+			<when test='array=="N"'>
+				club_title desc, club_id desc
+			</when>
+			<when test='array=="V"'>
+				club_viewcnt desc, club_id desc
+			</when>
+			<otherwise>
+				case when club_title like #{keyword} then 0
+				when club_title like concat('%', #{keyword}) then 1
+				when club_title like concat('%', #{keyword}, '%') then 2
+				when club_title like concat(#{keyword}, '%') then 3
+				else 4 end
+			</otherwise>
+		</choose>
+	</sql>
+
+	<sql id="arrayConditionCourse">
+		<choose>
+			<when test='array=="N"'>
+				course_reg_start_date desc, course_id desc
+			</when>
+			<when test='array=="V"'>
+				course_viewcnt desc, course_id desc
+			</when>
+			<otherwise>
+				case when course_nm like #{keyword} then 0
+				when course_nm like concat('%', #{keyword}) then 1
+				when course_nm like concat('%', #{keyword}, '%') then 2
+				when course_nm like concat(#{keyword}, '%') then 3
+				else 4 end
+			</otherwise>
+		</choose>
+	</sql>
+
+
+<select id="searchResultCnt" parameterType="Map"
+		resultType="int">
 		<choose>
 			<when test='type=="동아리"'>
+			select count(*)
 				from club
 				where true
 				<include refid="searchConditionClub" />
 			</when>
-	 		<when test='type=="강좌"'>
+			<when test='type=="강좌"'>
+			select count(*)
 				from tb_course
 				where true
 				<include refid="searchConditionCourse" />
 			</when>
+<!-- 			<when test='type=="all"'>
+			select ( 
+				(select count(*) from tb_course) + 
+				(select count(*) from article) +
+				(select count(*) from club)
+			)
+			</when> -->
 			<otherwise>
+			select count(*)
 				from article
-				where article_board_type = #{article_board_type} and true
+				where article_board_type = #{article_board_type} and
+				true
 				<include refid="searchCondition" />
 			</otherwise>
 		</choose>
 	</select>
+	
 
 	<!-- 공지사항 -->
 	<select id="selectNoticePage" parameterType="SearchItem"
@@ -94,7 +150,8 @@
 		where
 		article_board_type = '공지사항' and true
 		<include refid="searchCondition" />
-		order by article_date desc, article_id desc
+		order by
+		<include refid="arrayCondition" />
 		limit #{pageSize} offset #{offset}
 	</select>
 
@@ -102,10 +159,11 @@
 	<select id="selectEventPage" parameterType="SearchItem"
 		resultType="BoardDto">
 		<include refid="selectFromArticle" />
-		where true
+		where
+		article_board_type = '이벤트' and true
 		<include refid="searchCondition" />
-		and article_board_type = '이벤트'
-		order by article_date desc, article_id desc
+		order by
+		<include refid="arrayCondition" />
 		limit #{pageSize} offset #{offset}
 	</select>
 
@@ -115,17 +173,18 @@
 		<include refid="selectFromClub" />
 		where true
 		<include refid="searchConditionClub" />
-		order by club_id desc
+		order by
+		<include refid="arrayConditionClub" />
 		limit #{pageSize} offset #{offset}
 	</select>
-	
+
 	<!-- 강좌 -->
 	<select id="selectCoursePage" parameterType="SearchItem"
 		resultType="CourseDto">
 		<include refid="selectFromCourse" />
 		where true
 		<include refid="searchConditionCourse" />
-		order by course_id desc
+		order by <include refid="arrayConditionCourse" />
 		limit #{pageSize} offset #{offset}
 	</select>
 

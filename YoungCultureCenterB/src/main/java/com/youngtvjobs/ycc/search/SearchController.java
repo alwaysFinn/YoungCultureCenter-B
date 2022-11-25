@@ -31,15 +31,25 @@ public class SearchController {
 	BoardDto boardDto;
 
 	@RequestMapping("/search")
-	public String searchPage(SearchItem sc, Model m) {
+	public String searchPage(SearchItem sc, BoardDto boardDto, Model m, HttpServletRequest req) {
 
 		try {
+			String keyword = req.getParameter("keyword");
+			String article_board_type = req.getParameter("type");
+			String type = req.getParameter("type");
 			
-//			int totalCnt = searchService.getSearchResultCnt(map);
-//			m.addAttribute("totalCnt", totalCnt);
-//
-//			PageResolver pageResolver = new PageResolver(totalCnt, sc);
-//			m.addAttribute("pr", pageResolver);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("keyword", keyword);
+			map.put("article_board_type", article_board_type);
+			map.put("type", type);
+			
+			int totalCnt = searchService.getSearchResultCnt(map);
+			m.addAttribute("totalCnt", totalCnt);
+			
+			PageResolver pageResolver = new PageResolver(totalCnt, sc);
+			m.addAttribute("pr", pageResolver);
+			
+			sc.setPageSize(5);
 	
 			List<BoardDto> noticeList = searchService.getNoticePage(sc);
 			m.addAttribute("noticeList", noticeList);
@@ -80,9 +90,10 @@ public class SearchController {
 			map.put("article_board_type", article_board_type);
 			map.put("type", type);
 			
-			
 			int totalCnt = searchService.getSearchResultCnt(map);
 			m.addAttribute("totalCnt", totalCnt);
+			
+			System.out.println(totalCnt);
 			
 			PageResolver pageResolver = new PageResolver(totalCnt, sc);
 			m.addAttribute("pr", pageResolver);

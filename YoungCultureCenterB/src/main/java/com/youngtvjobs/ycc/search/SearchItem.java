@@ -23,6 +23,10 @@ public class SearchItem {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public SearchItem(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+	
 	public SearchItem(Integer page, Integer paseSize) {
 		this(page, paseSize, "", "", "", "");
 	}

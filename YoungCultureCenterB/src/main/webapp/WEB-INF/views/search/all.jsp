@@ -93,62 +93,134 @@
 	            <tbody>
 	            <c:set var ="type" value ="${param.type}"/>
 	            	<input type="hidden" name="type" value="${param.type}" />
- 	            		<c:choose>
-	            			<c:when test="${fn:contains(type, '공지사항')}" >
-					     		<c:forEach var="BoardDto" items="${noticeList }">
-							     	<tr>
-							        <th scope="row">
-							        	<a href="<c:url value="/board/post" />">${BoardDto.article_title }</a>
-									</th>
-							        <td>${BoardDto.user_id }</td>
-							        <td>${BoardDto.article_date }</td>
-							        <td>${BoardDto.article_viewcnt }</td>
-							        <tr>
-						 		</c:forEach>
-							</c:when>
-							<c:when test="${fn:contains(type, '이벤트')}" >
-							    <c:forEach var="BoardDto" items="${eventList }">
-							      	<tr>
-							        <th scope="row">
-							        	<a href="<c:url value="/board/post" />">${BoardDto.article_title }</a>
-									</th>
-							        <td>${BoardDto.user_id }</td>
-							        <td>${BoardDto.article_date }</td>
-							        <td>${BoardDto.article_viewcnt }</td>
-							        <tr>
-						 		</c:forEach>
-						 	</c:when>
-						 	<c:when test="${fn:contains(type, '동아리')}" >
-							    <c:forEach var="ClubDto" items="${clubList }">
-							      	<tr>
-							        <th scope="row">
-							        	<a href="<c:url value="/board/post" />">${ClubDto.club_title }</a>
-									</th>
-							        <td>${ClubDto.club_master_id }</td>
-							        <td>${ClubDto.club_info }</td>
-							        <td>${ClubDto.club_create_time }</td>
-							        <tr>
-						 		</c:forEach>
-						 	</c:when>
-						 	<c:when test="${fn:contains(type, '강좌')}" >
-							    <c:forEach var="CourseDto" items="${courseList }">
-									<tr>
-									<th scope="row">
-										<a href="<c:url value="/board/post" />">${CourseDto.course_nm } </a>
-									</th>
+			<c:choose>
+				<c:when test="${fn:contains(type, '공지사항')}">
+				<table class="table table-hover mt-3">
+					<colgroup>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
+					</colgroup>
+					<thead>
+			          <tr>
+			            <th scope="col">제목</th>
+			            <th scope="col">작성자</th>
+			            <th scope="col">작성일</th>
+			            <th scope="col">조회수</th>
+			          </tr>
+			        </thead>
+					<tbody>
+					<c:forEach var="BoardDto" items="${noticeList }">
+						<tr>
+						<th scope="row"><a href="<c:url value="/board/post" />">
+						${BoardDto.article_title } </a></th>
+						<td>${BoardDto.user_id }</td>
+						<td>${BoardDto.article_date }</td>
+						<td>${BoardDto.article_viewcnt }</td>
+						</tr>
+					</c:forEach>
+					</tbody>
+					</table>
+				</c:when>
+				<c:when test="${fn:contains(type, '이벤트')}">
+					<table class="table table-hover mt-3">
+					<colgroup>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
+					</colgroup>
+					<thead>
+			          <tr>
+			            <th scope="col">제목</th>
+			            <th scope="col">작성자</th>
+			            <th scope="col">작성일</th>
+			            <th scope="col">조회수</th>
+			          </tr>
+			        </thead>
+					<tbody>
+					<c:forEach var="BoardDto" items="${eventList }">
+						<tr>
+						<th scope="row"><a href="<c:url value="/board/post" />">
+						${BoardDto.article_title } </a></th>
+						<td>${BoardDto.user_id }</td>
+						<td>${BoardDto.article_date }</td>
+						<td>${BoardDto.article_viewcnt }</td>
+						<tr>
+					</c:forEach>
+					</tbody>
+					</table>
+				</c:when>
+
+
+				<c:when test="${fn:contains(type, '동아리')}">
+					<table class="table table-hover mt-3">
+						<colgroup>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">동아리명</th>
+								<th scope="col">동아리장</th>
+								<th scope="col">내용</th>
+								<th scope="col">생성일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="ClubDto" items="${clubList }">
+								<tr>
+									<th scope="row"><a href="<c:url value="/board/post" />">
+											${ClubDto.club_title } </a></th>
+									<td>${ClubDto.club_master_id }</td>
+									<td>${ClubDto.club_info }</td>
+									<td>${ClubDto.club_create_time }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+			</c:when>
+
+
+									<c:when test="${fn:contains(type, '강좌')}">
+					<table class="table table-hover mt-3">
+						<colgroup>
+						<col width=46%>
+						<col width=17%>
+						<col width=15%>
+						<col width=22%>
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">강좌명</th>
+								<th scope="col">강사명</th>
+								<th scope="col">수강일</th>
+								<th scope="col">수강료</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="CourseDto" items="${courseList }">
+								<tr>
+									<th scope="row"><a href="<c:url value="/board/post" />">
+											${CourseDto.course_nm } </a></th>
 									<td>${CourseDto.user_id }</td>
 									<td>${CourseDto.course_day }</td>
 									<td>${CourseDto.course_cost }원</td>
-									<tr>
-								</c:forEach>
-						 	</c:when>
-						 </c:choose>
-	            </tbody>
-           
-        </table>
+								
+													<tr>
+							
+												</c:forEach>
+						</tbody>
+					</table>
+				</c:when>
+				
+								</c:choose>
 
 
- 	<div class="paging-container">
+				<div class="paging-container">
 		<div class="paging">
 			<c:if test="${totalCnt == null || totalCnt == 0 }">
 				<div>게시물이 없습니다.</div>
