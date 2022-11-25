@@ -24,7 +24,7 @@
 
 	<sql id="selectFromClub">
 		SELECT club_id, club_title, club_create_time, club_info,
-		club_master_id, club_viewcnt
+		club_master_id
 		FROM public.club
 	</sql>
 
@@ -33,7 +33,7 @@
 		course_reg_start_date, course_reg_end_date, course_start_date,
 		course_end_date, course_day, course_time, course_target, course_cost,
 		course_info, user_id, croom_id, course_cate_cd,
-		course_applicants, course_viewcnt
+		course_applicants
 		FROM public.tb_course
 	</sql>
 
