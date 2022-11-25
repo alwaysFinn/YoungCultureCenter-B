@@ -105,8 +105,8 @@
 	<!-- 강좌 상세 보여주기 -->
 	<select id="selectCourseDetail" parameterType="int" resultType="CourseDto">
 		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
-		, course_start_date, course_end_date, course_day, course_time, course_target, course_cost
-		, course_info, tb_course.user_id, course_applicants, croom_name, user_name, croom_mpop, course_rating
+		, course_start_date, course_end_date, course_day, course_time, course_target, course_cost, course_info
+		, tb_course.user_id, course_applicants, croom_name, user_name, croom_mpop, course_rating, review_cnt
 		FROM tb_course
 		JOIN tb_user
 		ON tb_course.user_id = tb_user.user_id 
@@ -135,7 +135,13 @@
 		<include refid="orderby" />
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select> 
-
+	
+	<update id="updateReviewCnt" parameterType="map">
+		UPDATE tb_course 
+		SET review_cnt = review_cnt + #{cnt}
+		WHERE course_id = #{course_id}
+	</update>
+	
 	<delete id="deleteAll">
 		DELETE FROM tb_course
 	</delete>

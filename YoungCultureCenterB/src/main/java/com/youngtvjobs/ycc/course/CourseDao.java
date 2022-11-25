@@ -16,4 +16,6 @@ public interface CourseDao {
 
 	CourseDto courseDetail(Integer course_id) throws Exception;
 
+	int updateReviewCnt(Integer course_id, int cnt) throws Exception;
+
 }

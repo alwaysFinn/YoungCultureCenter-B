@@ -5,39 +5,58 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+/*
+ * course_id    integer NOT NULL,
+    course_nm    character varying(255) NOT NULL,
+    course_image    character varying(255),
+    course_reg_start_date    date NOT NULL,
+    course_reg_end_date    date NOT NULL,
+    course_start_date    date NOT NULL,
+    course_end_date    date NOT NULL,
+    course_day    character(30) NOT NULL,
+    course_time    character(14) NOT NULL,
+    course_target    character(10) NOT NULL,
+    course_cost    integer NOT NULL,
+    course_info    character varying(5000) NOT NULL,
+    user_id    character(16) NOT NULL,
+    croom_id    character(10) NOT NULL
+ */
+
 public class CourseDto {
 	// FROM tb_course
-	private int course_id; // 媛뺤쥖踰덊샇
-	private String course_nm; // 媛뺤쥖�씠由�
-	private String course_image; // 媛뺤쥖�씠誘몄�
-	private Date course_reg_start_date; // �젒�닔�떆�옉�씪
-	private Date course_reg_end_date; // �젒�닔留덇컧�씪
-	private Date course_start_date; // �닔媛뺤떆�옉�씪
-	private Date course_end_date; // �닔媛뺤쥌猷뚯씪
-	private String course_day; // �닔媛뺤슂�씪
-	private String course_time; // �닔媛뺤떆媛� (援ш�留� �븘�슂)
-	private String course_target; // �닔媛뺣��긽
-	private int course_cost; // �닔媛뺣퉬
-	private String course_info; // �닔媛뺤긽�꽭�궡�슜
-	private String user_id; // 媛뺤궗�븘�씠�뵒
-	private String croom_id; // 媛뺤쓽�떎 �븘�씠�뵒
-	private int course_applicants; // �떊泥��씤�썝
+	private int course_id; // 강좌번호
+	private String course_nm; // 강좌이름
+	private String course_image; // 강좌이미지
+	private Date course_reg_start_date; // 접수시작일
+	private Date course_reg_end_date; // 접수마감일
+	private Date course_start_date; // 수강시작일
+	private Date course_end_date; // 수강종료일
+	private String course_day; // 수강요일
+	private String course_time; // 수강시간 (구글링 필요)
+	private String course_target; // 수강대상
+	private int course_cost; // 수강비
+	private String course_info; // 수강상세내용
+	private String user_id; // 강사아이디
+	private String croom_id; // 강의실 아이디
+	private int course_applicants; // 신청인원
+	private double course_rating; // 강의평점
+	private int review_cnt; // 강좌리뷰개수
 	
 	// JOIN tb_user
-	private String user_name; // 媛뺤궗紐�
+	private String user_name; // 강사명
 	
 	//JOIN classroom
-	private String croom_name; // 媛뺤쓽�떎�씠由�
-	private int croom_mpop; // 媛뺤쓽�떎 �닔�슜�씤�썝 (珥앹썝)
+	private String croom_name; // 강의실이름
+	private int croom_mpop; // 강의실 수용인원 (총원)
 	
 	public CourseDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CourseDto(int course_id, String course_nm, String course_image, Date course_reg_start_date
-					, Date course_reg_end_date, Date course_start_date, Date course_end_date, String course_day
-					, String course_time, String course_target, int course_cost, String course_info, String user_id
-					, String croom_id, int course_applicants, String user_name, String croom_name, int croom_mpop) {
+	public CourseDto(int course_id, String course_nm, String course_image, Date course_reg_start_date, Date course_reg_end_date
+					, Date course_start_date, Date course_end_date, String course_day, String course_time, String course_target
+					, int course_cost, String course_info, String user_id, String croom_id, int course_applicants, int review_cnt
+					, double course_rating, String user_name, String croom_name, int croom_mpop) {
 		// super();
 		this.course_id = course_id;
 		this.course_nm = course_nm;
@@ -54,6 +73,8 @@ public class CourseDto {
 		this.user_id = user_id;
 		this.croom_id = croom_id;
 		this.course_applicants = course_applicants;
+		this.review_cnt = review_cnt;
+		this.course_rating = course_rating;
 		this.user_name = user_name;
 		this.croom_name = croom_name;
 		this.croom_mpop = croom_mpop;
@@ -63,7 +84,7 @@ public class CourseDto {
 	public int hashCode() {
 		return Objects.hash(course_cost, course_day, course_end_date, course_id, course_image, course_info, course_nm
 							, course_reg_end_date, course_reg_start_date, course_start_date, course_target, course_time
-							, croom_id, user_id, course_applicants, user_name, croom_name, croom_mpop);
+							, croom_id, user_id, course_applicants, course_rating, review_cnt, user_name, croom_name, croom_mpop);
 	}
 
 	@Override
@@ -85,46 +106,46 @@ public class CourseDto {
 				&& Objects.equals(croom_id, other.croom_id) && Objects.equals(user_id, other.user_id)
 				&& Objects.equals(user_name, other.user_name) && Objects.equals(croom_name, other.croom_name)
 				&& Objects.equals(course_applicants, other.course_applicants) && Objects.equals(croom_mpop, other.croom_mpop)
-			
+				&& Objects.equals(course_rating, other.course_rating) && Objects.equals(review_cnt, other.review_cnt);
 	}
 	
-	// �긽�깭(�삤�뵂�삁�젙, �젒�닔媛��뒫, �젒�닔留덇컧)
+	// 상태(오픈예정, 접수가능, 접수마감)
 	public String course_stat() {
 		Date nowdate = new Date();
 		
-		// 紐⑺몴 �궇吏�
+		// 목표 날짜
         SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 
-        // �쁽�옱 �궇吏�
+        // 현재 날짜
         final Date todayDate = new Date();
 
-        long rsd_now = course_reg_start_date.getTime() - todayDate.getTime(); // d-day 怨꾩궛
-        long now_rsd = todayDate.getTime() - course_reg_start_date.getTime(); // �삤�뒛-�젒�닔�떆�옉�씪 
-        long now_red = todayDate.getTime() - course_reg_end_date.getTime(); // �삤�뒛-�젒�닔留덇컧�씪
+        long rsd_now = course_reg_start_date.getTime() - todayDate.getTime(); // d-day 계산
+        long now_rsd = todayDate.getTime() - course_reg_start_date.getTime(); // 오늘-접수시작일 
+        long now_red = todayDate.getTime() - course_reg_end_date.getTime(); // 오늘-접수마감일
 
-//		int result1 = nowdate.compareTo(course_reg_start_date); // �삤�뒛-�젒�닔�떆�옉�씪
-//		int result2 = nowdate.compareTo(course_reg_end_date); // �삤�뒛-�젒�닔留덇컧�씪
+//		int result1 = nowdate.compareTo(course_reg_start_date); // 오늘-접수시작일
+//		int result2 = nowdate.compareTo(course_reg_end_date); // 오늘-접수마감일
 		String stat = null;
 
-		// nowdate�뒗 �젒�닔�떆�옉�씪 �씠�쟾 
+		// nowdate는 접수시작일 이전 
 		if (now_rsd < 0) {
-			stat ="�삤�뵂�삁�젙<br/>"+"[D-"+(rsd_now / (24 * 60 * 60 * 1000) + 1)+"]";
+			stat ="오픈예정<br/>"+"[D-"+(rsd_now / (24 * 60 * 60 * 1000) + 1)+"]";
 		}
 		
-		// nowdate�뒗 �젒�닔�떆�옉�씪怨� �젒�닔留덇컧�씪 �궗�씠
+		// nowdate는 접수시작일과 접수마감일 사이
 		else if(now_rsd >= 0 && now_red < 86400000) { 
-			stat = "�젒�닔媛��뒫";
+			stat = "접수가능";
 		}
 		 
-		// nowdate�뒗 �젒�닔留덇컧�씪 �씠�썑
+		// nowdate는 접수마감일 이후
 		else {
-			stat = "�젒�닔留덇컧";
+			stat = "접수마감";
 		}
 		
 		return stat;
 	}
 
-	// Date -> String�쑝濡� �삎蹂��솚(course_reg_start_date, course_reg_end_date, course_start_date, course_end_date)
+	// Date -> String으로 형변환(course_reg_start_date, course_reg_end_date, course_start_date, course_end_date)
 	public String reg_sd() {
 		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String reg_start_date = sdFormat.format(course_reg_start_date);
@@ -152,11 +173,27 @@ public class CourseDto {
 		
 		return end_date;
 	}
-	// END //Date -> String�쑝濡� �삎蹂��솚(course_reg_start_date, course_reg_end_date, course_start_date, course_end_date)//
+	// END //Date -> String으로 형변환(course_reg_start_date, course_reg_end_date, course_start_date, course_end_date)//
 	
 	// getter setter
 	public String getCroom_name() {
 		return croom_name;
+	}
+
+	public int getReview_cnt() {
+		return review_cnt;
+	}
+
+	public void setReview_cnt(int review_cnt) {
+		this.review_cnt = review_cnt;
+	}
+
+	public double getCourse_rating() {
+		return course_rating;
+	}
+
+	public void setCourse_rating(double course_rating) {
+		this.course_rating = course_rating;
 	}
 
 	public int getCourse_applicants() {

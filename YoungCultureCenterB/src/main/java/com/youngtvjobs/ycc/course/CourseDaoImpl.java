@@ -1,5 +1,6 @@
 package com.youngtvjobs.ycc.course;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,14 @@ public class CourseDaoImpl implements CourseDao{
 	public CourseDto courseDetail(Integer course_id) throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectOne(namespace + "selectCourseDetail", course_id);
+	}
+	@Override
+	public int updateReviewCnt(Integer course_id, int cnt) throws Exception {
+		Map map = new HashMap();
+		map.put("cnt", cnt);
+		map.put("course_id", course_id);
+		
+		return session.update(namespace + "updateReviewCnt", map);
 	}
 
 

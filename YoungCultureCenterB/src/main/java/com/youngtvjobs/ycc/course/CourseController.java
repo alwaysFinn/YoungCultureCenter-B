@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CourseController {
 	
-	@Autowired
 	CourseService courseService;
+	ReviewService reviewService;
+
+	public CourseController(CourseService courseService, ReviewService reviewService) {
+		// super();
+		this.courseService = courseService;
+		this.reviewService = reviewService;
+	}
 
 	@RequestMapping("/course/courseinfo")
 	public String courseinfo() {
@@ -33,7 +39,9 @@ public class CourseController {
 	}
 	
 	@GetMapping("/course/detail")
-	public String coursedetail(Integer course_id, CourseSearchItem sc, Model m, HttpServletRequest request) {
+	public String coursedetail(Integer course_id, Model m, HttpServletRequest request) {
+		System.out.println("redirect:/login?toURL="+request.getRequestURL());
+		
 		if(!logincheck(request)) 
 			return "redirect:/login?toURL="+request.getRequestURL();
 		
@@ -41,8 +49,10 @@ public class CourseController {
 			CourseDto courseDto = courseService.readCourseDetail(course_id);
 			m.addAttribute(courseDto);
 			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 			return "redirect:/course/search";
 		}
 		
@@ -65,10 +75,10 @@ public class CourseController {
 			m.addAttribute("list", list);
 			m.addAttribute("pr", pageResolver);
 			
-			System.out.println(list.get(0).toString());
+			//System.out.println(list.get(0).toString());
 //			System.out.println(courseDto.toString());
-			System.out.println(sc.toString());
-			System.out.println(sc.getQueryString());
+			//System.out.println(sc.toString());
+			//System.out.println(sc.getQueryString());
 			                       
 		} catch (Exception e) {
 			e.printStackTrace();
