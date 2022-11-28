@@ -14,9 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RentalController {
@@ -70,6 +70,7 @@ public class RentalController {
 		List<RentalDto> list = null;
 		System.out.println(croom_id);
 		System.out.println(prental_de);
+		
 
 		RentalDto rentalDto = new RentalDto();
 
@@ -87,7 +88,7 @@ public class RentalController {
 			 */
 
 			list = rentalService.getList(croom_id, date_rental_de);
-
+			
 			System.out.println("list : " + list); // 하나의 인자씩 받아와서 해보기
 			return new ResponseEntity<List<RentalDto>>(list, HttpStatus.OK); // 200
 
@@ -99,7 +100,7 @@ public class RentalController {
 	}
 
 	@PostMapping("/rental/place")
-	public String rental(@RequestBody RentalDto rentalDto, HttpSession session, Model m) throws Exception{
+	public String rental(RentalDto rentalDto, RedirectAttributes rattr, HttpSession session, Model m) throws Exception{
 		
 		m.addAttribute("rentalDto", rentalService.rental(rentalDto));
 		

@@ -34,7 +34,7 @@
                                     처리)</li>
                             </ol>
                         </div>
-                        <h1>{RentalDto.croom_id}</h1>
+                        
 
                         <div class="row mb-3">
                             <div class="col-12 col-md-6 " id="change">
@@ -148,7 +148,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach var="rentalDto" items="${ArrayList }">
+                            	<c:forEach var="rentalDto" items="${list }">
 	                                <tr>
 	                                    <td class="rentalplace">${rentalDto.croom_name }</td>
 	                                    <td class="rentaltime">08:00 ~ 10:10</td>
@@ -206,32 +206,6 @@
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary " data-bs-toggle="modal"
                             data-bs-target="#exampleModal">신청하기</button>
-                        <table>
-                            <tr>
-                                <th class="no">번호</th>
-                                <th class="title">제목</th>
-                                <th class="writer">이름</th>
-                                <th class="regdate">등록일</th>
-                                <th class="viewcnt">조회수</th>
-                            </tr>
-
-                            <c:forEach var="rentalDto" items="${ArrayList }">
-                                <tr>
-                                    <td class="no">${rentalDto.croom_id}</td>
-                                    <td class="title">
-                                        <!-- <a href="<c:url value="/board/read${pr.sc.queryString}&bno=${boardDto.bno }" />">  -->
-                                        ${rentalDto.croom_name }
-                                        <!-- </a> -->
-                                    </td>
-                                    <td class="writer">${rentalDto.prental_time_info }</td>
-                                    <td class="regdate">
-                                        <fmt:formatDate value="${rentalDto.prental_de }" pattern="yyyy-MM-dd"
-                                            type="date" />
-                                    </td>
-                                    <td class="viewcnt">${rentalDto.user_id }</td>
-                                </tr>
-                            </c:forEach>
-                        </table>
                     </div>
 
                     <!-- Modal -->
@@ -275,6 +249,12 @@
                                                     <!-- 대관 테이블(하단)에서 체크박스로 체크한 시간들(1,2,...) -->
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <th>결제 금액</th>
+                                                <td colspan="3" onchange="">
+                                                    
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -288,6 +268,7 @@
                     </div>
 
                     <script type="text/javascript">
+                    	const selectPlace = document.getElementById('selectplace');
                         $(document).ready(function () {
 
 
@@ -300,19 +281,22 @@
                                 let prental_de = ($("input[name=rday]").val())
 
 
-                                console.log(croom_id);
-                                console.log(prental_de);
+                                //console.log(croom_id);
+                                //console.log(prental_de);
                                 //작동확인
-
+								
 
                                 $.ajax({
                                     type: 'GET',
                                     url: '/ycc/rental/place.send?croom_id=' + croom_id + '&prental_de=' + prental_de, //수정요망
-                                    headers: { "content-type": "application/json" },
+                                    headers: { "content-type": 'application/json' },
                                     dataType: 'json',
                                     success: function (result) {
-                                        console.log(result)
-                                        console.log(typeof(result))
+                                    	
+                                    	alert(result)
+                                        let json = JSON.stringify(result)
+                                        alert(json) 
+                                        	
                                         $("#rentaltable").html(toHtml(result))//'22.11.22 여기까지 되는 거 확인, db에서 값까지 가져오는데 가져오는 값이 이상함
 
                                     },
@@ -321,8 +305,8 @@
 
                             })
 
-                            let toHtml = function (result) {
-
+                            let toHtml = function(prints){
+                            	
                                 let tmp = "<table style='text-align: center;'>"
                                 tmp += "<thead>"
                                 tmp += "<tr>"
@@ -333,17 +317,30 @@
                                 tmp += '</tr>'
                                 tmp += '</thead>'
                                 tmp += '<tbody>'
-                                console.log(typeof (result.croom_name))
+                                tmp += prints.croom_name
+                                
+                                	/* $.each(result,function(index, item) {
+                                    	$("#rentaltable").append(index + "")
+                                    	$("#rentaltable").append(item.croom_name + "")
+                                    	$("#rentaltable").append(item.prental_time_info + "")
+                                    	$("#rentaltable").append(item.prental_de + "")
+                                    	$("#rentaltable").append(item.croom_name + "")
+                                    	$("#rentaltable").append(item.user_id + "")
+                                    }) 
+                                
+                                	
+                                	 */
 
-                                result.forEach(function (result) {
+                                	 prints.forEach(function(print){
+                                		tmp += '<tr>'
+                                        tmp += '<td data-rentalarea= ' + print.croom_id + '>'+print.croom_id+'</td>'
+                                        tmp += '<td></td>'
+                                        tmp += '<td data-rentaldate= ' + print.prental_de + '>'+print.prental_de+'</td>'
+                                        tmp += '<td><input type="checkbox" id="cbox" name="cbox"></td>' 
+                                        tmp += '</tr>'
 
-                                    tmp += '<tr>'
-                                    tmp += '<td class="classroom"' + result.croom_name + '>' + ${ result.croom_name } + '/td>'
-                                    tmp += '<td class="rentaltime">' + ${ result.prental_de } + '</td>'
-                                    tmp += '<td class="selecteddate">' + ${ result.prental_time_info } + '/td>'
-                                    tmp += '<td><input type="checkbox" id="cbox" name="cbox"></td>'
-                                    tmp += '</tr>'
-                                })
+                                    
+                                }) 
                                 tmp += "</tbody>"
 
                                 return tmp += '</table>'
