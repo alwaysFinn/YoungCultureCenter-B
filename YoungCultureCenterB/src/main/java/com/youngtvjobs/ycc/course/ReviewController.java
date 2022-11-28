@@ -93,12 +93,12 @@ public class ReviewController {
 			list = reviewService.selectReviewList(course_id);
 			System.out.println("list = " + list);
 			
-			int totalCnt = reviewService.getCourseReviewCnt(sc);
-			m.addAttribute("totalCnt", totalCnt);
-			System.out.println("리뷰개수:"+ totalCnt);
-			
-			PageResolver pageResolver1 = new PageResolver(totalCnt, sc);
-			m.addAttribute("prRe", pageResolver1);
+//			int totalCnt = reviewService.getCourseReviewCnt(sc);
+//			m.addAttribute("totalCnt", totalCnt);
+//			System.out.println("리뷰개수:"+ totalCnt);
+//			
+//			PageResolver pageResolver1 = new PageResolver(totalCnt, sc);
+//			m.addAttribute("prRe", pageResolver1);
 
 			return new ResponseEntity<List<ReviewDto>>(list, HttpStatus.OK);
 			

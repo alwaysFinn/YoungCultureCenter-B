@@ -8,7 +8,7 @@
 	<!-- head & meta tag include -->
 	<%@include file="/WEB-INF/views/metahead.jsp"%>
   
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
   
   <style type="text/css">
   	.searchBox { background-color: #f1f1f1; }
@@ -23,10 +23,18 @@
 
 	<script>
     function test() {
-        $('#cate').val("");
-        $('#target').val("");
-        $('#stat').val("");
+        $('#cate').val("")
+        $('#target').val("")
+        $('#stat').val("")
+        $('#keyword').val("")
     }
+    
+		let msg = "${msg}"
+		if(msg == "DEL_OK") alert("성공적으로 삭제되었습니다.")
+		if(msg == "DEL_ERR") alert("삭제되었거나 없는 게시물입니다.")
+		if(msg == "WRT_OK") alert("성공적으로 등록되었습니다.")
+		if(msg == "MOD_OK") alert("성공적으로 수정되었습니다.")
+</script>
 	</script>
 
 	<!-- 본문 -->
@@ -81,19 +89,19 @@
 				</div>
 				<div role="search" class="row gap-1">
 					<div class="col-md-9">
-						<input class="form-control" type="text" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요" aria-label="Search">
+						<input class="form-control" type="text" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요" aria-label="Search" id="keyword">
 					</div>
 					<div class="col-md-2 d-grid d-md-block">
 						<input type="submit" class="btn btn-primary" value="검색">
 					</div>
 				</div>
 			</div>
-			<div class="row py-3 float-end">
+			<div class="row py-3 float-end gap-1">
 				<select class="form-select col-auto" name="orderby" aria-label=".form-select-sm example" style="width: auto;">
 					<option value="New" ${pr.sc.orderby=='New' || pr.sc.orderby=='' ? "selected" : ""}>강좌명순</option>
 					<option value="End" ${pr.sc.orderby=='End' ? "selected" : ""}>접수마감일순</option>
 					<option value="Start" ${pr.sc.orderby=='Start' ? "selected" : ""}>수강시작일순</option>
-					<option value="Star" ${pr.sc.orderby=='Star' ? "selected" : ""}>강의평점순</option>
+					<%-- <option value="Star" ${pr.sc.orderby=='Star' ? "selected" : ""}>강의평점순</option> --%>
 				</select>
 				<button class="col-auto btn btn-secondary">조회</button>
 			</div>
@@ -120,12 +128,14 @@
 						<td>${courseDto.user_name }</td>
 						<td>${courseDto.course_cost }원</td>
 						<td>${courseDto.reg_sd() }<br>~${courseDto.reg_ed() }</td>
-						<td class="${courseDto.course_stat() == '접수가능' ? 'text-primary' : 'text-secondary' }">${courseDto.course_stat() }</td>
+						<td class="${courseDto.course_stat() == '접수가능' ? 'text-primary' : 'text-secondary' } ${courseDto.course_stat() == '정원마감' ? 'text-danger' : '' }">${courseDto.course_stat() }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<br>
+		<div class="text-end">
+			<button id="writeBtn" class="btn btn-primary btn_write" onclick="location.href='<c:url value="/course/write" />' ">강좌등록</button>
+		</div>
 		<nav aria-label="Page navigation example">
 			<c:if test="${totalCnt == null || totalCnt == 0}">
 				<div class="text-center mb-5">게시물이 없습니다.</div>

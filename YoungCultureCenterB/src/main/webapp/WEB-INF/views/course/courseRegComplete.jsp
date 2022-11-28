@@ -23,15 +23,15 @@
 					<tbody>
 					<thead class="bg-light align-middle">
 						<th>강좌명</th>
-						<th width="20%" id="d-col">수강자명</th>
-						<th width="20%" id="d-col">요일</th>
+						<th width="20%" id="d-col">수강기간</th>
+						<th width="20%" id="d-col">수강요일/시간</th>
 						<th width="20%" id="w-28">결제금액(원)</th>
 					</thead>
-					<tr>
-						<td>초코칩 쿠키 만들기</td>
-						<td id="d-col">최선혜</td>
-						<td id="d-col">월, 수, 금</td>
-						<td>50000</td>
+					<tr class="align-middle">
+						<td>${courseDto.course_nm }</td>
+						<td id="d-col">${courseDto.course_sd() }<br/>~${courseDto.course_ed() }</td>
+						<td id="d-col">${courseDto.course_day }<br/>${courseDto.course_time }</td>
+						<td>${courseDto.course_cost }</td>
 					</tr>
 					</tbody>
 				</table>

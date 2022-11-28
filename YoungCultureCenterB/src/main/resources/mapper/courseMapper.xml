@@ -7,15 +7,17 @@
 	
 	<!-- 강좌 select sql문(FROM tb_course JOIN tb_user JOIN course_type) -->
 	<sql id="selectFromCourse">
-		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
+		SELECT tb_course.course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
 					, course_start_date, course_end_date, course_day, course_time, course_target
-					, course_cost, course_info, tb_course.user_id, croom_id, user_name, tb_course.course_cate_cd
-					, current_date - course_reg_end_date::Date, course_rating, course_applicants
+					, course_cost, course_info, tb_course.user_id, tb_course.croom_id, user_name, tb_course.course_cate_cd
+					, current_date - course_reg_end_date::Date, course_rating, course_applicants, croom_mpop
 		FROM tb_course
 		JOIN tb_user
 		ON tb_course.user_id = tb_user.user_id 
 		JOIN course_type
-		ON tb_course.course_cate_cd = course_type.course_cate_cd
+		ON tb_course.course_cate_cd = course_type.course_cate_cd 
+		JOIN classroom
+		ON classroom.croom_id = tb_course.croom_id 
 	</sql>
 	
 	<!-- 강좌카테고리('운동(Spo)', '문화(Cul)', '교육(Edu)') -->
@@ -92,15 +94,42 @@
 				ORDER BY course_start_date
 			</when>
 			<!-- 강의평점순 -->
-			<when test='orderby=="Star"'>
-				ORDER BY course_rating desc
-			</when>
+			<!-- <when test='orderby=="Star"'>
+				ORDER BY AVG(review_rating) desc
+			</when> -->
 			<!-- 기본값 -->
 			<otherwise>
 				ORDER BY course_nm
 			</otherwise>
 		</choose>
 	</sql>
+	
+	<!-- 수강신청 테이블 -->
+	<select id="selectAttendTable" parameterType="map" resultType="AttendDto">
+		SELECT attend_code, course_id, b.user_id, attend_datetime, b.user_name 
+		FROM attend a
+		JOIN tb_user b 
+		ON a.user_id = b.user_id
+		WHERE course_id = #{course_id} 
+		AND a.user_id = #{user_id}
+	</select>
+	
+	<!-- 수강신청 중복 체크 -->
+	<select id="attendDuplicateCheck" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM attend
+		WHERE course_id = #{course_id} 
+		AND user_id = #{user_id}
+	</select>
+	
+	<!-- 평점 계산 -->
+	<select id="avgReviewRating" parameterType="int" resultType="double">
+		SELECT ROUND(AVG(review_rating),2) as review_rating
+		FROM tb_course a
+		JOIN course_review b 
+		ON a.course_id = b.course_id 
+		WHERE a.course_id = #{course_id}
+	</select>
 	
 	<!-- 강좌 상세 보여주기 -->
 	<select id="selectCourseDetail" parameterType="int" resultType="CourseDto">
@@ -136,22 +165,50 @@
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select> 
 	
+	<!-- 등록된 강좌 삭제 -->
+	<delete id="delete" parameterType="map">
+		DELETE FROM tb_course
+		WHERE course_id = #{course_id}
+		AND user_id = #{user_id}
+	</delete>
+	
+	<!-- 수강신청 -->
+	<insert id="attendInsert" parameterType="AttendDto">
+		INSERT INTO attend
+		(course_id, user_id, attend_datetime)
+		VALUES(#{course_id}, #{user_id}, now())
+	</insert>
+	
+	<!-- 수강신청/취소 시 신청인원 업데이트 -->
+	<update id="updateApplicantCnt" parameterType="map">
+		UPDATE tb_course
+		SET course_applicants = course_applicants + #{cnt}
+		WHERE course_id = #{course_id}
+	</update>
+	
+	<!-- 수강후기 작성/삭제 시 후기 개수 업데이트 -->
 	<update id="updateReviewCnt" parameterType="map">
 		UPDATE tb_course 
 		SET review_cnt = review_cnt + #{cnt}
 		WHERE course_id = #{course_id}
 	</update>
 	
+	<insert id="insert" parameterType="CourseDto">
+		INSERT INTO tb_course (course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date, course_end_date
+		, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_cate_cd)
+		VALUES(#{course_nm}, #{course_image}, #{course_reg_start_date}::date, #{course_reg_end_date}::date, #{course_start_date}::date, #{course_end_date}::date
+		, #{course_day}, #{course_time}, #{course_target}, #{course_cost}, #{course_info}, #{user_id}, #{croom_id}, #{course_cate_cd})
+	</insert>
+	<!-- <insert id="insert" parameterType="CourseDto">
+		INSERT INTO tb_course (course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date, course_end_date
+		, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_cate_cd)
+		VALUES(#{course_nm}, #{course_image}, now(), now(), now(), now()
+		, #{course_day}, #{course_time}, #{course_target}, 10000, #{course_info}, #{user_id}, #{croom_id}, #{course_cate_cd})
+	</insert> -->
+	
+	<!-- 테스트용 -->
 	<delete id="deleteAll">
 		DELETE FROM tb_course
 	</delete>
-	
-	<insert id="insert" parameterType="CourseDto">
-		INSERT INTO tb_course
-		(course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date
-		, course_end_date, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id)
-		VALUES(#{course_id}, #{course_nm}, #{course_image}, #{course_reg_start_date}, #{course_reg_end_date}, #{course_start_date}
-		, #{course_end_date}, #{course_day}, #{course_time}, #{course_target}, #{course_cost}, #{course_info}, #{user_id}, #{croom_id})
-	</insert>
 </mapper>
   	
