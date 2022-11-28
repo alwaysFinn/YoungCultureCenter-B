@@ -17,7 +17,7 @@ public class CourseSearchItem {
 	private String keyword = "";
 	private Integer offset;
 	private String orderby = "";
-	private int course_id;
+//	private Integer course_id;
 	
 	public CourseSearchItem() {
 		// TODO Auto-generated constructor stub
@@ -55,13 +55,13 @@ public class CourseSearchItem {
 				.build().toString();
 	}
 	
-	public int getCourse_id() {
-		return course_id;
-	}
-
-	public void setCourse_id(int course_id) {
-		this.course_id = course_id;
-	}
+//	public int getCourse_id() {
+//		return course_id;
+//	}
+//
+//	public void setCourse_id(int course_id) {
+//		this.course_id = course_id;
+//	}
 
 	public String getStat() {
 		return stat;

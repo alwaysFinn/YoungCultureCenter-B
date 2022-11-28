@@ -15,7 +15,20 @@ public interface CourseDao {
 	int insert(CourseDto courseDto) throws Exception;
 
 	CourseDto courseDetail(Integer course_id) throws Exception;
-
+	
+	// 후기 작성&삭제 시 review_cnt 업데이트
 	int updateReviewCnt(Integer course_id, int cnt) throws Exception;
+	
+	// 별점평균구하기
+	double avgReviewRating(Integer course_id) throws Exception;
+	
+	// 수강신청
+	int attendDuplicateCheck(Integer course_id, String user_id) throws Exception;
+	int attendInsert(AttendDto attendDto) throws Exception;
+	int updateApplicantCnt(Integer course_id, int cnt) throws Exception;
+	int selectAttendTable(Integer course_id, String user_id) throws Exception;
+	
+	// 강좌제거
+	int delete(Integer course_id, String user_id) throws Exception;
 
 }

@@ -53,6 +53,49 @@ public class CourseDaoImpl implements CourseDao{
 		
 		return session.update(namespace + "updateReviewCnt", map);
 	}
+	@Override
+	public double avgReviewRating(Integer course_id) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace + "avgReviewRating", course_id);
+	}
+	@Override
+	public int attendDuplicateCheck(Integer course_id, String user_id) throws Exception {
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("course_id", course_id);
+	
+		return session.selectOne(namespace + "attendDuplicateCheck", map);
+	}
+	@Override
+	public int attendInsert(AttendDto attendDto) throws Exception {
+		// TODO Auto-generated method stub
+		return session.insert(namespace + "attendInsert", attendDto);
+	}
+	@Override
+	public int updateApplicantCnt(Integer course_id, int cnt) throws Exception {
+		Map map = new HashMap();
+		map.put("cnt", cnt);
+		map.put("course_id", course_id);
+		
+		return session.update(namespace + "updateApplicantCnt", map);
+	}
+	@Override
+	public int selectAttendTable(Integer course_id, String user_id) throws Exception {
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("course_id", course_id);
+		
+		return session.selectOne(namespace + "selectAttendTable", map);
+	}
+	@Override
+	public int delete(Integer course_id, String user_id) throws Exception {
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("course_id", course_id);
+		
+		return session.delete(namespace + "delete", map);
+	}
+	
 
 
 }

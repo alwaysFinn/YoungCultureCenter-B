@@ -14,11 +14,11 @@
 		ORDER BY review_updated_datetime desc, review_datetime desc , review_id
 	</select>
 	
-	<select id="courseReviewCnt" parameterType="CourseSearchItem" resultType="int">
-		SELECT count(review_id) as reviewCnt
+	<!-- <select id="courseReviewCnt" parameterType="CourseSearchItem" resultType="int">
+		SELECT count(*)
 		FROM course_review
 		WHERE course_id = #{course_id}	
-	</select>
+	</select> -->
 	
 	<update id="update" parameterType="ReviewDto">
 		UPDATE course_review
