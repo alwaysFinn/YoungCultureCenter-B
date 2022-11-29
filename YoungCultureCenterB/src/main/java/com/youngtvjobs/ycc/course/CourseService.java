@@ -24,4 +24,6 @@ public interface CourseService {
 
 	int courseRemove(Integer course_id, String user_id) throws Exception;
 
+	int coursemodify(CourseDto courseDto) throws Exception;
+
 }

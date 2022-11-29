@@ -77,4 +77,10 @@ public class CourseServiceImpl implements CourseService {
 		return courseDao.delete(course_id, user_id);
 	}
 
+	@Override
+	public int coursemodify(CourseDto courseDto) throws Exception {
+		// TODO Auto-generated method stub
+		return courseDao.update(courseDto);
+	}
+
 }

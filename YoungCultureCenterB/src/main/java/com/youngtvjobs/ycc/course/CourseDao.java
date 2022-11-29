@@ -30,5 +30,8 @@ public interface CourseDao {
 	
 	// 강좌제거
 	int delete(Integer course_id, String user_id) throws Exception;
+	
+	// 강좌수정
+	int update(CourseDto courseDto) throws Exception;
 
 }

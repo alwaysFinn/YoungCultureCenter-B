@@ -30,7 +30,17 @@
 
 	<!-- body -->
 	<div class="container-md mt-5">
-		<h1>강좌${mode=="new" ? "등록페이지" : "상세페이지" }</h1><hr>
+	
+		<!-- 제목 -->
+		<c:if test="${mode eq 'new' }">
+			<h1 id="writing-header">강좌등록페이지</h1>
+		</c:if>
+		<c:if test="${mode ne 'new' }">
+			<h1 id="writing-header">${mode=="modify" ? "강좌수정페이지" : "강좌상세페이지" }</h1>
+		</c:if>
+		<hr>
+		<!-- // 제목 -->
+		
 		<form id="form" class="frm" action="" method="post">
 			<h6>| 강좌상세정보</h6>
 			<div class="row g-0">
@@ -44,8 +54,9 @@
 								<th>강좌명</th>
 								<td><input class="form-control" type="text" name="course_nm" value="${courseDto.course_nm }" ${mode=="new" ? "" : "readonly='readonly'" }></td>
 							</tr>
+							
 							<!-- 출력값 -->
-							<c:if test="${mode ne 'new' }">
+							<c:if test="${mode ne 'new' && mode ne 'modify' }">
 								<tr>
 									<th>강사명</th>
 									<td>${courseDto.user_name }</td>
@@ -55,25 +66,27 @@
 									<td>${courseDto.croom_name }</td>
 								</tr>
 								<tr>
-									<th>접수기간</th> <!-- 캘린더나 드롭박스로 변경 -->
+									<th>접수기간</th>
 									<td>${courseDto.reg_sd() } ~ ${courseDto.reg_ed() }</td>
 								</tr>
 							</c:if>
+							
 							<!-- 입력값 -->
-							<c:if test="${mode eq 'new' }">
+							<c:if test="${mode eq 'new' || mode eq 'modify' }">
 								<tr>
 									<th>강의실</th> <!-- 드롭박스로 변경 -->
-									<td><input class="form-control w-50" type="text" name="croom_id"></td>
+									<td><input class="form-control w-50" type="text" name="croom_id" value="${courseDto.croom_id }"></td>
 								</tr>
 								<tr>
 									<th>접수시작일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_reg_start_date"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_reg_start_date" value="${courseDto.course_reg_start_date }"></td>
 								</tr>
 								<tr>
 									<th>접수마감일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_reg_end_date"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_reg_end_date" value="${courseDto.course_reg_end_date }"></td>
 								</tr>
 							</c:if>
+							
 							<tr>
 								<th>수강료</th>
 								<td><input class="form-control w-50 d-inline" type="text" name="course_cost" value="${courseDto.course_cost }" ${mode=="new" ? "" : "readonly='readonly'" }>원</td>
@@ -93,22 +106,23 @@
 							<colgroup><col width="25%"></colgroup>
 							
 							<!-- 입력값 -->
-							<c:if test="${mode eq 'new' }">
+							<c:if test="${mode eq 'new' || mode eq 'modify' }">
 								<tr>
 									<th>카테고리</th> <!-- dropbox로 변경 -->
-									<td><input class="form-control w-50" type="text" name="course_cate_cd"></td>
+									<td><input class="form-control w-50" type="text" name="course_cate_cd" value="${courseDto.course_cate_cd }"></td>
 								</tr>
 								<tr>
 									<th>수강시작일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_start_date"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_start_date" value="${courseDto.course_start_date }"></td>
 								</tr>
 								<tr>
 									<th>수강종료일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_end_date"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_end_date" value="${courseDto.course_end_date }"></td>
 								</tr>
 							</c:if>
 							<!-- //입력값 -->
 							
+							<!-- 출력값 -->
 							<tr>
 								<th>수강요일</th> <!-- 체크박스로 변경 -->
 								<td><input class="form-control w-75" type="text" name="course_day" value="${courseDto.course_day }" ${mode=="new" ? "" : "readonly='readonly'" }></td>
@@ -117,8 +131,7 @@
 								<th>수강시간</th>
 								<td><input class="form-control w-75" type="text" name="course_time" value="${courseDto.course_time }" ${mode=="new" ? "" : "readonly='readonly'" }></td>
 							</tr>
-							<!-- 출력값 -->
-							<c:if test="${mode ne 'new' }">
+							<c:if test="${mode ne 'new' && mode ne 'modify' }">
 								<tr>
 									<th>수강기간</th> <!-- 캘린더나 드롭박스로 변경 -->
 									<td>${courseDto.course_sd() } ~ ${courseDto.course_ed() }</td>
@@ -135,6 +148,7 @@
 								</tr>
 							</c:if>
 							<!-- //출력값 -->
+							
 							</tbody>
 						</table>
 					</div>
@@ -155,12 +169,12 @@
 					<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
 					type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" >강의계획서</button>
 				</li>
-				<%-- <c:if test="${mode ne 'new' }"> --%>
+				<c:if test="${mode ne 'new' || mode ne 'modify' }">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
 						type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">수강후기</button>
 					</li>
-				<%-- </c:if> --%>
+				</c:if>
 			</ul>
 			
 			<div class="tab-content mt-2" id="myTabContent">
@@ -254,15 +268,20 @@
 						</c:if>
 						
 						<div class="text-end">
-							<c:if test="${mode eq 'new' }">
+							<c:if test="${mode eq 'modify'}">
+								<button type="button" id="courseModifyBtn" class="btn btn-primary btn-modify">수정하기</button>
+							</c:if>
+							<c:if test="${mode eq 'new' } ">
 								<button type="button" id="writeBtn" class="btn btn-primary btn-write">등록</button>
 								<button type="button" id="listBtn" class="btn btn-primary btn-list">목록</button>
 							</c:if>
-							<c:if test="${mode ne 'new' }">
+							<c:if test="${mode ne 'new' && sessionScope.grade == '강사'}">
 								<button type="button" id="writeNewBtn" class="btn btn-primary btn-write">강좌등록</button>
 							</c:if>
-							<c:if test="${courseDto.user_id eq loginId }">
-								<button type="button" id="modifyBtn" class="btn btn-primary btn-modify">수정</button>
+							<c:if test="${courseDto.user_id eq loginId || sessionScope.grade == '관리자' }"> 
+								<c:if test="${mode ne 'modify' }">
+									<button type="button" id="courseModBtn" class="btn btn-primary btn-modify">수정</button>
+								</c:if>
 								<button type="button" id="removeBtn" class="btn btn-danger btn-remove">삭제</button>
 							</c:if>
 						</div>
@@ -318,13 +337,14 @@
 		$(document).ready(function() {
 			let course_id = $("input[name=course_id]").val()
 			
+			// 수강후기 '수정하기'버튼 클릭
 			$("#modifyBtn").click(function() {
 				let review_id = $(this).attr("data-review_id")
 				let review_content = $("textarea[name=review_content]").val()
 				let review_rating = $("select[name=review_rating]").val()
 				
 				if(review_content.trim() == '') {
-					alert("댓글을 입력해주세요.")
+					alert("수강후기을 입력해주세요.")
 					$("textarea[name=review_content]").focus
 					return
 				}
@@ -344,6 +364,7 @@
 				})
 			})
 			
+			// 수강후기 '수정'버튼 클릭
 			$("#reviewList").on("click", "#modBtn", function() {
 				// alert("수정버튼클릭")
 				let review_id = $(this).parent().attr("data-review_id")
@@ -358,6 +379,7 @@
 				$("textarea[name=review_content]").focus()
 			})
 			
+			// 수강후기 '삭제'버튼 클릭
 			$("#reviewList").on("click", "#delBtn", function() {
 				// alert("삭제버튼클릭")
 				let review_id = $(this).parent().attr("data-review_id")
@@ -375,6 +397,7 @@
 				})
 			})
 			
+			// 수강후기 '후기작성'버튼 클릭
 			$("#insertBtn").click(function() {
 				// alert("댓글입력이벤트")
 				let review = $("textarea[name=review_content]").val()
@@ -407,6 +430,7 @@
 				})
 			})
 			
+			// 수강후기리스트 출력
 			let showList = function(course_id) {
 				$.ajax({
 					type : 'GET'
@@ -419,6 +443,7 @@
 			}
 			
 			// alert("ajax")
+			showList(course_id)
 			
 			let toHtml = function(reviews) {
 				let i = 0
@@ -434,6 +459,9 @@
 				tmp += " </thead>"
 				
 				reviews.forEach(function(review) {
+					var userId = '${loginId}'
+					var userIdCheck = ( review.user_id == userId )
+					var sessionGradeCheck = ${sessionScope.grade == '관리자'}
 					i = review.review_id
 					tmp += '<tr>'
 					tmp += ' <td>'+i+'</td>'
@@ -452,13 +480,16 @@
 					tmp += ' 				<div class="col-sm-6 fs-6">작성자:'+review.user_id+'</div>'
 					tmp += ' 			 </div>'
 					tmp += ' 			</div>'
-					tmp += '			<c:if test="${courseDto.user_id eq loginId }">'
-					tmp += ' 			<hr>'
-					tmp += '   		 <div data-review_id='+review.review_id+' data-course_id='+review.course_id+' data-review_rating='+review.review_rating+' class="text-end d-grid d-md-block gap-1">'
-					tmp += '			  <button id="modBtn" class="btn btn-secondary">수정</button>'
-					tmp += '   		  <button id="delBtn" class="btn btn-danger">삭제</button>'
-					tmp += '		   </div>'
-					tmp += '		  </c:if>'
+					tmp += " 			"+ userIdCheck + sessionGradeCheck
+					
+					if(userIdCheck || sessionGradeCheck) {
+						tmp += ' 			<hr>'
+						tmp += '   		 <div data-review_id='+review.review_id+' data-course_id='+review.course_id+' data-review_rating='+review.review_rating+' class="text-end d-grid d-md-block gap-1">'
+						tmp += '			  <button id="modBtn" class="btn btn-secondary">수정</button>'
+						tmp += '   		  <button id="delBtn" class="btn btn-danger">삭제</button>'
+						tmp += '		   </div>'
+					}
+					
 					tmp += ' 		 </div>'
 					tmp += ' 		</div>'
 					tmp += ' 	 </div>'
@@ -472,9 +503,27 @@
 				
 				return tmp += "</table>"
 			}
-			showList(course_id)
-			
+
 			// ==============================================강좌==============================================
+			// 강좌 '수정하기'버튼 클릭
+			$('#courseModifyBtn').on("click", function() {
+				let form = $("#form")
+				
+				form.attr("action", "<c:url value='/course/modify${searchItem.queryString}' />")
+				form.attr("method", "post")
+				
+				form.submit()
+			})
+			
+			// 강좌 '수정'버튼 클릭
+			$("#courseModBtn").on("click", function() {
+				let form = $("#form")
+				$("#writing-header").html("강좌수정페이지")
+				
+				location.href = "<c:url value='/course/modify${pr.sc.queryString }&course_id=${courseDto.course_id }' />"
+			})
+			
+			// 강좌 '삭제'버튼 클릭
 			$("#removeBtn").on("click", function() {
 				if(!confirm("정말로 삭제하시겠습니까?")) return
 				
@@ -484,6 +533,7 @@
 				form.submit()
 			})
 			
+			// 강좌 '등록'버튼 클릭
 			$("#writeBtn").on("click", function() {
 				let form = $('#form')
 				form.attr("action", "<c:url value='/course/write' />")
@@ -500,18 +550,26 @@
 					form.course_nm.focus()
 					return false
 				}
+				if(form.course_info.value == ""){
+					alert("강좌소개를 입력해주세요.")
+					form.course_info.focus()
+					return false
+				}
 				return true
 			}
 			
+			// 강좌 '강좌생성'버튼 클릭
 			$("#writeNewBtn").on("click", function() {
-				location.href = "<c:url value='/course/write' />";
+				location.href = "<c:url value='/course/write' />"
 			})
 			
+			// 강좌 '목록'버튼 클릭
 			$("#listBtn").on("click", function() {
-				location.href = "<c:url value='/course/search${courseSearchItem.queryString}' />";
+				location.href = "<c:url value='/course/search${courseSearchItem.queryString}' />"
 			})
 		})
 	</script>
+	
 	<script type="text/javascript">
 		let msg = "${msg}"
 		if(msg == "WRT_ERR") alert("게시물 등록에 실패하였습니다. 다시 시도해주세요.")

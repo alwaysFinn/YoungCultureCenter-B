@@ -133,9 +133,9 @@
 	
 	<!-- 강좌 상세 보여주기 -->
 	<select id="selectCourseDetail" parameterType="int" resultType="CourseDto">
-		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
-		, course_start_date, course_end_date, course_day, course_time, course_target, course_cost, course_info
-		, tb_course.user_id, course_applicants, croom_name, user_name, croom_mpop, course_rating, review_cnt
+		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date
+		, course_end_date, course_day, course_time, course_target, course_cost, course_info, course_cate_cd, tb_course.user_id
+		, course_applicants, croom_name, user_name, croom_mpop, course_rating, review_cnt, classroom.croom_id
 		FROM tb_course
 		JOIN tb_user
 		ON tb_course.user_id = tb_user.user_id 
@@ -164,6 +164,15 @@
 		<include refid="orderby" />
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select> 
+	
+	<!-- 등록된 강좌 수정 -->
+	<update id="update" parameterType="CourseDto">
+		UPDATE tb_course
+		SET course_nm=#{course_nm}, course_image=#{course_image}, course_reg_start_date=#{course_reg_start_date}::date, course_reg_end_date=#{course_reg_end_date}::date
+		, course_start_date=#{course_start_date}::date, course_end_date=#{course_end_date}::date, course_day=#{course_day}, course_time=#{course_time}, course_target=#{course_target}
+		, course_cost=#{course_cost}, course_info=#{course_info}, croom_id=#{croom_id}, course_cate_cd=#{course_cate_cd}
+		WHERE course_id=#{course_id}
+	</update>
 	
 	<!-- 등록된 강좌 삭제 -->
 	<delete id="delete" parameterType="map">

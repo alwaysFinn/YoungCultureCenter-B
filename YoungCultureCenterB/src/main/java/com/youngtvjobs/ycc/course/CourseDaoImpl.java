@@ -95,6 +95,11 @@ public class CourseDaoImpl implements CourseDao{
 		
 		return session.delete(namespace + "delete", map);
 	}
+	@Override
+	public int update(CourseDto courseDto) throws Exception {
+		// TODO Auto-generated method stub
+		return session.update(namespace + "update", courseDto);
+	}
 	
 
 

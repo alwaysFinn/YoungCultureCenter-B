@@ -42,9 +42,9 @@
 		<h2>수강신청</h2>
 		<hr>
 		<form action="" method="get">
-			<div class="searchBox p-3">
-				<div class="row gap-1 mb-2">
-					<div class="col-md-3">
+			<div class="searchBox row p-3 d-flex" style="justify-content: space-around;">
+				<div class="col-md-10 row">
+					<div class="col-md-4">
 						<div class="row">
 							<label for="sidebar-position2" class="col-4 align-self-center text-center">분류</label>
 							<div class="col-8">
@@ -57,7 +57,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
+				<div class="col-md-4">
 						<div class="row">
 							<label for="sidebar-position2" class="col-4 align-self-center text-center">수강대상</label>
 							<div class="col-8">
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<div class="row">
 							<label for="sidebar-position3" class="col-4 align-self-center text-center">접수상태</label>
 							<div class="col-8">
@@ -83,18 +83,20 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-2 d-grid d-md-block">
-						<button onclick="test()" class="btn btn-danger">초기화</button>
+						<div role="search" class="col-md-12">
+							<input class="form-control" type="text" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요" aria-label="Search" id="keyword">
+						</div>
+					</div>
+				<div class="col-md-2 align-items-center gap-2" style="display: -webkit-inline-box;">
+						<div class="col-md-6">
+							<input type="submit" class="btn btn-primary" value="검색" style="width:100%; height:100%;">
+						</div>
+					<div class="col-md-6" >
+						<button onclick="test()" class="btn btn-outline-primary" style="width:100%; height:100%;">초기화</button>
 					</div>
 				</div>
-				<div role="search" class="row gap-1">
-					<div class="col-md-9">
-						<input class="form-control" type="text" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요" aria-label="Search" id="keyword">
-					</div>
-					<div class="col-md-2 d-grid d-md-block">
-						<input type="submit" class="btn btn-primary" value="검색">
-					</div>
-				</div>
+			
+				
 			</div>
 			<div class="row py-3 float-end gap-1">
 				<select class="form-select col-auto" name="orderby" aria-label=".form-select-sm example" style="width: auto;">
@@ -128,14 +130,16 @@
 						<td>${courseDto.user_name }</td>
 						<td>${courseDto.course_cost }원</td>
 						<td>${courseDto.reg_sd() }<br>~${courseDto.reg_ed() }</td>
-						<td class="${courseDto.course_stat() == '접수가능' ? 'text-primary' : 'text-secondary' } ${courseDto.course_stat() == '정원마감' ? 'text-danger' : '' }">${courseDto.course_stat() }</td>
+						<td><button class="${courseDto.course_stat() == '접수가능' ? 'btn btn-primary' : 'btn btn-secondary' } ${courseDto.course_stat() == '정원마감' ? 'btn btn-danger' : '' }">${courseDto.course_stat() }</button> </td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<div class="text-end">
-			<button id="writeBtn" class="btn btn-primary btn_write" onclick="location.href='<c:url value="/course/write" />' ">강좌등록</button>
-		</div>
+		<c:if test="${sessionScope.grade == '강사' }">
+			<div class="text-end">
+				<button id="writeBtn" class="btn btn-primary btn_write" onclick="location.href='<c:url value="/course/write" />' ">강좌등록</button>
+			</div>
+		</c:if>
 		<nav aria-label="Page navigation example">
 			<c:if test="${totalCnt == null || totalCnt == 0}">
 				<div class="text-center mb-5">게시물이 없습니다.</div>
