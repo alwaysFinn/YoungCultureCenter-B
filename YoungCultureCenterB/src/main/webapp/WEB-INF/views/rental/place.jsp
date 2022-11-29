@@ -26,53 +26,14 @@
                         <div class="rentalnotice  border border-dark" style="margin: 20px auto 30px auto">
                             <ol class="fs-7">
                                 <h3>대관 신청 시 주의사항</h3>
-                                <li>수험표를 교부</li>
-                                <li>시험당일 수험표와 주민등록증 또는 본인임을 입증할 수 있는 신분증을 반드시 지참</li>
-                                <li>모든 수험생은 시험 당일 시험장 내에서 마스크 착용 등 시험장 방역 지침을 반드시 준수</li>
-                                <li>모든 수험생은 모든 물품에 대한 관리 절차 및 감독관의 지시에 따라야 함.</li>
-                                <li>시험장 반입 금지 물품 → 시험장에 가지고 올 수 없는 물품(시험시간, 쉬는 시간 불문하고 적발시 부정행위
-                                    처리)</li>
+                                <li>대관 현황 메뉴에서 사용하시고자 하는 시간과 공간의 예약 현황을 먼저 확인하신 후 대관 신청해주십시오.</li>
+                                <li>사용자가 사용예정일포함 4일 전에 계약 해지를 서면으로 통보하여 승인을 얻은 경우 납부액의 100% 환불이 가능합니다.</li>
+                                <li>회비 및 참가비가 있는 수익성 사업이나 공연(1~2인 소규모 공연도 해당)이 포함된 행사 및 정치ㆍ종교성 행사는 대관할 수 없습니다.</li>
+                                <li>대관료는 대관 희망일 포함 4일 전까지 입금 해주셔야 하며, 입금하지 않은 행사는 대관 취소 처리되어 사용이 불가능합니다.</li>
+                                <li>행사 시 음식물이 포함된 케이터링은 불가합니다. (김밥, 샌드위치, 햄버거 등 냄새가 많이 나는 음식물 반입 불가)</li>
                             </ol>
                         </div>
-                        
-
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-6 " id="change">
-                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="embed-responsive embed-responsive-4by3">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <img src="<%=request.getContextPath()%>/resources/img/rental/1f.jpg"
-                                                    class="d-block w-100 embed-responsive-item" alt="1층 시설 안내">
-                                            </div>
-                                            <div class="carousel-item">
-                                                <img src="<%=request.getContextPath()%>/resources/img/rental/2f.jpg"
-                                                    class="d-block w-100 embed-responsive-item" alt="2층 시설 안내">
-                                            </div>
-                                            <div class="carousel-item">
-                                                <img src="<%=request.getContextPath()%>/resources/img/rental/3f.jpg"
-                                                    class="d-block w-100 embed-responsive-item" alt="3층 시설 안내">
-                                            </div>
-                                            <div class="carousel-item">
-                                                <img src="<%=request.getContextPath()%>/resources/img/rental/4f.jpg"
-                                                    class="d-block w-100 embed-responsive-item" alt="4층 시설 안내">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="carousel-control-prev" type="button"
-                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">이전</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button"
-                                        data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">다음</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6" style="text-align: center;">
-                                <h3 style="margin-bottom: 50px;">
+                        <h3 style="margin-bottom: 50px;">
                                     <strong>[조건 설정]</strong>
                                 </h3>
                                 <p>
@@ -126,6 +87,63 @@
 
 
                                 <!--대관 장소 선택 끝-->
+
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-6 " id="change">
+                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img src="<%=request.getContextPath()%>/resources/img/rental/1f.jpg"
+                                                    class="d-block w-100 embed-responsive-item" alt="1층 시설 안내">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="<%=request.getContextPath()%>/resources/img/rental/2f.jpg"
+                                                    class="d-block w-100 embed-responsive-item" alt="2층 시설 안내">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="<%=request.getContextPath()%>/resources/img/rental/3f.jpg"
+                                                    class="d-block w-100 embed-responsive-item" alt="3층 시설 안내">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="<%=request.getContextPath()%>/resources/img/rental/4f.jpg"
+                                                    class="d-block w-100 embed-responsive-item" alt="4층 시설 안내">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">이전</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">다음</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6" style="text-align: center;">
+                                <form id="form" class="frm" action="" method="post">
+			                        <table class="table table-striped">
+			                            <thead>
+			                                <tr>
+			                                    <th scope="col" style="text-align: center;">시간</th>
+			                                    <th scope="col" style="text-align: center;">예약</th>
+			                                </tr>
+			                            </thead>
+			                            <tbody>
+				                            	<div id="Chktime">
+													<c:forEach items="${timelist}" var="rentalDto">
+														<tr>
+														<td data-time=${rentalDto.prtime_schedule }><c:out value="${rentalDto.prtime_schedule }"/></td>
+														<td><input type="checkbox"></td>
+														</tr>
+													</c:forEach>
+												</div>
+				                        </tbody>
+			                        </table>
+			                    </form>
                             </div>
                         </div>
                     </div>
@@ -136,74 +154,16 @@
                         <br>
                         <hr>
                         <br>
-						<form id="form" class="frm" action="" method="post">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col" style="text-align: center;">대관 장소</th>
-                                    <th scope="col" style="text-align: center;">시간</th>
-                                    <th scope="col" style="text-align: center;">예약일</th>
-                                    <th scope="col" style="text-align: center;">예약</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-	                                <tr>
-	                                    <td class="rentalplace"></td>
-	                                    <td class="rentaltime">08:00 ~ 10:10</td>
-	                                    <td class="rentaldate">$($("input[name=rday]").val()).val()</td>
-	                                    <td class="rentalyn"><input type="checkbox"></td>
-	                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>10:20 ~ 12:10</td>
-                                    <td></td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-                                <tr>
-                                    <td id="testtesttest"></td>
-                                    <td>12:20 ~ 14:10</td>
-                                    <td id="rsdate"></td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>14:20 ~ 16:10</td>
-                                    <td>
-                                       
-                                    </td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>16:20 ~ 18:10</td>
-                                    <td>
-                                        
-                                    </td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>18:20 ~ 20:00</td>
-                                    <td>
-                                       
-                                    </td>
-                                    <td><input type="checkbox"></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                        </form>
+						
                         <div id="rentaltable">
                             <!-- ajax에서 값 나올 부분 -->
                         </div>
 
-						<%-- <c:forEach items="${timelist}" var="timelist">
-							${timelist.prtime_schedule }
-						</c:forEach> --%> 
+						
                         
                         <button id="Tstbutton">테스트 버튼</button>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary " data-bs-toggle="modal"
+                        <button type="button" id="modalBtn" class="btn btn-primary " data-bs-toggle="modal"
                             data-bs-target="#exampleModal">신청하기</button>
                     </div>
 
@@ -231,19 +191,17 @@
                                             </tr>
                                             <tr>
                                                 <th>시설명</th> <!-- =croom_name -->
-                                                <td colspan="3">
-                                                    <!-- 대관 페이지에서 선택한 장소 -->${rentalDto.croom_name }
+                                                <td id="Chkplace" colspan="3">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>예약 날짜</th><!-- = prental_de -->
-                                                <td colspan="3" onchange="printDate()">
-                                                    <!-- 대관 페이지에서 선택한 날짜 -->${rentalDto.prental_de }
+                                                <td id="Chkdate" colspan="3" onchange="printDate()">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>예약 시간</th><!-- = prental_time_info -->
-                                                <td colspan="3" onchange="">
+                                                <td id="Chktime" colspan="3" onchange="">
                                                     <!-- onchange 안에 새로운 함수 넣을 것 -->
                                                     <!-- 대관 테이블(하단)에서 체크박스로 체크한 시간들(1,2,...) -->
                                                 </td>
@@ -259,7 +217,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                    <button type="button" class="btn btn-primary">확인</button>
+                                    <button type="button" class="btn btn-primary" id="renBtn">확인</button>
                                     <!-- 확인 버튼 누를 시 모달에서 보여준 값들 DB로 넘어감 -->
                                 </div>
                             </div>
@@ -378,15 +336,23 @@
                                 })
                             }) */
 
-                            $("#Tstbutton").on("click", function(){
+                            $("#modalBtn").on("click", function(){
                             	
                             	
+                            	//클릭 시 장소값 넘겨주는 기능
+                            	const area = document.getElementById('Chkplace')
+                            	area.innerHTML = document.getElementById("pickplace").value
                             	
-                            	const element = document.getElementById('testtesttest')
-                            	element.innerHTML = document.getElementById("pickplace").value
-                            	
-                            	const date = document.getElementById('rsdate')
+                            	//클릭 시 일자값 넘겨주는 기능
+                            	const date = document.getElementById('Chkdate')
                             	date.innerHTML = document.getElementById("datetime-local").value
+                            	
+                            	/*
+                            	//클릭 시 시간값 넘겨주는 기능
+                            	const time = document.getElementById('Chktime')
+                            	time.innerHTML = document.getElementById("시간이 들어갈 부분 ID".value)
+                            	*/
+                            	
                             	
                             
                             	
@@ -424,16 +390,14 @@
                             } */
 
 
-							let rlawlgh = 
-
-
-
                             //현재 시간보다 이전의 시간은 선택할 수 없는 기능
                             /* let dateElement = document.getElementById('datetime-local');	//datetime-local의 값 가져옴
                             let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
+							let maxdate = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5) + n일 이후 설정 할 부분
                             dateElement.value = date;	//현재 날짜로 date 설정
                             dateElement.setAttribute("min", date); 
 
+                            //만약 선택 날짜가 오늘 날짜보다 예전일 경우 알람을 띄워주는 기능
                             function setMinValue() {
                                 if (dateElement.value < date) {//선택한 날짜 < 현 날짜
                                     alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
@@ -441,21 +405,15 @@
                                 }
                             } */
                             
-                            
-                            // 원하는 곳에 선택한 날짜값 입력하는 함수
-                            function printDate() { const date = document.getElementById('datetime-local').value; document.getElementById("rsdate").innerText = date; }
-
-                            function handleOnChange(e) {
-                                // 선택된 데이터의 텍스트값 가져오기
-                                const text = e.options[e.selectedIndex].text;
-
-                                console.log(e.options);
-
-                                // 선택한 텍스트 출력
-                                document.getElementByName('rtime').innerText
-                                    = text;
+                            /*
+                            //만약 선택 날짜가 오늘 날짜 + n일 이후(maxdate)이면 알람을 띄워주는 기능
+                            function setMaxValue() {
+                            	if(deteElement.value > maxdate) {
+                            		alert('예약은 최대 n일 이후까지 가능합니다.');
+                            		dateElement.value = date;
+                            	}
                             }
-                            
+                            */
                             
                             let msg = "${msg}"
                             if (msg == "REN_OK") alert("예약신청을 완료했습니다.")

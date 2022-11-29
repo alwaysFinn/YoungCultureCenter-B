@@ -7,7 +7,7 @@
 
 	  <!-- 대관 시간 선택에 보여질 시간을 불러오는 sql문 -->
 	  <select id="selectSchedule" resultType="RentalDto">
-	  	SELECT * from rental_time
+	  	SELECT prtime_schedule from rental_time
 	  </select>
 	  
 	  <!-- selectBox에서 장소 고를때 장소를 불러오는 sql문 -->
@@ -27,6 +27,6 @@
 	  <insert id="insertRentalinfo" parameterType="RentalDto">
 	  	INSERT INTO prental_info
 		prental_de, prtime_schedule, user_id, croom_id
-		VALUES(#{prental_de}::date, #{prental_time_info}, #{user_id}, #{croom_id})
+		VALUES(#{prental_de}::date, #{prtime_schedule}, #{user_id}, #{croom_id})
 	  </insert>
   </mapper>

@@ -69,6 +69,11 @@ public class RentalDto {
 	 * return prental_date; }
 	 */
 	
+	/*
+	public boolean rental_stat() {
+		예약 유효성 체크용
+	}*/
+	
 	
 	
 
@@ -88,14 +93,14 @@ public class RentalDto {
 		this.prental_de = prental_de;
 	}
 
-	public String prtime_schedule() {
+	public String getPrtime_schedule() {
 		return prtime_schedule;
 	}
 
 	public void setprtime_schedule(String prtime_schedule) {
 		this.prtime_schedule = prtime_schedule;
 	}
-
+	
 	public String getUser_id() {
 		return user_id;
 	}
