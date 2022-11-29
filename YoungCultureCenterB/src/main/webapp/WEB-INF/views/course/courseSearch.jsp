@@ -135,7 +135,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<c:if test="${sessionScope.grade == '강사' }">
+		<c:if test="${sessionScope.grade == '강사' || sessionScope.grade == '관리자' }">
 			<div class="text-end">
 				<button id="writeBtn" class="btn btn-primary btn_write" onclick="location.href='<c:url value="/course/write" />' ">강좌등록</button>
 			</div>

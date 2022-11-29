@@ -52,7 +52,7 @@
 							<colgroup><col width="25%"></colgroup>
 							<tr>
 								<th>강좌명</th>
-								<td><input class="form-control" type="text" name="course_nm" value="${courseDto.course_nm }" ${mode=="new" ? "" : "readonly='readonly'" }></td>
+								<td><input class="form-control" type="text" name="course_nm" value="${courseDto.course_nm }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>
 							</tr>
 							
 							<!-- 출력값 -->
@@ -79,21 +79,21 @@
 								</tr>
 								<tr>
 									<th>접수시작일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_reg_start_date" value="${courseDto.course_reg_start_date }"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_reg_start_date" value="${courseDto.reg_sd() }"></td>
 								</tr>
 								<tr>
 									<th>접수마감일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_reg_end_date" value="${courseDto.course_reg_end_date }"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_reg_end_date" value="${courseDto.reg_ed() }"></td>
 								</tr>
 							</c:if>
 							
 							<tr>
 								<th>수강료</th>
-								<td><input class="form-control w-50 d-inline" type="text" name="course_cost" value="${courseDto.course_cost }" ${mode=="new" ? "" : "readonly='readonly'" }>원</td>
+								<td><input class="form-control w-50 d-inline" type="text" name="course_cost" value="${courseDto.course_cost }" ${mode=="new" || mode=="modify" ? "" : "readonly" }>원</td>
 							</tr>
 							<tr>
 								<th>수강대상</th> <!-- 드롭박스로 변경 -->
-								<td><input class="form-control w-50" type="text" name="course_target" value="${courseDto.course_target }" ${mode=="new" ? "" : "readonly='readonly'" }></td>
+								<td><input class="form-control w-50" type="text" name="course_target" value="${courseDto.course_target }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>
 							</tr>
 							</tbody>
 						</table>
@@ -113,11 +113,11 @@
 								</tr>
 								<tr>
 									<th>수강시작일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_start_date" value="${courseDto.course_start_date }"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_start_date" value="${courseDto.course_sd() }"></td>
 								</tr>
 								<tr>
 									<th>수강종료일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_end_date" value="${courseDto.course_end_date }"></td>
+									<td><input class="form-control w-75" type="date" id="date" name="course_end_date" value="${courseDto.course_ed() }"></td>
 								</tr>
 							</c:if>
 							<!-- //입력값 -->
@@ -125,15 +125,15 @@
 							<!-- 출력값 -->
 							<tr>
 								<th>수강요일</th> <!-- 체크박스로 변경 -->
-								<td><input class="form-control w-75" type="text" name="course_day" value="${courseDto.course_day }" ${mode=="new" ? "" : "readonly='readonly'" }></td>
+								<td><input class="form-control w-75" type="text" name="course_day" value="${courseDto.course_day }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>
 							</tr>
 							<tr>
 								<th>수강시간</th>
-								<td><input class="form-control w-75" type="text" name="course_time" value="${courseDto.course_time }" ${mode=="new" ? "" : "readonly='readonly'" }></td>
+								<td><input class="form-control w-75" type="text" name="course_time" value="${courseDto.course_time }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>
 							</tr>
 							<c:if test="${mode ne 'new' && mode ne 'modify' }">
 								<tr>
-									<th>수강기간</th> <!-- 캘린더나 드롭박스로 변경 -->
+									<th>수강기간</th>
 									<td>${courseDto.course_sd() } ~ ${courseDto.course_ed() }</td>
 								</tr>
 								<tr>
@@ -243,7 +243,7 @@
 								</tr>
 								<tr>
 									<th>강좌 소개</th>
-									<td><textarea class="form-control-plaintext" rows="20" name="course_info" ${mode=="new" ? "" : "readonly='readonly'" }>${courseDto.course_info }</textarea></td>
+									<td><textarea class="form-control-plaintext" rows="20" name="course_info" ${mode=="new" || mode=="modify" ? "" : "readonly" }>${courseDto.course_info }</textarea></td>
 								</tr>
 							</tbody>
 						</table>
@@ -268,22 +268,29 @@
 						</c:if>
 						
 						<div class="text-end">
+							
 							<c:if test="${mode eq 'modify'}">
 								<button type="button" id="courseModifyBtn" class="btn btn-primary btn-modify">수정하기</button>
 							</c:if>
-							<c:if test="${mode eq 'new' } ">
+							
+							<c:if test="${mode eq 'new' }">
 								<button type="button" id="writeBtn" class="btn btn-primary btn-write">등록</button>
 								<button type="button" id="listBtn" class="btn btn-primary btn-list">목록</button>
 							</c:if>
-							<c:if test="${mode ne 'new' && sessionScope.grade == '강사'}">
+							
+							<c:if test="${mode ne 'new' && sessionScope.grade == '강사' }">
 								<button type="button" id="writeNewBtn" class="btn btn-primary btn-write">강좌등록</button>
 							</c:if>
+							
 							<c:if test="${courseDto.user_id eq loginId || sessionScope.grade == '관리자' }"> 
-								<c:if test="${mode ne 'modify' }">
+								<c:if test="${mode ne 'modify' && mode ne 'new'}">
 									<button type="button" id="courseModBtn" class="btn btn-primary btn-modify">수정</button>
 								</c:if>
-								<button type="button" id="removeBtn" class="btn btn-danger btn-remove">삭제</button>
+								<c:if test="${mode ne 'new' }">
+									<button type="button" id="removeBtn" class="btn btn-danger btn-remove">삭제</button>
+								</c:if>
 							</c:if>
+							
 						</div>
 					</div>
 
@@ -517,10 +524,11 @@
 			
 			// 강좌 '수정'버튼 클릭
 			$("#courseModBtn").on("click", function() {
-				let form = $("#form")
-				$("#writing-header").html("강좌수정페이지")
-				
 				location.href = "<c:url value='/course/modify${pr.sc.queryString }&course_id=${courseDto.course_id }' />"
+				$("input[name='course_nm']").attr("readonly", false)
+				$("textarea[name='course_info']").removeAttr("readonly")
+					
+				
 			})
 			
 			// 강좌 '삭제'버튼 클릭
