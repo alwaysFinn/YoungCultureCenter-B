@@ -78,7 +78,7 @@
                                 <p>
                                 <h5>대관 장소 선택</h5>
 
-                                <select id="selectplace" name="selectplace">
+                                <select id="pickplace" name="selectplace">
                                     <option value="">장소 선택</option>
                                     <optgroup label="외부">
                                         <!-- 외부 location code = 0 -->
@@ -114,8 +114,7 @@
                                     </optgroup>
                                 </select>
                                 </p>
-
-
+                                
                                 <!--추후 개발 시 수정할 부분(yyyy-mm-dd 에서 '-'제거 , T~ 제거)-->
                                 <p>
                                     <label for="datetime-local">
@@ -137,7 +136,7 @@
                         <br>
                         <hr>
                         <br>
-
+						<form id="form" class="frm" action="" method="post">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -148,35 +147,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach var="rentalDto" items="${list }">
 	                                <tr>
-	                                    <td class="rentalplace">${rentalDto.croom_name }</td>
+	                                    <td class="rentalplace"></td>
 	                                    <td class="rentaltime">08:00 ~ 10:10</td>
-	                                    <td class="rentaldate">${rentalDto.prental_de }</td>
+	                                    <td class="rentaldate">$($("input[name=rday]").val()).val()</td>
 	                                    <td class="rentalyn"><input type="checkbox"></td>
 	                                </tr>
-                                </c:forEach>
                                 <tr>
                                     <td></td>
                                     <td>10:20 ~ 12:10</td>
-                                    <td>
-                                        <div name="rsdate"></div>
-                                    </td>
+                                    <td></td>
                                     <td><input type="checkbox"></td>
                                 </tr>
                                 <tr>
-                                    <td></td>
+                                    <td id="testtesttest"></td>
                                     <td>12:20 ~ 14:10</td>
-                                    <td>
-                                        <div name="rsdate"></div>
-                                    </td>
+                                    <td id="rsdate"></td>
                                     <td><input type="checkbox"></td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td>14:20 ~ 16:10</td>
                                     <td>
-                                        <div name="rsdate"></div>
+                                       
                                     </td>
                                     <td><input type="checkbox"></td>
                                 </tr>
@@ -184,7 +177,7 @@
                                     <td></td>
                                     <td>16:20 ~ 18:10</td>
                                     <td>
-                                        <div name="rsdate"></div>
+                                        
                                     </td>
                                     <td><input type="checkbox"></td>
                                 </tr>
@@ -192,16 +185,22 @@
                                     <td></td>
                                     <td>18:20 ~ 20:00</td>
                                     <td>
-                                        <div name="rsdate"></div>
+                                       
                                     </td>
                                     <td><input type="checkbox"></td>
                                 </tr>
 
                             </tbody>
                         </table>
+                        </form>
                         <div id="rentaltable">
-                            <!-- 값ㄴ 나올 부분 -->
+                            <!-- ajax에서 값 나올 부분 -->
                         </div>
+
+						<%-- <c:forEach items="${timelist}" var="timelist">
+							${timelist.prtime_schedule }
+						</c:forEach> --%> 
+                        
                         <button id="Tstbutton">테스트 버튼</button>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary " data-bs-toggle="modal"
@@ -268,7 +267,6 @@
                     </div>
 
                     <script type="text/javascript">
-                    	const selectPlace = document.getElementById('selectplace');
                         $(document).ready(function () {
 
 
@@ -317,7 +315,6 @@
                                 tmp += '</tr>'
                                 tmp += '</thead>'
                                 tmp += '<tbody>'
-                                tmp += prints.croom_name
                                 
                                 	/* $.each(result,function(index, item) {
                                     	$("#rentaltable").append(index + "")
@@ -334,7 +331,7 @@
                                 	 prints.forEach(function(print){
                                 		tmp += '<tr>'
                                         tmp += '<td data-rentalarea= ' + print.croom_id + '>'+print.croom_id+'</td>'
-                                        tmp += '<td></td>'
+                                        tmp += '<td>'+print.user_id+'</td>'
                                         tmp += '<td data-rentaldate= ' + print.prental_de + '>'+print.prental_de+'</td>'
                                         tmp += '<td><input type="checkbox" id="cbox" name="cbox"></td>' 
                                         tmp += '</tr>'
@@ -347,7 +344,20 @@
 
 
                             }
-
+                            
+                            /* var selectBoxCheck = document.getElementByid("selectplace")
+                            function onChange() {
+                            	var text = selectBoxCheck.option[selectBoxCheck.selectedIndex].text
+                            	console.log(text)
+                            }
+                            selectBoxCheck.onchange = onChange; */
+                            
+                            /*function checkSelectBox() {
+                            	document.getElementById("rentalplace").value = document.getElementById("selectplace").value
+                            }*/  //1트
+                            
+                      
+                                                        
                             //showList(prental_id)
                             //체크박스가 체크되어 있는지 확인하는 기능
                             /* $("#Tstbutton").click(function(){
@@ -368,16 +378,53 @@
                                 })
                             }) */
 
-                            $("#Tstbutton").click(function () {
-                                $('input:checkbox[name=cbox]').each(function (index) {
-                                    if ($(this).is(":checked") == true) {
-                                        alert($(this).val())
-                                    }
-                                })
+                            $("#Tstbutton").on("click", function(){
+                            	
+                            	
+                            	
+                            	const element = document.getElementById('testtesttest')
+                            	element.innerHTML = document.getElementById("pickplace").value
+                            	
+                            	const date = document.getElementById('rsdate')
+                            	date.innerHTML = document.getElementById("datetime-local").value
+                            	
+                            
+                            	
+                            	/* const dateelement = document.getElementById('datetime-local')
+                            	element.innerHTML = document.getElementByName("pickdate").value */
+                            	
+                            	/* let form = $("#form")
+                            	form.attr("method", "post")
+                            	
+                            	if(formCheck())
+                            		form.submit() */
+                            	
                             })
+                            
+                            /* let formCheck = function() {
+                            	let form = document.getElementById("form")
+                            	if(form.selectplace.value=="") {
+                            		alert("장소를 선택하세요")
+                            		form.selectplace.focus()
+                            		return false
+                            	}
+                            	
+                            	if(form.rday.value=="") {
+                            		alert("날짜를 선택하세요")
+                            		form.rday.focus()
+                            		return false
+                            	}
+                            	
+                            	if(form.cbox.value=="") {
+                            		alert("예약하실 부분에 체크해주세요")
+                            		form.cbox.focus()
+                            		return false
+                            	}
+                            	return true
+                            } */
 
 
-
+							let rlawlgh = 
 
 
 
@@ -385,14 +432,16 @@
                             /* let dateElement = document.getElementById('datetime-local');	//datetime-local의 값 가져옴
                             let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
                             dateElement.value = date;	//현재 날짜로 date 설정
-                            dateElement.setAttribute("min", date); */
+                            dateElement.setAttribute("min", date); 
 
                             function setMinValue() {
                                 if (dateElement.value < date) {//선택한 날짜 < 현 날짜
                                     alert('현재 시간보다 이전의 날짜는 설정할 수 없습니다.');
                                     dateElement.value = date;
                                 }
-                            }
+                            } */
+                            
+                            
                             // 원하는 곳에 선택한 날짜값 입력하는 함수
                             function printDate() { const date = document.getElementById('datetime-local').value; document.getElementById("rsdate").innerText = date; }
 
@@ -406,17 +455,8 @@
                                 document.getElementByName('rtime').innerText
                                     = text;
                             }
-
-                            //select 에서 값 가져오기 //미적용
-                            /*  const showValue = (target) => {
-                                 const value = target.value;
-                                 const text =  target.options[target.selectedIndex].text;
-                                 
-                                 document.querySelector(`div`).innerHTML = `text: ${text} value: ${value}`;
-                               }
-                           
-                             }) */
-
+                            
+                            
                             let msg = "${msg}"
                             if (msg == "REN_OK") alert("예약신청을 완료했습니다.")
                             if (msg == "REN_ERR") alert("예약신청에 실패했습니다.")

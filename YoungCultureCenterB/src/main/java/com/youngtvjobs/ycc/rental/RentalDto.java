@@ -9,7 +9,7 @@ public class RentalDto {
 
 	private Integer prental_id; // 대여예약번호(pk)
 	private Date prental_de; // 대여날짜
-	private int prental_time_info;// 대여시간
+	private String prtime_schedule;// 대여시간
 	private String user_id; // 회원아이디 (fk)
 	private String croom_id; // 강의실 코드 (fk) classroom의 pk
 	// end of tb_prental_info(대관현황)
@@ -32,14 +32,14 @@ public class RentalDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public RentalDto(Integer prental_id, Date prental_de, int prental_time_info, String user_id, String croom_id,
+	public RentalDto(Integer prental_id, Date prental_de, String prtime_schedule, String user_id, String croom_id,
 			String croom_location, int croom_mpop, String croom_name, String locker_id, String locker_location,
 			Date locker_start_date, int locker_cost, Date locker_end_date, int sroom_seat_id, Date sroom_entry_time,
 			Date sroom_checkout_time) {
 		// super();
 		this.prental_id = prental_id;
 		this.prental_de = prental_de;
-		this.prental_time_info = prental_time_info;
+		this.prtime_schedule = prtime_schedule;
 		this.user_id = user_id;
 		this.croom_id = croom_id;
 		this.croom_location = croom_location;
@@ -88,12 +88,12 @@ public class RentalDto {
 		this.prental_de = prental_de;
 	}
 
-	public Integer getprental_time_info() {
-		return prental_time_info;
+	public String prtime_schedule() {
+		return prtime_schedule;
 	}
 
-	public void setprental_time_info(Integer prental_time_info) {
-		this.prental_time_info = prental_time_info;
+	public void setprtime_schedule(String prtime_schedule) {
+		this.prtime_schedule = prtime_schedule;
 	}
 
 	public String getUser_id() {
@@ -203,7 +203,7 @@ public class RentalDto {
 	@Override
 	public int hashCode() {
 		return Objects.hash(croom_id, croom_location, croom_mpop, croom_name, locker_cost, locker_end_date, locker_id,
-				locker_location, locker_start_date, prental_de, prental_time_info, prental_id, sroom_checkout_time,
+				locker_location, locker_start_date, prental_de, prtime_schedule, prental_id, sroom_checkout_time,
 				sroom_entry_time, sroom_seat_id, user_id);
 	}
 
@@ -221,7 +221,7 @@ public class RentalDto {
 				&& locker_cost == other.locker_cost && Objects.equals(locker_end_date, other.locker_end_date)
 				&& Objects.equals(locker_id, other.locker_id) && Objects.equals(locker_location, other.locker_location)
 				&& Objects.equals(locker_start_date, other.locker_start_date)
-				&& Objects.equals(prental_de, other.prental_de) && prental_time_info == other.prental_time_info
+				&& Objects.equals(prental_de, other.prental_de) && prtime_schedule == other.prtime_schedule
 				&& prental_id == other.prental_id && Objects.equals(sroom_checkout_time, other.sroom_checkout_time)
 				&& Objects.equals(sroom_entry_time, other.sroom_entry_time) && sroom_seat_id == other.sroom_seat_id
 				&& Objects.equals(user_id, other.user_id);
@@ -229,8 +229,8 @@ public class RentalDto {
 
 	@Override
 	public String toString() {
-		return "RentalDto [prental_id=" + prental_id + ", prental_de=" + prental_de + ", prental_time_info="
-				+ prental_time_info + ", user_id=" + user_id + ", croom_id=" + croom_id + ", croom_location="
+		return "RentalDto [prental_id=" + prental_id + ", prental_de=" + prental_de + ", prtime_schedule="
+				+ prtime_schedule + ", user_id=" + user_id + ", croom_id=" + croom_id + ", croom_location="
 				+ croom_location + ", croom_mpop=" + croom_mpop + ", croom_name=" + croom_name + ", locker_id="
 				+ locker_id + ", locker_location=" + locker_location + ", locker_start_date=" + locker_start_date
 				+ ", locker_cost=" + locker_cost + ", locker_end_date=" + locker_end_date + ", sroom_seat_id="
@@ -238,14 +238,5 @@ public class RentalDto {
 				+ sroom_checkout_time + "]";
 	}
 	
-	
-		
-
-	//db에서 timestamp로 정의된 값을 string으로 바꾸는 메서드
-	/*public static String date_toString(Date date) {
-		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String prental_de = sdf.format(date);
-		return prental_de;	
-	}*/
 
 }

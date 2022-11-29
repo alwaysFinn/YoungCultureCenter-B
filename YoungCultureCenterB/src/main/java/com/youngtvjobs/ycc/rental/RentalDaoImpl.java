@@ -17,6 +17,11 @@ public class RentalDaoImpl implements RentalDao{
 	private static String namespace = "com.youngtvjobs.ycc.rental.rentalMapper.";
 
 	@Override
+	public List<RentalDto> selecttime() throws Exception {
+		return session.selectList(namespace + "selectSchedule");
+	}
+	
+	@Override
 	public List<RentalDto> select() throws Exception {
 		return session.selectList(namespace + "selectRentalPlace");
 	}
@@ -44,6 +49,8 @@ public class RentalDaoImpl implements RentalDao{
 	public int insertRentalinfo(RentalDto dto) throws Exception {
 		return session.insert(namespace + "insertRentalinfo", dto);
 	}
+
+	
 	
 
 }

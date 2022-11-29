@@ -45,8 +45,7 @@ public class RentalController {
 	// 대관신청
 
 	@GetMapping("/rental/place")
-	// Dto에서 장소들 이름 받아와 selectBox에 출력해주는 메서드 //애초에 이부분을 하나의 mapping으로 정의해야하는 필요성을 잘
-	// 모르겠음
+	// Dto에서 장소들 이름 받아와 selectBox에 출력해주는 메서드
 
 	public String selectpage(Model m, HttpServletRequest request) {
 		// 로그인 확인
@@ -57,6 +56,11 @@ public class RentalController {
 		try {
 			List<RentalDto> placelist = rentalService.selectRentalPlace();
 			m.addAttribute("placelist", placelist);
+			System.out.println(placelist);
+			
+			List<RentalDto> timelist = rentalService.selectschedule();
+			m.addAttribute("timelist", timelist);
+			System.out.println(timelist);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,29 +106,19 @@ public class RentalController {
 	@PostMapping("/rental/place")
 	public String rental(RentalDto rentalDto, RedirectAttributes rattr, HttpSession session, Model m) throws Exception{
 		
-		m.addAttribute("rentalDto", rentalService.rental(rentalDto));
-		
-		String user = (String)session.getAttribute("id");
-		int prental_time_info = rentalDto.getprental_time_info();
-		Date prental_de = rentalDto.getPrental_de();
-		String croom_id = rentalDto.getCroom_id();
-		
-		rentalDto.setUser_id(user);
-		rentalDto.setprental_time_info(prental_time_info);
-		rentalDto.setPrental_de(prental_de);
-		rentalDto.setCroom_id(croom_id);
-		System.out.println("rentalDto = " + rentalDto);
+		String customer = (String)session.getAttribute("id");
+		rentalDto.setUser_id(customer);
 		
 		try {
 			if(rentalService.rental(rentalDto) != 1)
-				throw new Exception("rental failed");
+				throw new Exception("Rental Failed");
+			rattr.addFlashAttribute("msg", "REN_OK");
 			return "redirect:/rental/place";
+			
 		}catch(Exception e) {
 			e.printStackTrace();
-			m.addAttribute(rentalDto);
 			m.addAttribute("msg", "REN_ERR");
-			
-			return "redirect:/rental/place";
+			return "place";
 		}
 	}
 
