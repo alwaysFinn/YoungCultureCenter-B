@@ -19,13 +19,13 @@ public class SearchDaoImpl implements SearchDao {
 	private static String namespace = "com.youngtvjobs.ycc.search.SearchMapper.";
 	
 	@Override
-	public List<BoardDto> selectNoticePage(SearchItem sc) throws Exception {
-		return session.selectList(namespace+"selectNoticePage", sc);
-	}
-
-	@Override
 	public int insert(BoardDto boardDto) throws Exception {
 		return session.insert(namespace+"insert", boardDto);
+	}
+	
+	@Override
+	public List<BoardDto> selectNoticePage(SearchItem sc) throws Exception {
+		return session.selectList(namespace+"selectNoticePage", sc);
 	}
 
 	@Override
@@ -37,10 +37,10 @@ public class SearchDaoImpl implements SearchDao {
 	public List<ClubDto> selectClubPage(SearchItem sc) throws Exception {
 		return session.selectList(namespace+"selectClubPage", sc);
 	}
-
+	
 	@Override
-	public List<BoardDto> select(String article_board_type) throws Exception {
-		return session.selectList(namespace+"select", article_board_type);
+	public List<CourseDto> selectCoursePage(SearchItem sc) throws Exception {
+		return session.selectList(namespace+"selectCoursePage", sc);
 	}
 
 	@Override
@@ -49,10 +49,19 @@ public class SearchDaoImpl implements SearchDao {
 	}
 
 	@Override
-	public List<CourseDto> selectCoursePage(SearchItem sc) throws Exception {
-		return session.selectList(namespace+"selectCoursePage", sc);
+	public int searchAllResultCnt(SearchItem sc) throws Exception {
+		return session.selectOne(namespace+"searchAllResultCnt", sc);
 	}
 
+	@Override
+	public BoardDto select(Integer article_id) throws Exception {
+		return session.selectOne(namespace + "select", article_id);
+	}
+
+	@Override
+	public int increaseViewCnt(Integer article_id) throws Exception {
+		return session.update(namespace+"increaseViewCnt", article_id);
+	}
 
 }
 

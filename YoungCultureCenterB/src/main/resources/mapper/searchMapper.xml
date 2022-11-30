@@ -5,6 +5,10 @@
 
 <mapper namespace="com.youngtvjobs.ycc.search.SearchMapper">
 
+<!-- 	<resultMap id="resultmap" type="BoardDto">
+		<result column="count" property="count" />
+	</resultMap> -->
+
 	<insert id="insert" parameterType="BoardDto">
 		INSERT INTO public.article
 		(article_id, article_date, article_board_type, user_id, article_title,
@@ -15,33 +19,48 @@
 		#{article_contents}, #{article_viewcnt})
 	</insert>
 
+	<select id="select" parameterType="BoardDto" resultType="BoardDto">
+		<include refid="selectFromArticle" />
+		where article_id = #{article_id}
+	</select>
+
+	<update id="increaseViewCnt" parameterType="BoardDto">
+		update article
+		set article_viewcnt = article_viewcnt + 1
+		where article_id = #{article_id}
+	</update>
+	
 	<sql id="selectFromArticle">
-		SELECT article_id, article_date, article_board_type,
-		user_id, article_title,
-		article_contents, article_viewcnt
-		FROM article
+		select * from article
+	</sql>
+	
+	<sql id="selectFromNotice">
+			select *, ( 
+			select count(*) from article where article_board_type = '공지사항' 
+			and true <include refid="searchCondition" />) as count
+			from article
+	</sql>
+	
+	<sql id="selectFromEvent">
+			select *, ( 
+			select count(*) from article where article_board_type = '이벤트' 
+			and true <include refid="searchCondition" />) as count
+			from article
 	</sql>
 
 	<sql id="selectFromClub">
-		SELECT club_id, club_title, club_create_time, club_info,
-		club_master_id
-		FROM public.club
+		SELECT *, ( 
+		select count(*) from club
+		where true <include refid="searchConditionClub" />) as count
+		FROM club
 	</sql>
 
 	<sql id="selectFromCourse">
-		SELECT course_id, course_nm, course_image,
-		course_reg_start_date, course_reg_end_date, course_start_date,
-		course_end_date, course_day, course_time, course_target, course_cost,
-		course_info, user_id, croom_id, course_cate_cd,
-		course_applicants
-		FROM public.tb_course
+		SELECT *, ( 
+		select count(*) from tb_course
+		where true <include refid="searchConditionCourse" />) as count
+		FROM tb_course
 	</sql>
-
-	<select id="select" parameterType="BoardDto"
-		resultType="BoardDto">
-		<include refid="selectFromArticle" />
-		where article_board_type = #{article_board_type}
-	</select>
 
 	<sql id="searchCondition">
 		AND article_title LIKE concat('%',#{keyword},'%')
@@ -68,7 +87,7 @@
 				when article_title like concat('%', #{keyword}) then 1
 				when article_title like concat('%', #{keyword}, '%') then 2
 				when article_title like concat(#{keyword}, '%') then 3
-				else 4 end
+				else 4 end, article_date desc
 			</otherwise>
 		</choose>
 	</sql>
@@ -77,9 +96,6 @@
 		<choose>
 			<when test='array=="N"'>
 				club_title desc, club_id desc
-			</when>
-			<when test='array=="V"'>
-				club_viewcnt desc, club_id desc
 			</when>
 			<otherwise>
 				case when club_title like #{keyword} then 0
@@ -95,9 +111,6 @@
 		<choose>
 			<when test='array=="N"'>
 				course_reg_start_date desc, course_id desc
-			</when>
-			<when test='array=="V"'>
-				course_viewcnt desc, course_id desc
 			</when>
 			<otherwise>
 				case when course_nm like #{keyword} then 0
@@ -125,13 +138,6 @@
 				where true
 				<include refid="searchConditionCourse" />
 			</when>
-<!-- 			<when test='type=="all"'>
-			select ( 
-				(select count(*) from tb_course) + 
-				(select count(*) from article) +
-				(select count(*) from club)
-			)
-			</when> -->
 			<otherwise>
 			select count(*)
 				from article
@@ -141,12 +147,49 @@
 			</otherwise>
 		</choose>
 	</select>
-	
 
+<!-- 	<select id="noticeSearchResultCnt" parameterType="SearchItem" resultType="int">
+		select count(*)
+		from article
+		where article_board_type = '공지사항' and true
+		<include refid="searchCondition" />
+	</select>
+	
+	<select id="eventSearchResultCnt" parameterType="SearchItem" resultType="int">
+		select count(*)
+		from article
+		where article_board_type = '이벤트' and true
+		<include refid="searchCondition" />
+	</select>
+	
+	<select id="clubSearchResultCnt" parameterType="SearchItem" resultType="int">
+		select count(*)
+		from club
+		where true
+		<include refid="searchConditionClub" />
+	</select>
+	
+	<select id="courseSearchResultCnt" parameterType="SearchItem" resultType="int">
+		select count(*)
+		from tb_course
+		where true
+		<include refid="searchConditionCourse" />
+	</select> -->
+	
+	<select id="searchAllResultCnt" parameterType="SearchItem" resultType="int">
+		select ( 
+				(select count(*) from tb_course where true
+				<include refid="searchConditionCourse" />) + 
+				(select count(*) from article where true
+				<include refid="searchCondition" />) +
+				(select count(*) from club where true
+				<include refid="searchConditionClub" />)
+				)
+	</select>
+	
 	<!-- 공지사항 -->
-	<select id="selectNoticePage" parameterType="SearchItem"
-		resultType="BoardDto">
-		<include refid="selectFromArticle" />
+	<select id="selectNoticePage" parameterType="SearchItem" resultType="BoardDto">
+		<include refid="selectFromNotice" />
 		where
 		article_board_type = '공지사항' and true
 		<include refid="searchCondition" />
@@ -158,7 +201,7 @@
 	<!-- 이벤트 -->
 	<select id="selectEventPage" parameterType="SearchItem"
 		resultType="BoardDto">
-		<include refid="selectFromArticle" />
+		<include refid="selectFromEvent" />
 		where
 		article_board_type = '이벤트' and true
 		<include refid="searchCondition" />

@@ -27,16 +27,6 @@ public class SearchServiceImpl implements SearchService{
 	}
 
 	@Override
-	public List<BoardDto> morePage(String article_board_type) throws Exception {
-		return searchDao.select(article_board_type);
-	}
-
-	@Override
-	public int getSearchResultCnt(Map map) throws Exception {
-		return searchDao.searchResultCnt(map);
-	}
-
-	@Override
 	public List<ClubDto> getClubPage(SearchItem sc) throws Exception {
 		return searchDao.selectClubPage(sc);
 	}
@@ -44,6 +34,24 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public List<CourseDto> getCoursePage(SearchItem sc) throws Exception {
 		return searchDao.selectCoursePage(sc);
+	}
+	
+	@Override
+	public int getSearchResultCnt(Map map) throws Exception {
+		return searchDao.searchResultCnt(map);
+	}
+
+	@Override
+	public int getSearchAllResultCnt(SearchItem sc) throws Exception {
+		return searchDao.searchAllResultCnt(sc);
+	}
+
+	@Override
+	public BoardDto read(Integer article_id) throws Exception {
+		BoardDto boardDto = searchDao.select(article_id);
+		searchDao.increaseViewCnt(article_id);
+		
+		return boardDto;
 	}
 
 }
