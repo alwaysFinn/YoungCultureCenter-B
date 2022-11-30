@@ -52,6 +52,7 @@ public class CourseDto {
 	private int course_applicants; // 신청인원
 	private double course_rating; // 강의평점
 	private int review_cnt; // 강좌리뷰개수
+	private int count; // 
 	
 	// JOIN tb_user
 	private String user_name; // 강사명
@@ -68,7 +69,7 @@ public class CourseDto {
 			Date course_reg_end_date, Date course_start_date, Date course_end_date, String course_day,
 			String course_time, String course_target, int course_cost, String course_info, String user_id,
 			String croom_id, String course_cate_cd, int course_applicants, double course_rating, int review_cnt,
-			String user_name, String croom_name, int croom_mpop) {
+			int count, String user_name, String croom_name, int croom_mpop) {
 		super();
 		this.course_id = course_id;
 		this.course_nm = course_nm;
@@ -88,6 +89,7 @@ public class CourseDto {
 		this.course_applicants = course_applicants;
 		this.course_rating = course_rating;
 		this.review_cnt = review_cnt;
+		this.count = count;
 		this.user_name = user_name;
 		this.croom_name = croom_name;
 		this.croom_mpop = croom_mpop;
@@ -104,13 +106,13 @@ public class CourseDto {
 				+ review_cnt + ", user_name=" + user_name + ", croom_name=" + croom_name + ", croom_mpop=" + croom_mpop
 				+ "]";
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(course_applicants, course_cate_cd, course_cost, course_day, course_end_date, course_id,
-				course_image, course_info, course_nm, course_rating, course_reg_end_date, course_reg_start_date,
-				course_start_date, course_target, course_time, croom_id, croom_mpop, croom_name, review_cnt, user_id,
-				user_name);
+		return Objects.hash(count, course_applicants, course_cate_cd, course_cost, course_day, course_end_date,
+				course_id, course_image, course_info, course_nm, course_rating, course_reg_end_date,
+				course_reg_start_date, course_start_date, course_target, course_time, croom_id, croom_mpop, croom_name,
+				review_cnt, user_id, user_name);
 	}
 
 	@Override
@@ -122,9 +124,10 @@ public class CourseDto {
 		if (getClass() != obj.getClass())
 			return false;
 		CourseDto other = (CourseDto) obj;
-		return course_applicants == other.course_applicants && Objects.equals(course_cate_cd, other.course_cate_cd)
-				&& course_cost == other.course_cost && Objects.equals(course_day, other.course_day)
-				&& Objects.equals(course_end_date, other.course_end_date) && course_id == other.course_id
+		return count == other.count && course_applicants == other.course_applicants
+				&& Objects.equals(course_cate_cd, other.course_cate_cd) && course_cost == other.course_cost
+				&& Objects.equals(course_day, other.course_day)
+				&& Objects.equals(course_end_date, other.course_end_date) && Objects.equals(course_id, other.course_id)
 				&& Objects.equals(course_image, other.course_image) && Objects.equals(course_info, other.course_info)
 				&& Objects.equals(course_nm, other.course_nm)
 				&& Double.doubleToLongBits(course_rating) == Double.doubleToLongBits(other.course_rating)
@@ -212,6 +215,14 @@ public class CourseDto {
 	// getter setter
 	public String getCroom_name() {
 		return croom_name;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	public String getCourse_cate_cd() {

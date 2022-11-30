@@ -35,7 +35,8 @@ public class CourseController {
 	public String IntegratedPayment() {
 		return "/integratedPayment";
 	}
-
+	
+	// 수강신청 클릭 후 이동하는 페이지
 	@GetMapping("/course/regcomplete")
 	public String courseRegComplete(Integer course_id, AttendDto attendDto, Model m
 									, HttpSession session, HttpServletRequest request) {
@@ -65,7 +66,7 @@ public class CourseController {
 				if ((courseDto.getCourse_reg_start_date().before(nowdate) == true
 						&& courseDto.getCourse_reg_end_date().before(nowdate) == true)
 						|| (courseDto.getCourse_reg_start_date().before(nowdate) == true
-								&& courseDto.getCourse_reg_end_date().after(nowdate) == true)) { // 논리 오류..
+								&& courseDto.getCourse_reg_end_date().after(nowdate) == true)) { 
 					courseService.attendInsert(attendDto); // 수강신청 시 attend에 insert & 신청인원 1명 증가
 					// 신청인원을 총정원과 비교
 				} else if (courseDto.getCourse_applicants() >= courseDto.getCroom_mpop()) {
@@ -129,6 +130,7 @@ public class CourseController {
 			m.addAttribute(courseDto);
 			m.addAttribute("mode", "modify");
 			
+			// 수정페이지에 queryString을 넘겨주기 위해서
 			int totalCnt = courseService.getsearchResultCnt(sc);
 			PageResolver pageResolver = new PageResolver(totalCnt, sc);
 			m.addAttribute("pr", pageResolver);

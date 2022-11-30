@@ -135,11 +135,6 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		<c:if test="${sessionScope.grade == '강사' || sessionScope.grade == '관리자' }">
-			<div class="text-end">
-				<button id="writeBtn" class="btn btn-primary btn_write" onclick="location.href='<c:url value="/course/write" />' ">강좌등록</button>
-			</div>
-		</c:if>
 		<nav aria-label="Page navigation example">
 			<c:if test="${totalCnt == null || totalCnt == 0}">
 				<div class="text-center mb-5">게시물이 없습니다.</div>
@@ -158,6 +153,11 @@
 				</ul>
 			</c:if>
 		</nav>
+		<c:if test="${sessionScope.grade == '강사' || sessionScope.grade == '관리자' }">
+			<div class="text-end">
+				<button id="writeBtn" class="btn btn-primary btn_write" onclick="location.href='<c:url value="/course/write" />' ">강좌등록</button>
+			</div>
+		</c:if>
 	</div>
 
 	<!-- footer inlcude -->

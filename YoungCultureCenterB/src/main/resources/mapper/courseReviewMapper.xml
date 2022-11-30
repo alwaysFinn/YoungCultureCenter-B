@@ -17,7 +17,7 @@
 	<!-- <select id="courseReviewCnt" parameterType="CourseSearchItem" resultType="int">
 		SELECT count(*)
 		FROM course_review
-		WHERE course_id = #{course_id}	
+		WHERE course_id = #{course_id}
 	</select> -->
 	
 	<update id="update" parameterType="ReviewDto">
