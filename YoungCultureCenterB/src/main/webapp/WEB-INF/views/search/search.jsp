@@ -78,9 +78,6 @@
 
 	$(document).ready(function() {
 		
-		
-		
-
 		 $("#searchInput").autocomplete({
 			 source : function(request, response) {
 				 $.ajax({
@@ -99,10 +96,10 @@
 		 
 		 
 		 
+		// 탭 클릭시 해당되는 탭의 검색결과만 보이게 하는 기능
 		const content = document.querySelectorAll('.cont');
 		const active = document.querySelectorAll('.tab_menu .list li a');
-
-		// 탭 클릭시 해당되는 탭의 검색결과만 보이게 하는 함수
+		
 		$(".nav-link").click(function(e) {
 			
 			e.preventDefault();
@@ -138,6 +135,7 @@
 	
 	<!-- <input id="searchInput"> -->
 	
+	<!-- 검색창 -->
 	<div class="m-5">
 		<h2 class="m-4">통합검색</h2>
 			<div class="m-4">
@@ -157,6 +155,7 @@
 				</form>
 			</div>
 		
+		<!-- 탭 -->
 		<div class="tab_menu m-4">
 			<ul class="list nav nav-tabs">
 				<li class="nav-item">
@@ -177,7 +176,7 @@
 				<input name="keyword" type="hidden" value="${param.keyword }" /> 
 				
 				<!-- 검색시 기본적으로 정확도순으로 정렬됨. 키워드랑 완전히 일치하는 검색결과일 경우 0점으로 가장 우선순위로 조회되고,
-				키워드 앞 뒤에 키워드 이외의 글자가 많이 붙어있을수록 우선순위가 낮아지는 식 -->
+				키워드 앞 뒤에 키워드 이외의 글자가 많이 붙어있을수록(1점, 2점, ...) 우선순위가 낮아지는 식 -->
 				<div class="row float-end me-4">
 				<select class="form-select form-select-sm col-auto" name="array" aria-label=".form-select-sm example" style="width: auto; margin-right: 10px;">
 					<option value="A"
@@ -191,25 +190,32 @@
 			<p class="ms-5 mt-3">총 <b>${totalCnt }</b>건이 검색되었습니다.</p>
 		</div>
 		
+		<!-- 공지사항 -->
 		<div class="p-5	">
 			<div id="notice" class="p-3 is_on cont">
 				<h4 class="text-start fw-bold">공지사항 (${noticeList[0].count == null ? "0" : noticeList[0].count }건)</h4>
 				<hr>
+					<!-- 더보기 버튼 클릭시 type="공지사항" 파라미터 넘김 -> all 페이지에서 파라미터 받고 그에 공지사항 결과만 가져오게끔 함 -->
 					<form action="<c:url value="/search/all?type=${noticeList[0].article_board_type }" />">
 						<input type="hidden" name="type"
 							value="${noticeList[0].article_board_type }" /> 
 							<input type="hidden" name="keyword" value="${param.keyword }" />
+							
+							<!-- choose 태그로 검색결과가 없을 때는 결과 없다는 문구만 출력, 검색결과가 있으면 검색결과 출력 -->
 							<c:choose>
 								<c:when test="${noticeList[0].count == 0 || noticeList[0].count == null}">
 									<p class="noResult m-5">검색결과가 없습니다.</p>
 								</c:when>
 								<c:otherwise>
-									<c:if test="${noticeList[0].count ge 5}">
+								
+									<!-- 검색결과가 6개 이상이면 더보기 버튼 활성화 -->
+									<c:if test="${noticeList[0].count gt 5}">
 										<input style="float: right;" class="btn btn-write" type="submit" value="더보기" >
 									</c:if>	
 									<ul class="mx-3"style="padding-left: 0px;margin-bottom: 0px;">
+									
+									<!-- 검색결과 출력 부분 -->
 									<c:forEach var="BoardDto" items="${noticeList }">
-									<%-- <h1>${BoardDto.count }</h1> --%>
 									<li>
 									<div class="p-3">
 										<h5 id="aTitle" class="fw-bold"><a href="<c:url value="/board/post?article_id=${BoardDto.article_id }" />">
@@ -239,6 +245,7 @@
 					</form>
 			</div>
 			
+			<!-- 이벤트 -->
 			<div id="event" class="p-3 is_on cont">
 				<h4 class="text-start fw-bold">이벤트 (${eventList[0].count == null ? "0" : eventList[0].count }건)</h4>
 				<hr>
@@ -252,7 +259,7 @@
 									<p class="noResult m-5">검색결과가 없습니다.</p>
 								</c:when>
 								<c:otherwise>
-								<c:if test="${fn:length(eventList) ge 5}">
+								<c:if test="${eventList[0].count gt 5}">
 										<input style="float: right;" class="btn btn-write" type="submit" value="더보기" >
 								</c:if>	
 								<ul class="mx-3"style="padding-left: 0px;margin-bottom: 0px;">
@@ -286,6 +293,7 @@
 					</form>
 			</div>
 			
+			<!-- 동아리 -->
 			<div id="club" class="p-3 is_on cont">
 				<h4 class="text-start fw-bold">동아리 (${clubList[0].count == null ? "0" : clubList[0].count }건)</h4>
 				<hr>
@@ -298,7 +306,7 @@
 									<p class="noResult m-5">검색결과가 없습니다.</p>
 								</c:when>
 								<c:otherwise>
-									<c:if test="${fn:length(clubList) ge 5}">
+									<c:if test="${clubList[0].count gt 5}">
 										<input style="float: right;" class="btn btn-write" type="submit" value="더보기" >
 									</c:if>	
 								<ul class="mx-3"style="padding-left: 0px;margin-bottom: 0px;">
@@ -328,6 +336,7 @@
 					</form>
 			</div>
 
+				<!-- 강좌 -->
 				<div id="course" class="p-3 is_on cont">
 				<h4 class="text-start fw-bold">강좌 (${courseList[0].count == null ? "0" : courseList[0].count }건)</h4>
 				<hr>
@@ -340,7 +349,7 @@
 									<p class="noResult m-5">검색결과가 없습니다.</p>
 								</c:when>
 								<c:otherwise>
-									<c:if test="${fn:length(courseList) ge 5}">
+									<c:if test="${courseList[0].count gt 5}">
 										<input style="float: right;" class="btn btn-write" type="submit" value="더보기" >
 									</c:if>	
 								<ul class="mx-3"style="padding-left: 0px;margin-bottom: 0px;">
