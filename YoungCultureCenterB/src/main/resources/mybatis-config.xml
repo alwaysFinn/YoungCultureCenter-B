@@ -7,6 +7,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="MemberDto" type="com.youngtvjobs.ycc.member.MemberDto" />
+		<typeAlias alias="InquiryDto" type="com.youngtvjobs.ycc.member.InquiryDto" />
 		<typeAlias alias="CourseDto" type="com.youngtvjobs.ycc.course.CourseDto" />
 		<typeAlias alias="CourseSearchItem" type="com.youngtvjobs.ycc.course.CourseSearchItem"/>
 		<typeAlias alias="PageResolver" type="com.youngtvjobs.ycc.course.PageResolver" />

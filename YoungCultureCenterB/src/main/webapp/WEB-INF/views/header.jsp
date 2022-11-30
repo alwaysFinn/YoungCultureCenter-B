@@ -61,17 +61,19 @@
                 </ul>
                 <!-- 검색버튼 부분 -->
                 <form class="me-2" role="search" action="/ycc/search/">
-                    <input name="keyword" value="${param.keyword }" class="form-control" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+                    <input class="form-control" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
                 </form>
 
                 <!-- 로그인 세션이 없을 떄 출력되는 부분 -->
                 <div class="nav p-2 ${logoutvis} d-flex" style="justify-content: center; flex-wrap: nowrap;">
                     <a class="btn btn-primary mx-2 text-nowrap" href="/ycc/login">로그인</a>
-                    <a class="btn btn-outline-primary text-nowrap" href="/ycc/member/signin1">회원가입</a>
+                    <a class="btn btn-outline-primary text-nowrap" href="/ycc/signin/agree">회원가입</a>
                 </div>
 
                 <!-- 로그인 세션이 있을 시 드롭다운 버튼 보여주기 / 회원가입, 로그인버튼 hidden -->
                 <div class="navbar-nav ${loginvis} d-flex" style="justify-content: center; flex-wrap: nowrap;">
+                	<script type="text/javascript" charset="utf-8" src="/ycc/resources/js/timeoutchk.js"></script>
+                	<button class="btn btn-outline-success btn-sm me-2 hover-timer" style="white-space: nowrap;" onclick="javascript:refreshTimer()"><span id="timer"></span><p></p></button>
                 	<div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">

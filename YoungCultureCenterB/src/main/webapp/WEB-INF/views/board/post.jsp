@@ -1,51 +1,139 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <!-- header-->
 <%@include file="/WEB-INF/views/metahead.jsp"%>
-    <title>Young문화센터 - 게시글 상세 보기</title>
+    <title>게시글 상세 보기</title>
 </head>
 <body>
     <!-- header inlcude -->
 <%@include file="/WEB-INF/views/header.jsp"%>
     
-    <div class="container">
-        <main class="mt-5 pt-5">
-            <div class="container px-4">
-                <h1 class="mt-4">공지사항</h1>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h1>저 오늘 치과갑니다</h1>
-                        <hr>
-                        <p>작성자 : 김지호 | 게시일 : yyyy-mm-dd</p>
-                        <p3>내용내용내용내용</p3>
-                        
+	<main class="mt-5 pt-5">
+			<div class="container px-4">
+				<!-- 제목 -->
+				<!-- insert된 article_Board_type이 'N'이면  -->
+				<c:if test="${boardDto.article_Board_type == 'N'}">
+					<!-- 제목 : 공지사항 -->
+					<h2 class="writing-header mb-3">공지사항</h2>
+				</c:if>
+				<!-- insert된 article_Board_type이 'E'이면  -->
+				<c:if test="${boardDto.article_Board_type == 'E'}">
+					<!-- 제목 : 이벤트/행사-->
+					<h2 class="writing-header mb-3">이벤트/행사</h2>
+				</c:if>
+				<form id="form" class="frm" action="" method="post">
+					<div class="card mb-4">
+	    				<div class="card-body">
 
+    						<!-- 게시글 정보 -->
+    						<input type="hidden" name="article_id" value="${boardDto.article_id }">
+  							<h4 class="title" >${boardDto.article_title }</h4>
+  							<p class="writingInfo">작성자 : ${boardDto.user_id} |
+   								게시일 : <fmt:formatDate value="${boardDto.article_date }" pattern="yyyy-MM-dd" type="date"/> 
+  								| 조회수 : ${boardDto.article_viewcnt }
+ 							</p>
+ 							<hr>
+ 							<!-- 내용 -->
+  							<p class="content" >${boardDto.article_contents }</p>	    					
+	    				</div>
+					</div>				
+					<div class="row pb-5" style="float:right">
+						<div class="col-auto px-1">
+			  				<a id="listBtn" class="btn btn-outline-secondary">목록</a>	
+						</div>
+						<!-- 본인이 쓴 게시글에만 수정, 삭제 가능 -->
+						<!-- 세션 아이디와 boardDto에 저장되 아이디가 같으면 수정, 삭제 버튼 활성화 -->
+						<c:if test="${sessionScope.id eq boardDto.user_id}">
+						<div class="col-auto px-1">
+			  				<button type="button" class="btn btn-outline-success" id="modifyBtn">수정</button>
+						</div>
+						<div class="col-auto px-1">
+			  				<button type="button" class="btn btn-outline-danger" id="deleteBtn">삭제</button>
+			      		</div>
+			      		</c:if>
+			       </div>
+		       </form>
+			       <div class="prevNext">
+						<table class="table table-bordered " style="border-radius:5px; ">
+							<colgroup>
+								<col width="120px;">
+								<col width="auto;">
+							</colgroup>
+				    			<tbody>
+				    				<tr>
+				    					<th scope="row" class="text-center table-primary"  >이전글</th>
+				    						<td class="pre" id="preTitle"> 
+				    							<c:if test ="${preView.preId != 9999}">
+				    								<a style="text-decoration: none; color: black;"
+				    								 href="<c:url value="/board/post?article_id=${preView.preId  }"/>">	 
+				    								${preView.preTitle}</a>
+		      									</c:if>
+		      									<c:if test = "${preView.preId == 9999}">
+		      										<div class="fs-6">이전글이 없습니다.</div>
+		      									</c:if>
+		      								</td>
+				    				</tr>
+				    				<tr>
+				    					<th scope="row" class="text-center table-primary">다음글</th>
+				    						<td  class="next" id="nextTitle">
+				    							<c:if test ="${nextView.nextId != 9999}" >
+				    								<a style="text-decoration: none; color: black;"
+				    								 href="<c:url value="/board/post?article_id=${nextView.nextId  }"/>">
+				    							 	${nextView.nextTitle}</a>
+				    							</c:if>
+				    							<c:if test ="${nextView.nextId == 9999}">
+				    								<div class="fs-6">다음글이 없습니다.</div>
+				    							</c:if>
+				    						</td>
+				    				</tr>
+				    			</tbody>
+			    		</table>
+			    	</div>
+			    	</div>
+			</main>
+		
+				
+<script>
 
-                        <div class="position-absolute bottom-0 end-0 m-3">
-                            <a href="notice" class="btn btn-outline-secondary">목록으로</a>
-                            <a href="edit" class="btn btn-outline-success">수정하기</a>
-                            <a href="remove?bno=${board.bno}" class="btn btn-outline-danger"
-                                onclick="return confirm('삭제하시겠습니까?')">삭제하기</a>
-                        </div>
-                    </div>
+	$(document).ready(function(){
+		
 
-                    <div class="mb-4 m-2">
-                        <a href="" class="btn btn-outline-dark">이전글</a>
-                        <a href="" class="btn btn-outline-dark">다음글</a>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+		$("#listBtn").on("click", function() {
+			location.href ="<c:url value='/board/notice${searchItem.queryString}' />";
+		})
+		
+		$("#modifyBtn").on("click", function() {
+			if(!confirm("수정하시겠습니까?")) return;
+			let article_id = ${boardDto.article_id }
+			let form = $("#form")
+			form.attr("action", "<c:url value='/board/edit${searchItem.queryString}' />")
+			form.attr("method", "get")
+			form.submit()
+			})
+	
+		$("#deleteBtn").on("click", function() {
+			if(!confirm("정말로 삭제하시겠습니까?")) return;
+			
+			let form = $("#form")
+			form.attr("action","<c:url value='/board/remove${searchItem.queryString}' />")
+			form.attr("method", "post")
+			form.submit()
+		})	
+		
+	})
+	
+</script>
     
-    <!-- footer inlcude -->
+  <!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>
-
 </body>
 
 </html>

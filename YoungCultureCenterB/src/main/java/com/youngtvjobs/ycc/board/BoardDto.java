@@ -14,32 +14,46 @@ public class BoardDto {
 	private String inq_content;
 	private Date inq_date;
 	private boolean inq_YN;
-	
+
 	//article
-	private Integer article_id;
-	private Date article_date;
-	private String article_board_type;
-	private String user_id;
-	private String article_title;
-	private String article_contents;
-	private Integer article_viewcnt;
+	private Integer article_id ;			// 번호PK
+	private Date  article_date;				// 게시글 등록 날짜
+	private String  article_Board_type;		// 게시글 유형
+	private String user_id;					// 작성자
+	private String  article_title;			// 제목
+	private String article_contents;		// 내용
+	private int  article_viewcnt;			// 조회수 
+	private int preId;						// 이전글 no
+	private int nextId;						// 다음글 no
+	private String preTitle;				// 이전글 Title
+	private String nextTitle;				// 다음글 Title
+	private int count;
+	
 	
 	public BoardDto() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public BoardDto(Integer article_id, Date article_date, String article_board_type, String user_id,
-			String article_title, String article_contents, Integer article_viewcnt) {
+ 
+	//article Constructor
+	public BoardDto(Integer article_id, Date article_date, String article_Board_type, String user_id,
+			String article_title, String article_contents, int article_viewcnt, int preId, int nextId, String preTitle,
+			String nextTitle, int count) {
 		super();
 		this.article_id = article_id;
 		this.article_date = article_date;
-		this.article_board_type = article_board_type;
+		this.article_Board_type = article_Board_type;
 		this.user_id = user_id;
 		this.article_title = article_title;
 		this.article_contents = article_contents;
 		this.article_viewcnt = article_viewcnt;
+		this.preId = preId;
+		this.nextId = nextId;
+		this.preTitle = preTitle;
+		this.nextTitle = nextTitle;
+		this.count = count;
 	}
 
+	//inq_board Constructor
 	public BoardDto(String inq_cate, Integer inq_id, String inq_title, String inq_content, Date inq_date,
 			boolean inq_YN) {
 		super();
@@ -50,7 +64,8 @@ public class BoardDto {
 		this.inq_date = inq_date;
 		this.inq_YN = inq_YN;
 	}
-
+	
+	//inq_board : getter, setter
 	public String getInq_cate() {
 		return inq_cate;
 	}
@@ -99,96 +114,124 @@ public class BoardDto {
 		this.inq_YN = inq_YN;
 	}
 
+	
+	//article : getter,setter
 	public Integer getArticle_id() {
 		return article_id;
 	}
+
 
 	public void setArticle_id(Integer article_id) {
 		this.article_id = article_id;
 	}
 
+
 	public Date getArticle_date() {
 		return article_date;
 	}
+
 
 	public void setArticle_date(Date article_date) {
 		this.article_date = article_date;
 	}
 
-	public String getarticle_board_type() {
-		return article_board_type;
+
+	public String getArticle_Board_type() {
+		return article_Board_type;
 	}
 
-	public void setarticle_board_type(String article_board_type) {
-		this.article_board_type = article_board_type;
+
+	public void setArticle_Board_type(String article_Board_type) {
+		this.article_Board_type = article_Board_type;
 	}
+
 
 	public String getUser_id() {
 		return user_id;
 	}
 
+
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+
 
 	public String getArticle_title() {
 		return article_title;
 	}
 
+
 	public void setArticle_title(String article_title) {
 		this.article_title = article_title;
 	}
+
 
 	public String getArticle_contents() {
 		return article_contents;
 	}
 
+
 	public void setArticle_contents(String article_contents) {
 		this.article_contents = article_contents;
 	}
 
-	public Integer getArticle_viewcnt() {
+
+	public int getArticle_viewcnt() {
 		return article_viewcnt;
 	}
 
-	public void setArticle_viewcnt(Integer article_viewcnt) {
+
+	public void setArticle_viewcnt(int article_viewcnt) {
 		this.article_viewcnt = article_viewcnt;
 	}
 
-	@Override
-	public String toString() {
-		return "BoardDto [inq_cate=" + inq_cate + ", inq_id=" + inq_id + ", inq_title=" + inq_title + ", inq_content="
-				+ inq_content + ", inq_date=" + inq_date + ", inq_YN=" + inq_YN + ", article_id=" + article_id
-				+ ", article_date=" + article_date + ", article_board_type=" + article_board_type + ", user_id="
-				+ user_id + ", article_title=" + article_title + ", article_contents=" + article_contents
-				+ ", article_viewcnt=" + article_viewcnt + "]";
+
+	public int getPreId() {
+		return preId;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(article_board_type, article_contents, article_date, article_id, article_title,
-				article_viewcnt, inq_YN, inq_cate, inq_content, inq_date, inq_id, inq_title, user_id);
+
+	public void setPreId(int preId) {
+		this.preId = preId;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BoardDto other = (BoardDto) obj;
-		return Objects.equals(article_board_type, other.article_board_type)
-				&& Objects.equals(article_contents, other.article_contents)
-				&& Objects.equals(article_date, other.article_date) && Objects.equals(article_id, other.article_id)
-				&& Objects.equals(article_title, other.article_title)
-				&& Objects.equals(article_viewcnt, other.article_viewcnt) && inq_YN == other.inq_YN
-				&& Objects.equals(inq_cate, other.inq_cate) && Objects.equals(inq_content, other.inq_content)
-				&& Objects.equals(inq_date, other.inq_date) && Objects.equals(inq_id, other.inq_id)
-				&& Objects.equals(inq_title, other.inq_title) && Objects.equals(user_id, other.user_id);
+
+	public int getNextId() {
+		return nextId;
+	}
+
+
+	public void setNextId(int nextId) {
+		this.nextId = nextId;
+	}
+
+
+	public String getPreTitle() {
+		return preTitle;
+	}
+
+
+	public void setPreTitle(String preTitle) {
+		this.preTitle = preTitle;
+	}
+
+
+	public String getNextTitle() {
+		return nextTitle;
+	}
+
+
+	public void setNextTitle(String nextTitle) {
+		this.nextTitle = nextTitle;
 	}
 	
-	
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 
 }	

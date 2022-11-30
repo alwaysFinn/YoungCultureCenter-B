@@ -6,7 +6,7 @@
 <head>
 	<!-- head & meta tag include -->
 	<%@ include file="/WEB-INF/views/metahead.jsp" %>
-	<title>로그인</title>
+	<title>Young문화센터 - 로그인</title>
   <style>
     @media(max-width: 767px) { #left_login { border-right: hidden !important; } }
     @media(min-width: 767px) { #d-none { display: none !important; } }
@@ -20,7 +20,7 @@
 
 	<!-- login 시작 -->
 	<div class="container mt-5">
-		<h2>로그인</h2>
+		<h1>로그인</h1>
 		<hr>
 		<div class="row">
 			<div class="col-md-6" id="left_login" style="border-right: solid 1px rgba(0, 0, 0, .25);">
@@ -58,7 +58,7 @@
 					</fieldset>
 					<hr>
 					<div class="mx-auto" id="bottom-login">
-						<div><span>아이디/비밀번호를 잊으셨나요?</span><a href="/ycc/mypage/mypage5">아이디/비밀번호 찾기</a></div>
+						<div><span>아이디/비밀번호를 잊으셨나요?</span><a href="/ycc/mypage/forget">아이디/비밀번호 찾기</a></div>
 						<div><span>회원가입을 안하셨나요?</span><a href="/ycc/member/signin1">회원가입</a></div>
 					</div>
 					<hr id="d-none">
@@ -68,9 +68,9 @@
 				<div class="w-75 mx-auto">
 					<h3>SNS계정으로 로그인</h3>
 					<div class="d-grid gap-3">
-						<button class="btn btn-danger btn-lg" type="button">구글계정으로 로그인</button>
-						<button class="btn btn-success btn-lg" type="button">네이버계정으로 로그인</button>
-						<button class="btn btn-warning btn-lg" type="button">카카오계정으로 로그인</button>
+						<a href="/login/google" class="btn btn-danger btn-lg" >구글계정으로 로그인</a>
+						<a href="/login/naver" class="btn btn-success btn-lg">네이버계정으로 로그인</a>
+						<a href="/login/kakao" class="btn btn-warning btn-lg">카카오계정으로 로그인</a>
 					</div>
 				</div>
 			</div>

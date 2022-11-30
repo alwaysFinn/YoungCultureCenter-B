@@ -1,9 +1,11 @@
 package com.youngtvjobs.ycc.member;
 
-import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -12,6 +14,8 @@ public class MemberDaoImpl implements MemberDao
 	@Autowired
 	private SqlSession session;
 	private static String namespace = "com.youngtvjobs.ycc.member.memberMapper.";
+	MemberDto memberDto;
+	JavaMailSender mailSender;
 	
 
 	@Override
@@ -22,18 +26,19 @@ public class MemberDaoImpl implements MemberDao
 	}
 	
 	
+	//회원가입_아이디중복체크 
+		@Override
+		public int idCheck(MemberDto dto) throws Exception {
+			
+			return session.selectOne(namespace + "idCheck", dto);
+		}
+
+		
+	//회원가입_INSERT
 	@Override
 	public void signinMember(MemberDto dto) throws Exception {
-		
-		//String -> Date 변경
-		String year = dto.getBirthYear();
-		String month = dto.getBirthMonth();
-		String day = dto.getBirthDay();
-		
-		Date birth = Date.valueOf(year+"-"+month+"-"+day);
-		dto.setUser_birth_date(birth);
-		
-		session.insert(namespace + "signinMember", dto);
+
+		session.insert(namespace + "signinMember" , dto);
 		
 	}
 
@@ -57,7 +62,30 @@ public class MemberDaoImpl implements MemberDao
 		
 	}
 
-
+	//아이디 찾기
+	@Override
+	public String findId(String user_email, String user_name) throws Exception {
+		Map map = new HashMap();
+		map.put("user_email", user_email);
+		map.put("user_name", user_name);
+		
+		return session.selectOne(namespace + "findId", map);
+	}
+	
+	//패스워드 찾기
+	@Override
+	public String findPw(String user_id, String user_name) throws Exception {
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("user_name", user_name);
+		return session.selectOne(namespace + "findPw", map);
+	}
+	
+	//패스워드 이메일로 발송
+	public String findPword(String user_email) throws Exception {
+		
+		return session.selectOne(namespace + "findPword", user_email);
+	}
 
 
 

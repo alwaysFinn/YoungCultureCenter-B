@@ -11,6 +11,7 @@ public class ClubDto {
 	private Date club_create_time;
 	private String club_info;
 	private String club_master_id;
+	private int count;
 	
 	//club_board
 	private Integer club_article_id;
@@ -25,7 +26,7 @@ public class ClubDto {
 
 	public ClubDto(Integer club_id, String club_title, Date club_create_time, String club_info, String club_master_id,
 			Integer club_article_id, String club_article_title, Date club_board_upload_time, Integer club_article_cnt,
-			String user_id) {
+			String user_id, int count) {
 		super();
 		this.club_id = club_id;
 		this.club_title = club_title;
@@ -37,6 +38,7 @@ public class ClubDto {
 		this.club_board_upload_time = club_board_upload_time;
 		this.club_article_cnt = club_article_cnt;
 		this.user_id = user_id;
+		this.count = count;
 	}
 
 	public Integer getClub_id() {
@@ -118,11 +120,20 @@ public class ClubDto {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+	
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(club_article_cnt, club_article_id, club_article_title, club_board_upload_time,
-				club_create_time, club_id, club_info, club_master_id, club_title, user_id);
+				club_create_time, club_id, club_info, club_master_id, club_title, count, user_id);
 	}
 
 	@Override
@@ -140,7 +151,8 @@ public class ClubDto {
 				&& Objects.equals(club_board_upload_time, other.club_board_upload_time)
 				&& Objects.equals(club_create_time, other.club_create_time) && Objects.equals(club_id, other.club_id)
 				&& Objects.equals(club_info, other.club_info) && Objects.equals(club_master_id, other.club_master_id)
-				&& Objects.equals(club_title, other.club_title) && Objects.equals(user_id, other.user_id);
+				&& Objects.equals(club_title, other.club_title) && count == other.count
+				&& Objects.equals(user_id, other.user_id);
 	}
 	
 	

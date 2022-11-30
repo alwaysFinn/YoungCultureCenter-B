@@ -202,9 +202,9 @@
 				<h4 class="text-start fw-bold">공지사항 (${noticeList[0].count == null ? "0" : noticeList[0].count }건)</h4>
 				<hr>
 					<!-- 더보기 버튼 클릭시 type="공지사항" 파라미터 넘김 -> all 페이지에서 파라미터 받고 그에 공지사항 결과만 가져오게끔 함 -->
-					<form action="<c:url value="/search/all?type=${noticeList[0].article_board_type }" />">
+					<form action="<c:url value="/search/all?type=${noticeList[0].article_Board_type }" />">
 						<input type="hidden" name="type"
-							value="${noticeList[0].article_board_type }" /> 
+							value="${noticeList[0].article_Board_type }" /> 
 							<input type="hidden" name="keyword" value="${param.keyword }" />
 							
 							<!-- choose 태그로 검색결과가 없을 때는 결과 없다는 문구만 출력, 검색결과가 있으면 검색결과 출력 -->
@@ -256,9 +256,9 @@
 				<h4 class="text-start fw-bold">이벤트 (${eventList[0].count == null ? "0" : eventList[0].count }건)</h4>
 				<hr>
 					<form
-						action="<c:url value="/search/all?type=${eventList[0].article_board_type }" />">
+						action="<c:url value="/search/all?type=${eventList[0].article_Board_type }" />">
 						<input type="hidden" name="type"
-							value="${eventList[0].article_board_type }" /> 
+							value="${eventList[0].article_Board_type }" /> 
 							<input type="hidden" name="keyword" value="${param.keyword }" />
 							<c:choose>
 								<c:when test="${eventList[0].count == 0 || eventList[0].count == null}">

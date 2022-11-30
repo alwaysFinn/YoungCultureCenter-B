@@ -19,4 +19,17 @@
 
 <!-- 파비콘 추가 -->
 <link rel="shortcut icon" href="/ycc/resources/favicon/favicon.ico">
+
+<style>
+
+.hover-timer:hover span{
+  display: none;
+}
+
+.hover-timer:hover p:after {
+  content:'연장';
+}
+
+
+}</style>
 <!-- metahead end -->
