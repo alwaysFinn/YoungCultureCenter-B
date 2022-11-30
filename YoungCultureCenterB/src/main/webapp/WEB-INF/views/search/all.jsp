@@ -62,6 +62,7 @@
 			method="get">
 			<div class="row">
 				<div class="col-10">
+					<!-- all 페이지 내에서의 검색(해당 카테고리의 검색결과) -->
 					<input name="keyword" type="text" class="form-control"
 						value="${param.keyword }" placeholder="현재 페이지 내에서 검색" aria-label="search"
 						aria-describedby="button-addon2">
@@ -100,6 +101,8 @@
 	            
 	            <div class="m-3">
 	            <p>총 <b>${totalCnt }</b>건이 검색되었습니다.</p>
+	            
+	            <!-- 파라미터로 받은 type에 따라서 해당하는 type의 검색결과만 출력 -->
 			<c:choose>
 				<c:when test="${fn:contains(type, '공지사항')}">
 					<div class="p-3">
