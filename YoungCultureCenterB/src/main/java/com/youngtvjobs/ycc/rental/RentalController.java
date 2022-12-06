@@ -28,6 +28,8 @@ public class RentalController {
 	// 독서실 대여
 	@RequestMapping("/rental/studyroom")
 	public String studyRoom() {
+		
+		
 		return "rental/studyRoom";
 	}
 
