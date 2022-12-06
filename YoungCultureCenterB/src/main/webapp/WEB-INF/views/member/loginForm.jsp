@@ -59,7 +59,7 @@
 					<hr>
 					<div class="mx-auto" id="bottom-login">
 						<div><span>아이디/비밀번호를 잊으셨나요?</span><a href="/ycc/mypage/forget">아이디/비밀번호 찾기</a></div>
-						<div><span>회원가입을 안하셨나요?</span><a href="/ycc/member/signin1">회원가입</a></div>
+						<div><span>회원가입을 안하셨나요?</span><a href="/ycc/signin/agree">회원가입</a></div>
 					</div>
 					<hr id="d-none">
 				</form>

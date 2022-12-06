@@ -28,12 +28,9 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int delete(Integer review_id, String user_id) throws Exception {
-		Map map = new HashMap();
-		map.put("review_id", review_id);
-		map.put("user_id", user_id);
+	public int delete(Integer review_id) throws Exception {
 		
-		return session.delete(namespace + "delete", map);
+		return session.delete(namespace + "delete", review_id);
 	}
 
 	@Override

@@ -25,6 +25,23 @@
 	#{user_phone_number} ,#{user_postcode}, #{user_rNameAddr}, #{user_detailAddr}, now(), '일반회원', '');
   </insert>
   
+    <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
+  <update id="update" parameterType="MemberDto">
+  	UPDATE tb_user
+	SET 
+	user_pw=#{user_pw}, user_phone_number=#{user_phone_number},
+	user_postcode=#{user_postcode}, user_rnameaddr=#{user_rNameAddr}, user_detailaddr=#{user_detailAddr}
+	WHERE user_id=#{user_id};
+
+  </update>
+  
+  <!-- 회원탈퇴 : tb_user 테이블에서 회원정보 삭제 -->
+  <delete id="delete" parameterType="String">
+  	DELETE FROM tb_user
+	WHERE
+	user_id=#{user_id};
+  </delete>
+  
   
    <!-- 아이디체크 -->
   <!-- 아이디가 있으면 count 1 , 없으면 0 체크해서 중복확인  -->

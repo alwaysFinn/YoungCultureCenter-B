@@ -16,6 +16,7 @@ public interface MemberDao
 	int delete(String id) throws Exception;
 	int deleteAll() throws Exception;
 	
+	//회원 정보 수정
 	int update(MemberDto memberDto) throws Exception;
 	
 	//아이디 찾기

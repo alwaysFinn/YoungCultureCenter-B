@@ -8,7 +8,7 @@ public interface ReviewDao {
 
 	int insert(ReviewDto reviewDto) throws Exception;
 
-	int delete(Integer review_id, String user_id) throws Exception;
+	int delete(Integer review_id) throws Exception;
 
 	int update(ReviewDto reviewDto) throws Exception;
 

@@ -34,7 +34,9 @@
 		if(msg == "DEL_ERR") alert("삭제되었거나 없는 게시물입니다.")
 		if(msg == "WRT_OK") alert("성공적으로 등록되었습니다.")
 		if(msg == "MOD_OK") alert("성공적으로 수정되었습니다.")
-</script>
+		if(msg == "overcapacity") alert("정원이 마감되었습니다.")
+		if(msg == "NO_PERIOD") alert("접수기간이 아닙니다.")
+		if(msg == "OVERLAP") alert("중복 신청은 할 수 없습니다.")
 	</script>
 
 	<!-- 본문 -->
@@ -43,7 +45,7 @@
 		<hr>
 		<form action="" method="get">
 			<div class="searchBox row p-3 d-flex" style="justify-content: space-around;">
-				<div class="col-md-10 row">
+				<div class="col-lg-10 row">
 					<div class="col-md-4">
 						<div class="row">
 							<label for="sidebar-position2" class="col-4 align-self-center text-center">분류</label>
@@ -87,12 +89,12 @@
 							<input class="form-control" type="text" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요" aria-label="Search" id="keyword">
 						</div>
 					</div>
-				<div class="col-md-2 align-items-center gap-2" style="display: -webkit-inline-box;">
-						<div class="col-md-6">
+				<div class="col-lg-2 align-items-center gap-2" style="display: -webkit-inline-box;">
+						<div class="col-lg-6">
 							<input type="submit" class="btn btn-primary" value="검색" style="width:100%; height:100%;">
 						</div>
-					<div class="col-md-6" >
-						<button onclick="test()" class="btn btn-outline-primary" style="width:100%; height:100%;">초기화</button>
+					<div class="col-lg-6" >
+						<button onclick="test()" class="btn btn-outline-primary" style="width:100%; height:100%; white-space: nowrap;">초기화</button>
 					</div>
 				</div>
 			
@@ -101,7 +103,7 @@
 			<div class="row py-3 float-end gap-1">
 				<select class="form-select col-auto" name="orderby" aria-label=".form-select-sm example" style="width: auto;">
 					<option value="New" ${pr.sc.orderby=='New' || pr.sc.orderby=='' ? "selected" : ""}>강좌명순</option>
-					<option value="End" ${pr.sc.orderby=='End' ? "selected" : ""}>접수마감일순</option>
+					<option value="End" ${pr.sc.orderby=='End' ? "selected" : ""}>접수가능순</option>
 					<option value="Start" ${pr.sc.orderby=='Start' ? "selected" : ""}>수강시작일순</option>
 					<%-- <option value="Star" ${pr.sc.orderby=='Star' ? "selected" : ""}>강의평점순</option> --%>
 				</select>

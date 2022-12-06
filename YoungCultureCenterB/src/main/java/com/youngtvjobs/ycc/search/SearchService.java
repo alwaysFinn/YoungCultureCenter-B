@@ -9,17 +9,19 @@ import com.youngtvjobs.ycc.course.CourseDto;
 public interface SearchService {
 	
 	
-	// °Ë»ö°á°ú °¡Á®¿È
+	// ê°ê° ê²€ìƒ‰ê²°ê³¼ select
 	List<BoardDto> getNoticePage(SearchItem sc) throws Exception;
 	List<BoardDto> getEventPage(SearchItem sc) throws Exception;
 	List<ClubDto> getClubPage(SearchItem sc) throws Exception;
 	List<CourseDto> getCoursePage(SearchItem sc) throws Exception;
 	
-	// °Ë»ö°á°ú¼ö °¡Á®¿È
+	// íŒŒë¼ë¯¸í„° typeì„ ë°›ì•„ì„œ í•´ë‹¹ë˜ëŠ” ë¶„ë¥˜(ê³µì§€ì‚¬í•­, ì´ë²¤íŠ¸, ...)ì˜ ê²€ìƒ‰ê²°ê³¼ ì¹´ìš´íŠ¸
 	int getSearchResultCnt(Map map) throws Exception;
+	
+	// ëª¨ë“  ê²€ìƒ‰ê²°ê³¼ ì¹´ìš´íŠ¸
 	int getSearchAllResultCnt(SearchItem sc) throws Exception;
 	
-	// °Ô½Ã±Û Å¬¸¯½Ã Á¶È¸¼ö Áõ°¡
+	// ì¡°íšŒìˆ˜ ì¦ê°€
 	BoardDto read(Integer article_id) throws Exception;
 
 }

@@ -9,20 +9,24 @@ import com.youngtvjobs.ycc.course.CourseDto;
 
 public interface SearchDao {
 	
+	// í…ŒìŠ¤íŠ¸ìš©
 	int insert(BoardDto boardDto) throws Exception;
 	
-	// °Ë»ö°á°ú °¡Á®¿È
+	// ê°ê° ê²€ìƒ‰ê²°ê³¼ select
 	List<BoardDto> selectNoticePage(SearchItem sc) throws Exception;
 	List<BoardDto> selectEventPage(SearchItem sc) throws Exception;
 	List<ClubDto> selectClubPage(SearchItem sc) throws Exception;
 	List<CourseDto> selectCoursePage(SearchItem sc) throws Exception;
 	
-	// °Ë»ö°á°ú¼ö °¡Á®¿È
+	// íŒŒë¼ë¯¸í„° typeì„ ë°›ì•„ì„œ í•´ë‹¹ë˜ëŠ” ë¶„ë¥˜(ê³µì§€ì‚¬í•­, ì´ë²¤íŠ¸, ...)ì˜ ê²€ìƒ‰ê²°ê³¼ ì¹´ìš´íŠ¸
 	int searchResultCnt(Map map) throws Exception;
+	
+	// ëª¨ë“  ê²€ìƒ‰ê²°ê³¼ ì¹´ìš´íŠ¸
 	int searchAllResultCnt(SearchItem sc) throws Exception;
 	
-	// °Ô½Ã±ÛÀ» ¼¿·ºÆ®ÇÏ°í ±× °Ô½Ã±ÛÀÇ Á¶È¸¼ö Áõ°¡
+	// ê²Œì‹œê¸€ ì„ íƒ ì‹œ ê°€ì ¸ì™€ì•¼í•  ë°ì´í„° select
 	BoardDto select(Integer article_id) throws Exception;
+	// ì¡°íšŒìˆ˜ ì¦ê°€
 	int increaseViewCnt(Integer article_id) throws Exception;
 	
 	

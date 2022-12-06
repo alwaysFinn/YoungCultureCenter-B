@@ -38,6 +38,7 @@ public class MemberDto
 	private Date user_regdate;
 	private String user_grade;
 	private String user_social_type;
+	private String join_terms;
 	
 
 	

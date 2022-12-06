@@ -20,7 +20,7 @@
 		ON classroom.croom_id = tb_course.croom_id 
 	</sql>
 	
-	<!-- 강좌카테고리('운동(Spo)', '문화(Cul)', '교육(Edu)') -->
+	<!-- 강좌분류('운동(Spo)', '문화(Cul)', '교육(Edu)') -->
 	<sql id="searchCate">
 		<choose>
 			<when test='cate == "Spo"'>
@@ -41,7 +41,7 @@
 		</choose>
 	</sql>
 	
-	<!-- 강의대상('성인(Adu)', '청소년(Stu)', '유아(Chd)', '노인(Old)', 'All') -->
+	<!-- 수강대상('성인(Adu)', '청소년(Stu)', '유아(Chd)', '노인(Old)', 'All') -->
 	<sql id="searchTarget">
 		<choose>
 			<when test='target == "Adu"'>
@@ -61,12 +61,12 @@
 		</choose>
 	</sql>
 	
-	<!-- 강좌상태('접수가능', '오픈예정', '오픈예정+접수가능') -->
+	<!-- 접수상태('접수가능', '오픈예정', '오픈예정+접수가능') -->
 	<sql id="searchCourseStat">
 		<choose>
 			<!-- P: '접수가능' 
-					오늘날짜 - 접수시작일 >= 0 ==> '접수가능', '접수마감'
-					오늘날짜 - 접수마감일 <= 0 ==> '오픈예정', '접수가능' -->
+					 오늘날짜 - 접수시작일 >= 0 ==> '접수가능', '접수마감'
+					 오늘날짜 - 접수마감일 <= 0 ==> '오픈예정', '접수가능' -->
 			<when test='stat == "P"'> 
 			AND current_date - course_reg_start_date::Date <![CDATA[>=]]> 0 
 			AND current_date - course_reg_end_date::Date <![CDATA[<=]]> 0
@@ -75,7 +75,7 @@
 			<when test='stat == "O"'>
 			AND current_date - course_reg_start_date::Date <![CDATA[<]]> 0
 			</when>
-			<!-- All: 오늘날짜 - 접수마감일 <= 0 ==> '오픈예정', '접수가능'  -->
+			<!-- 기본값 = All: 오늘날짜 - 접수마감일 <= 0 ==> '오픈예정', '접수가능'  -->
 			<otherwise>
 			AND current_date - course_reg_end_date::Date <![CDATA[<=]]> 0
 			</otherwise>
@@ -87,7 +87,7 @@
 		<choose>
 			<!-- 접수마감일순 -->
 			<when test='orderby=="End"'>
-				ORDER BY course_reg_end_date
+				ORDER BY course_reg_start_date
 			</when>
 			<!-- 수강시작일순 -->
 			<when test='orderby=="Start"'>
@@ -97,7 +97,7 @@
 			<!-- <when test='orderby=="Star"'>
 				ORDER BY AVG(review_rating) desc
 			</when> -->
-			<!-- 기본값 -->
+			<!-- 기본값 = 강좌명순 -->
 			<otherwise>
 				ORDER BY course_nm
 			</otherwise>
@@ -175,10 +175,9 @@
 	</update>
 	
 	<!-- 등록된 강좌 삭제 -->
-	<delete id="delete" parameterType="map">
+	<delete id="delete" parameterType="int">
 		DELETE FROM tb_course
 		WHERE course_id = #{course_id}
-		AND user_id = #{user_id}
 	</delete>
 	
 	<!-- 수강신청 -->
@@ -202,18 +201,13 @@
 		WHERE course_id = #{course_id}
 	</update>
 	
+	<!-- 강좌생성 -->
 	<insert id="insert" parameterType="CourseDto">
 		INSERT INTO tb_course (course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date, course_end_date
 		, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_cate_cd)
 		VALUES(#{course_nm}, #{course_image}, #{course_reg_start_date}::date, #{course_reg_end_date}::date, #{course_start_date}::date, #{course_end_date}::date
 		, #{course_day}, #{course_time}, #{course_target}, #{course_cost}, #{course_info}, #{user_id}, #{croom_id}, #{course_cate_cd})
 	</insert>
-	<!-- <insert id="insert" parameterType="CourseDto">
-		INSERT INTO tb_course (course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date, course_end_date
-		, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_cate_cd)
-		VALUES(#{course_nm}, #{course_image}, now(), now(), now(), now()
-		, #{course_day}, #{course_time}, #{course_target}, 10000, #{course_info}, #{user_id}, #{croom_id}, #{course_cate_cd})
-	</insert> -->
 	
 	<!-- 테스트용 -->
 	<delete id="deleteAll">

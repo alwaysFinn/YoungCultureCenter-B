@@ -88,19 +88,14 @@ public class CourseDaoImpl implements CourseDao{
 		return session.selectOne(namespace + "selectAttendTable", map);
 	}
 	@Override
-	public int delete(Integer course_id, String user_id) throws Exception {
-		Map map = new HashMap();
-		map.put("user_id", user_id);
-		map.put("course_id", course_id);
+	public int delete(Integer course_id) throws Exception {
 		
-		return session.delete(namespace + "delete", map);
+		return session.delete(namespace + "delete", course_id);
 	}
 	@Override
 	public int update(CourseDto courseDto) throws Exception {
 		// TODO Auto-generated method stub
 		return session.update(namespace + "update", courseDto);
 	}
-	
-
 
 }

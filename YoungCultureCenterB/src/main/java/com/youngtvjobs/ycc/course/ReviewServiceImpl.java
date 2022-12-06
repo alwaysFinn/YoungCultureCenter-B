@@ -32,14 +32,16 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int reviewDelete(Integer review_id, Integer course_id, String user_id) throws Exception {
+	public int reviewDelete(Integer review_id, Integer course_id) throws Exception {
+		
 		int rowCnt = courseDao.updateReviewCnt(course_id, -1);
 		System.out.println(rowCnt);
 		
-		rowCnt = reviewDao.delete(review_id, user_id);
+		rowCnt = reviewDao.delete(review_id);
 		System.out.println(rowCnt);
 		
 		return rowCnt;
+	
 	}
 
 	@Override

@@ -75,7 +75,7 @@
 	          <div class="col-md-2 mb-3">
 	          		<button type="submit" class="btn btn-primary" id="periodBtn">조회</button>
 	          </div>
-	          <div>
+	          <div class= "text-center">
 	            ${startDate != null? "조회기간 : " : ""}${startDate}${startDate != null? " ~ " : ""} 
 	      		${endDate != null? endDate : ""}
 	      	  </div>
@@ -103,7 +103,7 @@
           <td><a href="<c:url value="/mypage/inquiry/read?inq_id=${InquiryDto.inq_id }"/>" class="text-decoration-none">
           	${InquiryDto.inq_title }</a></td>
           <td>${InquiryDto.inq_date() }</td>
-          <td>${InquiryDto.inq_yn == true? "답변완료" : "답변대기" }</td>
+          <td>${InquiryDto.inq_ans != null? "답변완료" : "답변대기" }</td>
         </tr>
       </c:forEach>
         </tbody>

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class BoardServiceImpl implements BoardService{
 
@@ -35,9 +36,9 @@ public class BoardServiceImpl implements BoardService{
 	
 	//삭제하기
 	@Override
-	public int remove(Integer article_id, String user_id) throws Exception {
+	public int remove(Integer article_id) throws Exception {
 		
-		return boardDao.delete(article_id, user_id);
+		return boardDao.delete(article_id);
 	}
 	
 	//공지사항 : 게시글 리스트
@@ -73,10 +74,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 	//상세보기 
 	@Override
-	public BoardDto postSelect(Integer article_id) throws Exception {	
-		BoardDto boardDto = boardDao.postSelect(article_id);
+	public BoardDto postSelect(Integer article_id) throws Exception {
 		//조회수 증가 로직 추가 
-		boardDao.PlusViewCnt(article_id);
+		boardDao.PlusViewCnt(article_id);		
+		BoardDto boardDto = boardDao.postSelect(article_id);
+		
 		return boardDto;
 	}
 	//상세보기 : 이전글, 다음글 

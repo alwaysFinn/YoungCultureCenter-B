@@ -72,9 +72,9 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public int courseRemove(Integer course_id, String user_id) throws Exception {
+	public int courseRemove(Integer course_id) throws Exception {
 		// TODO Auto-generated method stub
-		return courseDao.delete(course_id, user_id);
+		return courseDao.delete(course_id);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public interface CourseService {
 
 	int courseWrite(CourseDto courseDto) throws Exception;
 
-	int courseRemove(Integer course_id, String user_id) throws Exception;
+	int courseRemove(Integer course_id) throws Exception;
 
 	int coursemodify(CourseDto courseDto) throws Exception;
 

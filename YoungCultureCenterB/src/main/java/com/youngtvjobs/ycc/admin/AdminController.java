@@ -2,6 +2,7 @@ package com.youngtvjobs.ycc.admin;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,9 @@ import com.youngtvjobs.ycc.common.YccMethod;
 @Controller
 public class AdminController
 {
+	
+	@Autowired
+	AdminService adminService;
 	//관리자페이지 메인메뉴
 	@RequestMapping("/admin")
 	public String adminmain(HttpServletRequest request) throws Exception
@@ -55,8 +59,18 @@ public class AdminController
 	
 	//이용약관 관리
 	@GetMapping("/admin/agreement")
-	public String agreement(HttpServletRequest request) throws Exception
+	public String agreement(HttpServletRequest request, Model m) throws Exception
 	{
+		
+		AdminDto adminDto = adminService.select();
+		
+		try {
+
+			m.addAttribute("adminDto", adminDto);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		// 관리자 권한이 없을 때 동작
 		if (!YccMethod.permissionCheck("관리자", request))
 		{
@@ -65,5 +79,34 @@ public class AdminController
 		return "admin/agreement";
 	}
 	
+	//약관 수정 후 등록
+	@PostMapping("/admin/agreement")
+	public String agreement(HttpServletRequest request, String join_privacy_terms, String join_terms) throws Exception
+	{
+		//System.out.println(join_terms);
+		//System.out.println(join_privacy_terms);
+		AdminDto adminDto = new AdminDto();
+		adminDto.setJoin_terms(join_terms);
+		adminDto.setJoin_privacy_terms(join_privacy_terms);
+		//System.out.println(adminDto);
+		
+		try {
+			
+			if(adminService.joinTermsUpdate(adminDto) != 1) {
+				throw new Exception("업데이트 에러");
+			}else{
+				System.out.println("업데이트 성공");
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("업데이트 실패");
+		}
+		
+		
+		return "admin/adminmain";
+	}
+
 
 }

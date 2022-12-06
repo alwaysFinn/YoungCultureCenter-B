@@ -41,12 +41,13 @@
 		<hr>
 		<!-- // 제목 -->
 		
-		<form id="form" class="frm" action="" method="post">
+		<form id="form" class="frm" action="" method="POST">
 			<h6>| 강좌상세정보</h6>
 			<div class="row g-0">
 				<input type="hidden" name="course_id" value="${courseDto.course_id }">
 				<div class="col-md-6">
 					<div class="table table-bordered h-100">
+						<input class="form-control" type="hidden" name="user_id" value="${courseDto.user_id }" ${mode=="new" || mode=="modify" ? "" : "readonly" } />
 						<table class="table h-100">
 							<tbody>
 							<colgroup><col width="25%"></colgroup>
@@ -74,25 +75,38 @@
 							<!-- 입력값 -->
 							<c:if test="${mode eq 'new' || mode eq 'modify' }">
 								<tr>
-									<th>강의실</th> <!-- 드롭박스로 변경 -->
+									<th>강의실</th> <!-- 셀렉트박스로 변경 -->
 									<td><input class="form-control w-50" type="text" name="croom_id" value="${courseDto.croom_id }"></td>
 								</tr>
 								<tr>
-									<th>접수시작일</th> <!-- 캘린더나 드롭박스로 변경 -->
+									<th>카테고리</th> <!-- 셀렉트박스로로 변경 -->
+									<td><input class="form-control w-50" type="text" name="course_cate_cd" value="${courseDto.course_cate_cd }"></td>
+								</tr>
+								<tr>
+									<th>접수시작일</th>
 									<td><input class="form-control w-75" type="date" id="date" name="course_reg_start_date" value="${courseDto.reg_sd() }"></td>
 								</tr>
 								<tr>
-									<th>접수마감일</th> <!-- 캘린더나 드롭박스로 변경 -->
+									<th>접수마감일</th>
 									<td><input class="form-control w-75" type="date" id="date" name="course_reg_end_date" value="${courseDto.reg_ed() }"></td>
 								</tr>
+								<tr>
+									<th>수강시작일</th>
+									<td><input class="form-control w-75" type="date" id="date" name="course_start_date" value="${courseDto.course_sd() }"></td>
+								</tr>
+								<tr>
+									<th>수강종료일</th>
+									<td><input class="form-control w-75" type="date" id="date" name="course_end_date" value="${courseDto.course_ed() }"></td>
+								</tr>
 							</c:if>
+							<!-- //입력값 -->
 							
 							<tr>
 								<th>수강료</th>
 								<td><input class="form-control w-50 d-inline" type="text" name="course_cost" value="${courseDto.course_cost }" ${mode=="new" || mode=="modify" ? "" : "readonly" }>원</td>
 							</tr>
 							<tr>
-								<th>수강대상</th> <!-- 드롭박스로 변경 -->
+								<th>수강대상</th> <!-- 셀렉트박스로 변경 -->
 								<td><input class="form-control w-50" type="text" name="course_target" value="${courseDto.course_target }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>
 							</tr>
 							</tbody>
@@ -104,24 +118,6 @@
 						<table class="table h-100">
 							<tbody>
 							<colgroup><col width="25%"></colgroup>
-							
-							<!-- 입력값 -->
-							<c:if test="${mode eq 'new' || mode eq 'modify' }">
-								<tr>
-									<th>카테고리</th> <!-- dropbox로 변경 -->
-									<td><input class="form-control w-50" type="text" name="course_cate_cd" value="${courseDto.course_cate_cd }"></td>
-								</tr>
-								<tr>
-									<th>수강시작일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_start_date" value="${courseDto.course_sd() }"></td>
-								</tr>
-								<tr>
-									<th>수강종료일</th> <!-- 캘린더나 드롭박스로 변경 -->
-									<td><input class="form-control w-75" type="date" id="date" name="course_end_date" value="${courseDto.course_ed() }"></td>
-								</tr>
-							</c:if>
-							<!-- //입력값 -->
-							
 							<!-- 출력값 -->
 							<tr>
 								<th>수강요일</th> <!-- 체크박스로 변경 -->
@@ -148,28 +144,33 @@
 								</tr>
 							</c:if>
 							<!-- //출력값 -->
-							
+							<c:if test="${mode eq 'new' || mode eq 'modify' }">
+								<tr>
+									<th>강좌 소개</th>
+									<td><textarea class="form-control" rows="15" name="course_info">${courseDto.course_info }</textarea></td>
+								</tr>
+							</c:if>
 							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 			<div class="d-grid gap-2 d-sm-block text-center mt-3">
-				<c:if test="${mode ne 'new' }">
-					<a class="btn  ${courseDto.course_applicants >= courseDto.croom_mpop ? 'disabled btn-secondary' : 'btn-primary' }" 
-						 href="/ycc/course/regcomplete${pr.sc.queryString }&course_id=${courseDto.course_id }" 
+				<c:if test="${mode ne 'new' && mode ne 'modify'}">
+					<a id="courseRegBtn" class="btn  ${courseDto.course_applicants >= courseDto.croom_mpop ? 'disabled btn-secondary' : 'btn-primary' }" 
 						 role="button" ${courseDto.course_applicants >= courseDto.croom_mpop ? 'aria-disabled="true"' : '' }>수강신청</a> 
 					<button type="button" id="listBtn" class="btn btn-primary btn-list">목록</button>
 				</c:if>
 			</div><hr>
-	
+		</form>
+		
 			<!-- tab -->
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item" role="presentation">
 					<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
 					type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" >강의계획서</button>
 				</li>
-				<c:if test="${mode ne 'new' || mode ne 'modify' }">
+				<c:if test="${mode ne 'new' && mode ne 'modify' }">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
 						type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">수강후기</button>
@@ -179,7 +180,8 @@
 			
 			<div class="tab-content mt-2" id="myTabContent">
 				<!-- 강의계획서 -->
-					<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+				<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+					<form id="form" class="frm" action="" method="POST">
 						<div class="row">
 							<div class="col-lg-4 text-center">
 								<img class="img-fluid" src="${courseDto.course_image }" alt="${courseDto.course_image }">
@@ -198,7 +200,7 @@
 											<div class="row">
 												<div class="col-6 align-self-center">${courseDto.user_name }</div>
 												<div class="col-6 text-end">
-													<a href="#" type="button" class="btn btn-sm btn-outline-primary">강사소개</a> 
+													<a href="#" type="button" class="btn btn-sm btn-outline-primary" hidden>강사소개</a> 
 												</div>
 											</div>
 										</td>
@@ -231,23 +233,24 @@
 						</div>
 		
 						<!-- 강좌정보 -->
-						<h6>| 강좌정보</h6>
-						<table class="container-fluid table table-bordered">
-							<tbody>
-								<colgroup>
-									<col width="25%">
-								</colgroup>
-								<tr>
-									<th>강의실</th>
-									<td>${courseDto.croom_name }</td>
-								</tr>
-								<tr>
-									<th>강좌 소개</th>
-									<td><textarea class="form-control-plaintext" rows="20" name="course_info" ${mode=="new" || mode=="modify" ? "" : "readonly" }>${courseDto.course_info }</textarea></td>
-								</tr>
-							</tbody>
-						</table>
-		
+						<c:if test="${mode ne 'new' && mode ne 'modify' }"> 
+							<h6>| 강좌정보</h6>
+							<table class="container-fluid table table-bordered">
+								<tbody>
+									<colgroup>
+										<col width="25%">
+									</colgroup>
+									<tr>
+										<th>강의실</th>
+										<td>${courseDto.croom_name }</td>
+									</tr>
+									<tr>
+										<th>강좌 소개</th>
+										<td><textarea class="form-control-plaintext" rows="20" name="course_info" readonly>${courseDto.course_info }</textarea></td>
+									</tr>
+								</tbody>
+							</table>
+						</c:if>
 						<!-- 안내사항 -->
 						<c:if test="${mode ne 'new' }">
 							<h6>| 안내사항</h6>
@@ -268,14 +271,14 @@
 						</c:if>
 						
 						<div class="text-end">
-							
 							<c:if test="${mode eq 'modify'}">
+								<button type="button" id="backtoDetail" class="btn btn-secondary btn-list">뒤로</button>
 								<button type="button" id="courseModifyBtn" class="btn btn-primary btn-modify">수정하기</button>
 							</c:if>
 							
 							<c:if test="${mode eq 'new' }">
 								<button type="button" id="writeBtn" class="btn btn-primary btn-write">등록</button>
-								<button type="button" id="listBtn" class="btn btn-primary btn-list">목록</button>
+								<button type="button" id="backtoSearch" class="btn btn-secondary btn-list">뒤로</button>
 							</c:if>
 							
 							<c:if test="${mode ne 'new' && sessionScope.grade == '강사' }">
@@ -290,54 +293,50 @@
 									<button type="button" id="removeBtn" class="btn btn-danger btn-remove">삭제</button>
 								</c:if>
 							</c:if>
-							
 						</div>
-					</div>
-
+					</form>
+				</div>
 				<!-- 수강후기 -->
-				<%-- <c:if test="${mode ne 'new' }"> --%>
-					<div class="container-md tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-						<div class="row">
-							<!-- 별점 -->
-							<h6>| 평균평점</h6>
-							<div class="col-sm-12">
-								<div class="row text-center bg-light p-1">
-									<div class="col-sm-3 fs-3 align-self-center">평균 평점</div>
-									<div class="col-sm-3 fs-3 align-self-center">${rating }/5.00</div>
-									<div class="Stars col-sm-6" style="--rating: ${rating };" aria-label="Rating of this product is ${rating } out of 5."></div>
+				<div class="container-md tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+					<div class="row">
+						<!-- 별점 -->
+						<h6>| 평균평점</h6>
+						<div class="col-sm-12">
+							<div class="row text-center bg-light p-1">
+								<div class="col-sm-3 fs-3 align-self-center">평균 평점</div>
+								<div class="col-sm-3 fs-3 align-self-center">${rating }/5.00</div>
+								<div class="Stars col-sm-6" style="--rating: ${rating };" aria-label="Rating of this product is ${rating } out of 5."></div>
+							</div>
+						</div>
+	
+						<!-- 수강후기게시판 -->
+						<h6 class="mt-3">| 수강후기 <span id="reviewCnt" class="text-primary">[${courseDto.review_cnt }개]</span></h6>
+						<div class="col-md-12">
+							<div id="${courseDto.review_cnt > 0 ? 'reviewList' : '' }" class="${courseDto.review_cnt > 0 ? '' : 'text-center mt-2 mb-5' }"
+							style="${courseDto.review_cnt > 0 ? 'max-height:750px; overflow-y: auto;' : '' }">${courseDto.review_cnt > 0 ? '' : '첫 번째 수강후기를 등록하세요.' }</div>
+							<div class="row mb-1 mt-3">
+								<div class="col-sm-10">
+									<textarea placeholder="후기를 작성해주세요." type="text" name="review_content" class="form-control mb-1" ></textarea>
+								</div>
+								<div class="col-sm-2">
+									<select class="form-select" name="review_rating">
+										<option value="" selected >별점 선택</option>
+										<option value="5" >5</option>
+										<option value="4" >4</option>
+										<option value="3" >3</option>
+										<option value="2" >2</option>
+										<option value="1" >1</option>
+									</select>
 								</div>
 							</div>
-		
-							<!-- 수강후기게시판 -->
-							<h6 class="mt-3">| 수강후기 <span class="text-primary">[${courseDto.review_cnt }개]</span></h6>
-							<div class="col-md-12">
-								<div id="${courseDto.review_cnt > 0 ? 'reviewList' : '' }" class="${courseDto.review_cnt > 0 ? '' : 'text-center mt-2 mb-5' }"
-								style="${courseDto.review_cnt > 0 ? 'max-height:750px; overflow-y: auto;' : '' }">${courseDto.review_cnt > 0 ? '' : '첫 번째 수강후기를 등록하세요.' }</div>
-								<div class="row mb-1 mt-3">
-									<div class="col-sm-10">
-										<textarea placeholder="후기를 작성해주세요." type="text" name="review_content" class="form-control mb-1" ></textarea>
-									</div>
-									<div class="col-sm-2">
-										<select class="form-select" name="review_rating">
-											<option value="" selected >별점 선택</option>
-											<option value="5" >5</option>
-											<option value="4" >4</option>
-											<option value="3" >3</option>
-											<option value="2" >2</option>
-											<option value="1" >1</option>
-										</select>
-									</div>
-								</div>
-								<div class="gap-1 d-grid d-sm-block text-end">
-									<button id="modifyBtn" type="button" class="btn btn-secondary">수정하기</button>
-									<button id="insertBtn" type="button" class="btn btn-primary">후기작성</button>
-								</div>
+							<div class="gap-1 d-grid d-sm-block text-end">
+								<button id="modifyBtn" type="button" class="btn btn-secondary">수정하기</button>
+								<button id="insertBtn" type="button" class="btn btn-primary">후기작성</button>
 							</div>
 						</div>
 					</div>
-				<%-- </c:if> --%>
+				</div>
 			</div>
-		</form>
 	</div>
 	
 	<script type="text/javascript">
@@ -388,20 +387,25 @@
 			
 			// 수강후기 '삭제'버튼 클릭
 			$("#reviewList").on("click", "#delBtn", function() {
-				// alert("삭제버튼클릭")
-				let review_id = $(this).parent().attr("data-review_id")
-				let course_id = $(this).parent().attr("data-course_id")
-				//alert(review_id)
-				//alert(course_id)
-				$.ajax({
-					type : 'Delete'
-					, url : '/ycc/course/reviews/'+review_id+'?course_id='+course_id
-					, success : function(result) {
-							alert(result)
-							showList(course_id)
-					}
-					, error : function() { alert("error") }
-				})
+				//alert("삭제버튼클릭")
+				var review_cnt = ${courseDto.review_cnt } 
+				confirm("후기를 삭제하시겠습니까?")
+				if(review_cnt > 0){
+					//alert("if문진입")
+					let review_id = $(this).parent().attr("data-review_id")
+					let course_id = $(this).parent().attr("data-course_id")
+					//alert(review_id)
+					//alert(course_id)
+					$.ajax({
+						type : 'Delete'
+						, url : '/ycc/course/reviews/'+review_id+'?course_id='+course_id
+						, success : function(result) {
+								alert(result)
+								showList(course_id)
+						}
+						, error : function() { alert("error") }
+					})
+				}
 			})
 			
 			// 수강후기 '후기작성'버튼 클릭
@@ -487,7 +491,6 @@
 					tmp += ' 				<div class="col-sm-6 fs-6">작성자:'+review.user_id+'</div>'
 					tmp += ' 			 </div>'
 					tmp += ' 			</div>'
-					tmp += " 			"+ userIdCheck + sessionGradeCheck
 					
 					if(userIdCheck || sessionGradeCheck) {
 						tmp += ' 			<hr>'
@@ -512,12 +515,19 @@
 			}
 
 			// ==============================================강좌==============================================
+			// 강좌 '수강신청'버튼 클릭
+			$("#courseRegBtn").on("click", function() {
+				if(!confirm("수강신청을 하시겠습니까?")) return
+				
+				location.href = "<c:url value='/course/regcomplete${pr.sc.queryString }&course_id=${courseDto.course_id }' />"
+			})
+				
 			// 강좌 '수정하기'버튼 클릭
 			$('#courseModifyBtn').on("click", function() {
 				let form = $("#form")
 				
 				form.attr("action", "<c:url value='/course/modify${searchItem.queryString}' />")
-				form.attr("method", "post")
+				form.attr("method", "POST")
 				
 				form.submit()
 			})
@@ -525,9 +535,6 @@
 			// 강좌 '수정'버튼 클릭
 			$("#courseModBtn").on("click", function() {
 				location.href = "<c:url value='/course/modify${pr.sc.queryString }&course_id=${courseDto.course_id }' />"
-				$("input[name='course_nm']").attr("readonly", false)
-				$("textarea[name='course_info']").removeAttr("readonly")
-					
 				
 			})
 			
@@ -537,7 +544,7 @@
 				
 				let form = $("#form")
 				form.attr("action", "<c:url value='/course/remove${courseSearchItem.queryString}' />")
-				form.attr("method", "post")
+				form.attr("method", "POST")
 				form.submit()
 			})
 			
@@ -545,7 +552,7 @@
 			$("#writeBtn").on("click", function() {
 				let form = $('#form')
 				form.attr("action", "<c:url value='/course/write' />")
-				form.attr("method", "post")
+				form.attr("method", "POST")
 				
 				if(formCheck())
 					form.submit()
@@ -574,6 +581,16 @@
 			// 강좌 '목록'버튼 클릭
 			$("#listBtn").on("click", function() {
 				location.href = "<c:url value='/course/search${courseSearchItem.queryString}' />"
+			})
+			
+			// 'new'에서 '뒤로'버튼 클릭
+			$("#backtoSearch").on("click", function() {
+				location.href = "<c:url value='/course/search' />"
+			})
+			
+			// 'modify'에서 '뒤로'버튼 클릭
+			$("#backtoDetail").on("click", function() {
+				location.href = "<c:url value='/course/detail${pr.sc.queryString }&course_id=${courseDto.course_id }' />"
 			})
 		})
 	</script>

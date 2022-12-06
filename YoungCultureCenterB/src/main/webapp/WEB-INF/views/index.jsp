@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>	
@@ -60,7 +61,6 @@
 		transform:translate(-50%, 0);
 	}
 	</style>
-  	<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 	<!-- 쿠키 저장 자바스크립트 -->
 	<script type="text/javascript">
 	/* 스토리지 제어 함수 정의 */
@@ -89,16 +89,41 @@
 <title>YOUNG문화체육센터</title>
 </head>
 <body>
-	<!-- 모달#1 띄우기 -->
-	<script type="text/javascript">
-		$(window).on('load', function() {
-			$('#modal1').modal('show');
-			$('#modal2').modal('show');
-			$('#modal3').modal('show');
-			$('#modal4').modal('show');
+	<script>
+	//오늘 하루 다시 보지 않기 버튼 (쿠키 저장)
+		//쿠키 생성
+	function setCookie( name, value, expiredays) {
+	    var todayDate = new Date();
+	    todayDate.setDate( todayDate.getDate() + expiredays );
+	    document.cookie = name + "=" + value + "; path=/; expires=" + todayDate.toGMTString() + ";";
+	}
+		//쿠키 가져오기
+	function getCookie() {
+	    var cookiedata = document.cookie;
+	    
+	    if ( cookiedata.indexOf("noMoreToday=done") < 0 ){
+	         $("#modal1").modal('show');
+	    }
+	    else {
+	        $("#modal1").hide();
+	    }
+	}
+		$(function() {
+			getCookie();
+			
+			$('#btn_close').click(function(){
+				$('#modal1').hide();	
+			})
+			
+		    $(".btn_today_close").click(function () {
+		        setCookie("noMoreToday", "done" , 1);
+		        $("#modal1").hide();
+		    });
 		});
+		 
+		
 	</script>
-
+	
 	<!-- 모달#1 콘텐츠 -->
 	<div class="modal fade" id="modal1" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: inline-block;">
@@ -110,15 +135,17 @@
 					</a>
 				</div>
 				<div class="p-1 px-2 text-bg-dark d-flex">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">오늘 하루 보지 않기</button>
-					<button type="button" class="btn btn-primary ms-auto" data-bs-dismiss="modal">닫기</button>
+<!-- 					<button type="button" class="btn btn-secondary btn_today_close"
+						data-bs-dismiss="modal">오늘 하루 보지 않기</button> -->
+						<a href="javascript:;" class="btn btn-secondary btn_today_close" data-bs-dismiss="modal">오늘 하루 보지 않기</a>
+					<button type="button" class="btn btn-primary ms-auto" id="btn_close" data-bs-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<!-- 모달#2 콘텐츠 -->
+	<!-- 
+ 	모달#2 콘텐츠
 	<div class="modal fade" id="modal2" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: inline-block;">
 		<div class="modal-dialog modal-dialog-centered">
@@ -136,7 +163,7 @@
 		</div>
 	</div>
 
-	<!-- 모달#3 콘텐츠 -->
+	모달#3 콘텐츠
 	<div class="modal fade" id="modal3" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: inline-block;">
 		<div class="modal-dialog modal-dialog-centered">
@@ -155,7 +182,7 @@
 		</div>
 	</div>
 	
-	<!-- 모달#4 콘텐츠 -->
+	모달#4 콘텐츠
 	<div class="modal fade" id="modal4" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: inline-block;">
 		<div class="modal-dialog modal-dialog-centered">
@@ -172,7 +199,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- header include -->
 	<%@include file="/WEB-INF/views/header.jsp"%>

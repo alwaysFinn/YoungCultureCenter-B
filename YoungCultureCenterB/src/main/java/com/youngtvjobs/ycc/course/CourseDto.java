@@ -52,7 +52,7 @@ public class CourseDto {
 	private int course_applicants; // 신청인원
 	private double course_rating; // 강의평점
 	private int review_cnt; // 강좌리뷰개수
-	private int count; // 
+	private int count; // 강좌의 개수를 리스트에 일괄적으로 저장해서 list[index]어디에서든 전부 강좌의 개수가 찍혀서 나옴 
 	
 	// JOIN tb_user
 	private String user_name; // 강사명
@@ -140,27 +140,17 @@ public class CourseDto {
 				&& Objects.equals(user_id, other.user_id) && Objects.equals(user_name, other.user_name);
 	}
 
-	// 상태(오픈예정, 접수가능, 접수마감)
+	// 상태(오픈예정, 접수가능, 정원마감, 접수마감)
 	public String course_stat() {
-		Date nowdate = new Date();
-		
-		// 목표 날짜
-        SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
-
-        // 현재 날짜
-        final Date todayDate = new Date();
-
+        final Date todayDate = new Date(); // 현재 날짜
+		String stat = null;
         long rsd_now = course_reg_start_date.getTime() - todayDate.getTime(); // d-day 계산
         long now_rsd = todayDate.getTime() - course_reg_start_date.getTime(); // 오늘-접수시작일 
         long now_red = todayDate.getTime() - course_reg_end_date.getTime(); // 오늘-접수마감일
 
-//		int result1 = nowdate.compareTo(course_reg_start_date); // 오늘-접수시작일
-//		int result2 = nowdate.compareTo(course_reg_end_date); // 오늘-접수마감일
-		String stat = null;
-
 		// nowdate는 접수시작일 이전 
 		if (now_rsd < 0) {
-			stat ="오픈예정<br/>"+"[D-"+(rsd_now / (24 * 60 * 60 * 1000) + 1)+"]";
+			stat ="오픈예정<br/>"+"[D-"+(rsd_now / (24 * 60 * 60 * 1000) + 1)+"]"; // 하루(86400000초)를 '초'로 나타낸 값을 '일'로 변환
 		}
 		
 		// nowdate는 접수시작일과 접수마감일 사이
@@ -173,11 +163,9 @@ public class CourseDto {
 				stat = "정원마감";
 			}
 		}
-		 
+		
 		// nowdate는 접수마감일 이후
-		else {
-			stat = "접수마감";
-		}
+		else { stat = "접수마감"; }
 		
 		return stat;
 	}

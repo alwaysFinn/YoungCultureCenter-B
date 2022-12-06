@@ -14,12 +14,15 @@
 <link href="/ycc/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css" >
 <script src="/ycc/resources/js/bootstrap.bundle.min.js"></script>
 
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+
 <!-- 헤더 네비바 스타일 시트 -->
 <link href="/ycc/resources/css/header.css" rel="stylesheet" type="text/css" >
 
 <!-- 파비콘 추가 -->
 <link rel="shortcut icon" href="/ycc/resources/favicon/favicon.ico">
-
 <style>
 
 .hover-timer:hover span{
@@ -30,6 +33,5 @@
   content:'연장';
 }
 
-
-}</style>
+</style>
 <!-- metahead end -->

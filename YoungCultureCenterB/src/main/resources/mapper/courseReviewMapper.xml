@@ -23,12 +23,12 @@
 	<update id="update" parameterType="ReviewDto">
 		UPDATE course_review
 		SET review_content = #{review_content}, review_updated_datetime = now(), review_rating = #{review_rating}
-		WHERE review_id = #{review_id} AND user_id = #{user_id}
+		WHERE review_id = #{review_id}
 	</update>
 	
-	<delete id="delete" parameterType="map">
+	<delete id="delete" parameterType="int">
 		DELETE FROM course_review
-		WHERE review_id=#{review_id} AND user_id = #{user_id}	
+		WHERE review_id=#{review_id}
 	</delete>
 	
 	<insert id="insert" parameterType="ReviewDto">

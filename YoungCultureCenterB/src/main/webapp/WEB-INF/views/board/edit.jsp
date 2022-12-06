@@ -30,13 +30,26 @@
   
 	<div class="container mt-5">
 	    <!-- 제목 -->
-		<h2 class="writing-header">공지사항</h2>
+		<c:if test="${boardDto.article_Board_type eq '공지사항'}">
+			<h2 class="writing-header mb-3">공지사항</h2>
+		</c:if>
+		<c:if test="${boardDto.article_Board_type eq '이벤트'}">
+			<h2 class="writing-header mb-3">이벤트/행사</h2>
+		</c:if>
 		<form id="form" class="frm" action="" method="post"> 
 			<div class="card mb-4">
 				<div class="card-body">
 					<!-- 게시글 정보 -->
+					<select class="form-select mb-2"  id="boardType" name="article_Board_type" style="width: 180px;">
+					  <option selected disabled="disabled">선택해주세요.</option>
+					  <option value="공지사항">공지사항</option>
+					  <option value="이벤트">이벤트/행사</option>
+					</select>
 	    			<input type="hidden" name="article_id"  value="${boardDto.article_id }"> 		<!--값 받아오는 곳 -->
-					<input type="text" class="title" name="article_title" value="${boardDto.article_title }" />
+	    			<div class="form-floating mb-3">
+					  <input type="email" class="form-control" name="article_title" id="article_title" value="${boardDto.article_title }">
+					  <label for="floatingInput">제목</label>
+					</div>
 					<p class="writingInfo">작성자 : ${boardDto.user_id} |
 						게시일 : <fmt:formatDate value="${boardDto.article_date }" pattern="yyyy-MM-dd" type="date"/> 
 						| 조회수 : ${boardDto.article_viewcnt }
@@ -61,22 +74,30 @@
 	});
 
 	$(document).ready(function(){
-	    
-		 $("#noticeBtn").on("click", function() { 
-				let form = $("#form")
-				form.attr("action","<c:url value='/board/notice'/>")
-				form.attr("method", "get")
-				form.submit()
-			})	
 		
-	    $("#regBtn").on("click", function() { <!-- 목록 및 등록 버튼 js추가 -->
-			if(!confirm("정말로 등록하시겠습니까?")) return;
+		 $("#noticeBtn").on("click", function() { 
+			let form = $("#form")
+			form.attr("action","<c:url value='/board/notice'/>")
+			form.attr("method", "get")
+			form.submit()
+		})	
+		//등록버튼 클릭시 
+	    $("#regBtn").on("click", function() { 
+		    // 게시판 유형 값이 없으면 alert창 띄우기 
+	     	if($("#boardType option:selected").val()=="선택해주세요."){
+		  		alert("게시판 유형을 선택해주세요.")
+		  		return
+		  	}
+	     	else if(!confirm("정말로 등록하시겠습니까?")) return;
 			
 			let form = $("#form")
 			form.attr("action","<c:url value='/board/edit1${searchItem.queryString}' />")
 			form.attr("method", "post")
 			form.submit()
-		})	
+			
+		})
+		
+		
 	})
 </script>    
 

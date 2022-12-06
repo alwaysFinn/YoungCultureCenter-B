@@ -10,7 +10,12 @@
 <body>
 	<!-- header include -->
 	<%@ include file="/WEB-INF/views/header.jsp" %>
-
+	
+	<script type="text/javascript">
+		let msg = "${msg}"
+		if(msg == "REG_COMPLETE") alert("신청이 완료되었습니다.")
+	</script>
+	
 	<!-- body -->
 	<div class="container mt-5">
 		<h2>결제완료페이지</h2><hr>

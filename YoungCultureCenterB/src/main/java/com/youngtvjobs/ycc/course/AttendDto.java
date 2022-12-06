@@ -10,13 +10,13 @@ import java.util.Objects;
  */
 public class AttendDto {
 	//From attend
-	private Integer attend_code;
-	private int course_id;
-	private String user_id;
-	private String attend_datetime;
+	private Integer attend_code; // 수강신청 코드
+	private int course_id; // 강좌serial
+	private String user_id; // 수강생아이디
+	private String attend_datetime; // 등록일(now())
 	
 	// JOIN tb_user
-	private String user_name;
+	private String user_name; // 수강생 이름
 	
 	public AttendDto() {
 		// TODO Auto-generated constructor stub

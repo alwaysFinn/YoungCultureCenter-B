@@ -8,7 +8,7 @@ public interface ReviewService {
 
 	int reviewWrite(ReviewDto reviewDto) throws Exception;
 
-	int reviewDelete(Integer review_id, Integer course_id, String user_id) throws Exception;
+	int reviewDelete(Integer review_id, Integer course_id) throws Exception;
 
 	int modify(ReviewDto reviewDto) throws Exception;
 

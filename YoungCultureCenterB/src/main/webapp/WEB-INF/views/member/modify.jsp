@@ -5,9 +5,6 @@
 	<!-- head & meta tag include -->
 	<%@ include file="/WEB-INF/views/metahead.jsp"%>
 	
-	<!-- jQuery CDN -->
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-	
 	<title>회원정보수정</title>
 	<style>tr { vertical-align: middle !important; } @media ( max-width : 767px) { #w-28 { width: 28%; } }</style>
 </head>
@@ -18,14 +15,14 @@
 	<div class="container mt-5">
 		<h2>회원정보수정</h2><hr>
 		<!-- 회원정보수정 -->
-		<form action="<c:url value='/mypage/modify'/>"  method="post" onsubmit="return validPW(this);">
+		<form action="<c:url value='/mypage/modify'/>"  method="post" onsubmit="return validCheck(this);">
 		<table class="table table-group-divider text-center">
 			<tbody>
 			<colgroup><col width="15%" class="bg-light" id="w-28"></colgroup>
 			<!-- 아이디 -->
 			<tr>
 				<th class="col">아이디</th>
-				<td><input type="text" class="form-control-plaintext" id="id" maxlength="20" name="id" value="${memberDto.user_id }" readonly>
+				<td><input type="text" class="form-control-plaintext" id="id" maxlength="20" name="user_id" value="${memberDto.user_id }" readonly>
 				</td>
 			</tr>
 			<!-- 이름 -->
@@ -34,7 +31,7 @@
 				<td>
 					<div class="row">
 						<div class="col-lg-4">
-							<input type="text" class="form-control-plaintext" id="name"
+							<input type="text" class="form-control-plaintext" id="name" name="user_name"
 							placeholder="한글입력" maxlength="10" value="${memberDto.user_name }" readonly>
 						</div>
 					</div>
@@ -46,7 +43,7 @@
 				<td>
 					<div class="row">
 						<div class="col-lg-5">
-							<input type="password" class="form-control" id="pw" name="pw"
+							<input type="password" class="form-control" id="pw" name="user_pw"
 							placeholder="8~15자, 영문+숫자 입력" maxlength="20" required>
 						</div>
 					</div>
@@ -68,12 +65,12 @@
 				<th class="col">성별</th>
 				<th class="text-start">
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+						<input class="form-check-input" type="radio" id="inlineRadio1"
 						value="option1" ${memberDto.user_gender.equals('M') ? "checked"  : "" } disabled>
 						<label class="form-check-label" for="inlineRadio1">남</label>
 					</div>
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+						<input class="form-check-input" type="radio" id="inlineRadio2"
 						value="option2" ${memberDto.user_gender.equals('F') ? "checked"  : "" } disabled>
 						<label class="form-check-label" for="inlineRadio2">여</label>
 					</div>
@@ -89,6 +86,7 @@
 						</div>
 					</div>
 				</td>
+				</th>
 			</tr>
 			<!-- 이메일 -->
 			<tr>
@@ -120,7 +118,7 @@
 					<div class="row">
 						<div class="col-lg-5">
 							<input type="tel" class="form-control onlyNumber" id="phoneNumber" value ="${memberDto.user_phone_number}"
-							 name ="tel" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
+							 name ="user_phone_number" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
 						</div>
 					</div>
 				</td>
@@ -134,7 +132,7 @@
 							<div class="row g-1">
 								<div class="col-sm-4">
 									<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" 
-									 name="postCode" value="${memberDto.user_postcode}" required readonly>
+									 name="user_postcode" value="${memberDto.user_postcode}" required readonly>
 								</div>
 								<div class="col-sm-4 text-start d-grid d-md-block">
 									<input class="btn btn-primary" onclick="sample6_execDaumPostcode()" type="button" value="우편번호검색">
@@ -145,11 +143,11 @@
 							<div class="row g-1">
 								<div class="col-md-6">
 									<input type="text" class="form-control" id="sample6_address" placeholder="도로명주소" 
-									name="rNameAddr" value="${memberDto.user_rNameAddr }" required readonly>
+									name="user_rNameAddr" value="${memberDto.user_rNameAddr }" required readonly>
 								</div>
 								<div class="col-md-6">
 									<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요."
-									name="detailAddr" value="${memberDto.user_detailAddr }">
+									name="user_detailAddr" value="${memberDto.user_detailAddr }">
 								</div>
 								<div class="col-md-12">
 									<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목.">
@@ -215,13 +213,15 @@
 	<script type="text/javascript">
 	 
 	// 비밀번호 유효성 검사 (8-15자리, 영문/숫자 혼합, 비밀번호 확인)
-	 	 function validPW(){
+	// 핸드폰번호 유효성 검사 (01~으로 시작, 11자리만 입력 확인)	 
+	
+	function validCheck(){
 
 		 var pw = $("#pw").val();
 		 var num = pw.search(/[0-9]/g);
 		 var eng = pw.search(/[a-z]/ig);
 		 var pwChk = $("#pwChk").val();
-
+		 var phoneNum =/^01([0|1|6|7|9]?)?([0-9]{4})?([0-9]{4})$/;
 
 		 if(pw.length < 8 || pw.length > 15){
 		  alert("8자리 ~ 15자리 이내로 입력해주세요.");
@@ -238,32 +238,19 @@
 	 	 }else if(pw!=pwChk){
 		  alert("비밀번호가 일치하지 않습니다.");
 		  return false;
-		  
-		 }else { 
+		  } 
+		  else if(!phoneNum.test($("#phoneNumber").val())) {	
+	 	  alert('핸드폰 번호를 확인 해주세요');
+	 	  return false;
+	 	  } 
+		  else { 
 		    return alert("수정이 완료되었습니다.");
 		 }
 		 
 		}
 	
-/* 	 	 //휴대폰 번호 유효성검사
-	 function validPhone(){
-	   var phoneNum = '010xxxxxxxx'; 
-	   var patternPhone = /01[016789][^0][0-9]{6}/;
 
-	    if(!patternPhone.test(phoneNum))
-	    {
-	        alert('핸드폰 번호를 확인 해주세요');
-	        return false;
-	    }else{
-	    	return true;
-	    }
-	 } */
-
-	 
-	 
-	 
 	
-	 
  
 	
     function setMessage(msg, element) {
