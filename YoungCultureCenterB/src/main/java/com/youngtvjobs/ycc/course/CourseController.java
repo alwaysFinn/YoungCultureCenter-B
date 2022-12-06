@@ -130,10 +130,13 @@ public class CourseController {
 	public String courseModify(Model m, Integer course_id, CourseSearchItem sc, HttpServletRequest request) {
 		try {
 			CourseDto courseDto = courseService.readCourseDetail(course_id);
-			System.out.println(course_id);
-			System.out.println(courseDto);
-			m.addAttribute(courseDto);
+			List<CourseDto> classroomList = courseService.getcroomId();
+			List<CourseDto> typeList = courseService.getCourseType();
+			
 			m.addAttribute("mode", "modify");
+			m.addAttribute(courseDto);
+			m.addAttribute("classroomList", classroomList);
+			m.addAttribute("typeList", typeList);
 			
 			// 수정페이지에 queryString을 넘겨주기 위해서
 			int totalCnt = courseService.getsearchResultCnt(sc);
@@ -198,8 +201,19 @@ public class CourseController {
 	public String courseWrite(Model m, HttpServletRequest request) {
 		if (!logincheck(request))
 			return "redirect:/login?toURL=" + request.getRequestURL();
-
+		
 		m.addAttribute("mode", "new");
+		
+		try {
+			List<CourseDto> classroomList = courseService.getcroomId();
+			m.addAttribute("classroomList", classroomList);
+			List<CourseDto> typeList = courseService.getCourseType();
+			m.addAttribute("typeList", typeList);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 
 		return "/course/coursedetail"; // board.jsp 읽기와 쓰기에 사용. 쓰기에 사용할 때는 mode=new
 	}

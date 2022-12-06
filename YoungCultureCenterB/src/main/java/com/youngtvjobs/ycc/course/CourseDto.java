@@ -57,6 +57,9 @@ public class CourseDto {
 	// JOIN tb_user
 	private String user_name; // 강사명
 	
+	// JOIN course_type
+	private String course_cate_name; // 강좌 카테고리 이름
+	
 	//JOIN classroom
 	private String croom_name; // 강의실이름
 	private int croom_mpop; // 강의실 수용인원 (총원)
@@ -69,7 +72,7 @@ public class CourseDto {
 			Date course_reg_end_date, Date course_start_date, Date course_end_date, String course_day,
 			String course_time, String course_target, int course_cost, String course_info, String user_id,
 			String croom_id, String course_cate_cd, int course_applicants, double course_rating, int review_cnt,
-			int count, String user_name, String croom_name, int croom_mpop) {
+			int count, String user_name, String course_cate_name, String croom_name, int croom_mpop) {
 		super();
 		this.course_id = course_id;
 		this.course_nm = course_nm;
@@ -91,26 +94,15 @@ public class CourseDto {
 		this.review_cnt = review_cnt;
 		this.count = count;
 		this.user_name = user_name;
+		this.course_cate_name = course_cate_name;
 		this.croom_name = croom_name;
 		this.croom_mpop = croom_mpop;
 	}
 
 	@Override
-	public String toString() {
-		return "CourseDto [course_id=" + course_id + ", course_nm=" + course_nm + ", course_image=" + course_image
-				+ ", course_reg_start_date=" + course_reg_start_date + ", course_reg_end_date=" + course_reg_end_date
-				+ ", course_start_date=" + course_start_date + ", course_end_date=" + course_end_date + ", course_day="
-				+ course_day + ", course_time=" + course_time + ", course_target=" + course_target + ", course_cost="
-				+ course_cost + ", course_info=" + course_info + ", user_id=" + user_id + ", croom_id=" + croom_id
-				+ ", course_applicants=" + course_applicants + ", course_rating=" + course_rating + ", review_cnt="
-				+ review_cnt + ", user_name=" + user_name + ", croom_name=" + croom_name + ", croom_mpop=" + croom_mpop
-				+ "]";
-	}
-
-	@Override
 	public int hashCode() {
-		return Objects.hash(count, course_applicants, course_cate_cd, course_cost, course_day, course_end_date,
-				course_id, course_image, course_info, course_nm, course_rating, course_reg_end_date,
+		return Objects.hash(count, course_applicants, course_cate_cd, course_cate_name, course_cost, course_day,
+				course_end_date, course_id, course_image, course_info, course_nm, course_rating, course_reg_end_date,
 				course_reg_start_date, course_start_date, course_target, course_time, croom_id, croom_mpop, croom_name,
 				review_cnt, user_id, user_name);
 	}
@@ -125,7 +117,8 @@ public class CourseDto {
 			return false;
 		CourseDto other = (CourseDto) obj;
 		return count == other.count && course_applicants == other.course_applicants
-				&& Objects.equals(course_cate_cd, other.course_cate_cd) && course_cost == other.course_cost
+				&& Objects.equals(course_cate_cd, other.course_cate_cd)
+				&& Objects.equals(course_cate_name, other.course_cate_name) && course_cost == other.course_cost
 				&& Objects.equals(course_day, other.course_day)
 				&& Objects.equals(course_end_date, other.course_end_date) && Objects.equals(course_id, other.course_id)
 				&& Objects.equals(course_image, other.course_image) && Objects.equals(course_info, other.course_info)
@@ -138,6 +131,19 @@ public class CourseDto {
 				&& Objects.equals(croom_id, other.croom_id) && croom_mpop == other.croom_mpop
 				&& Objects.equals(croom_name, other.croom_name) && review_cnt == other.review_cnt
 				&& Objects.equals(user_id, other.user_id) && Objects.equals(user_name, other.user_name);
+	}
+
+	@Override
+	public String toString() {
+		return "CourseDto [course_id=" + course_id + ", course_nm=" + course_nm + ", course_image=" + course_image
+				+ ", course_reg_start_date=" + course_reg_start_date + ", course_reg_end_date=" + course_reg_end_date
+				+ ", course_start_date=" + course_start_date + ", course_end_date=" + course_end_date + ", course_day="
+				+ course_day + ", course_time=" + course_time + ", course_target=" + course_target + ", course_cost="
+				+ course_cost + ", course_info=" + course_info + ", user_id=" + user_id + ", croom_id=" + croom_id
+				+ ", course_cate_cd=" + course_cate_cd + ", course_applicants=" + course_applicants + ", course_rating="
+				+ course_rating + ", review_cnt=" + review_cnt + ", count=" + count + ", user_name=" + user_name
+				+ ", course_cate_name=" + course_cate_name + ", croom_name=" + croom_name + ", croom_mpop=" + croom_mpop
+				+ "]";
 	}
 
 	// 상태(오픈예정, 접수가능, 정원마감, 접수마감)
@@ -203,6 +209,14 @@ public class CourseDto {
 	// getter setter
 	public String getCroom_name() {
 		return croom_name;
+	}
+
+	public String getCourse_cate_name() {
+		return course_cate_name;
+	}
+
+	public void setCourse_cate_name(String course_cate_name) {
+		this.course_cate_name = course_cate_name;
 	}
 
 	public int getCount() {

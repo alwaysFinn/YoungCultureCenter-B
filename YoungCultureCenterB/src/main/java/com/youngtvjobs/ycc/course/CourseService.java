@@ -26,4 +26,8 @@ public interface CourseService {
 
 	int coursemodify(CourseDto courseDto) throws Exception;
 
+	List<CourseDto> getcroomId() throws Exception;
+
+	List<CourseDto> getCourseType() throws Exception;
+
 }

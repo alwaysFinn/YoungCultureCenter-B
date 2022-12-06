@@ -70,18 +70,48 @@
 									<th>접수기간</th>
 									<td>${courseDto.reg_sd() } ~ ${courseDto.reg_ed() }</td>
 								</tr>
+								<tr>
+									<th>수강대상</th>
+									<td>${courseDto.course_target }</td>
+								</tr>
 							</c:if>
 							
 							<!-- 입력값 -->
 							<c:if test="${mode eq 'new' || mode eq 'modify' }">
 								<tr>
-									<th>강의실</th> <!-- 셀렉트박스로 변경 -->
-									<td><input class="form-control w-50" type="text" name="croom_id" value="${courseDto.croom_id }"></td>
+									<th>강의실</th>
+									<td>
+										<select class="form-select w-auto" name="croom_id">
+											<option>선택</option>
+											<c:forEach var="classroom" items="${classroomList }"> 
+												<option value="${classroom.croom_id }">${classroom.croom_name }</option>
+											</c:forEach>
+										</select>
+									</td>
 								</tr>
 								<tr>
-									<th>카테고리</th> <!-- 셀렉트박스로로 변경 -->
-									<td><input class="form-control w-50" type="text" name="course_cate_cd" value="${courseDto.course_cate_cd }"></td>
+									<th>강좌분류</th>
+									<td>
+										<select class="form-select w-auto" name="course_cate_cd">
+											<option>선택</option>
+											<c:forEach var="courseType" items="${typeList }">
+												<option value="${courseType.course_cate_cd }">${courseType.course_cate_name }</option>
+											</c:forEach>
+										</select>
+									</td>
 								</tr>
+								<tr>
+									<th>수강대상</th>
+									<td>
+										<select class="form-select w-auto" name="course_target">
+											<option>선택</option>
+											<option>성인</option>
+											<option>청소년</option>
+											<option>유아</option>
+											<option>노인</option>
+										</select>
+									</td>
+								</tr>	
 								<tr>
 									<th>접수시작일</th>
 									<td><input class="form-control w-75" type="date" id="date" name="course_reg_start_date" value="${courseDto.reg_sd() }"></td>
@@ -101,14 +131,12 @@
 							</c:if>
 							<!-- //입력값 -->
 							
+							<!-- 입출력값 -->
 							<tr>
 								<th>수강료</th>
 								<td><input class="form-control w-50 d-inline" type="text" name="course_cost" value="${courseDto.course_cost }" ${mode=="new" || mode=="modify" ? "" : "readonly" }>원</td>
 							</tr>
-							<tr>
-								<th>수강대상</th> <!-- 셀렉트박스로 변경 -->
-								<td><input class="form-control w-50" type="text" name="course_target" value="${courseDto.course_target }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>
-							</tr>
+							<!-- //입출력값 -->
 							</tbody>
 						</table>
 					</div>
@@ -118,11 +146,27 @@
 						<table class="table h-100">
 							<tbody>
 							<colgroup><col width="25%"></colgroup>
+							<c:if test="${mode eq 'new' || mode eq 'modify' }">
+								<tr>
+									<th>수강요일</th> <!-- 체크박스로 변경 -->
+									<td>
+										<input class="form-check-input" type="checkbox" name="course_day" value="월" >월
+										<input class="form-check-input" type="checkbox" name="course_day" value="화" >화
+										<input class="form-check-input" type="checkbox" name="course_day" value="수" >수
+										<input class="form-check-input" type="checkbox" name="course_day" value="목" >목
+										<input class="form-check-input" type="checkbox" name="course_day" value="금" >금
+										<input class="form-check-input" type="checkbox" name="course_day" value="토" >토
+										<input class="form-check-input" type="checkbox" name="course_day" value="일" >일
+									</td>
+								</tr>
+							</c:if>
 							<!-- 출력값 -->
-							<tr>
-								<th>수강요일</th> <!-- 체크박스로 변경 -->
-								<td><input class="form-control w-75" type="text" name="course_day" value="${courseDto.course_day }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>
-							</tr>
+							<c:if test="${mode ne 'new' && mode ne 'modify' }">
+								<tr>
+									<th>수강요일</th> <!-- 체크박스로 변경 -->
+									<td>${courseDto.course_day }</td>
+								</tr>
+							</c:if>
 							<tr>
 								<th>수강시간</th>
 								<td><input class="form-control w-75" type="text" name="course_time" value="${courseDto.course_time }" ${mode=="new" || mode=="modify" ? "" : "readonly" }></td>

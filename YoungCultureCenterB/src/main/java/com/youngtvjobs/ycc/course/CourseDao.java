@@ -34,4 +34,8 @@ public interface CourseDao {
 	// 강좌수정
 	int update(CourseDto courseDto) throws Exception;
 
+	List<CourseDto> selectCroomId() throws Exception;
+
+	List<CourseDto> selectCourseType() throws Exception;
+
 }
