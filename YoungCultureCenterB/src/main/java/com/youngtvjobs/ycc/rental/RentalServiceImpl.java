@@ -46,7 +46,15 @@ public class RentalServiceImpl implements RentalService{
 		return rentalDao.selectRental();
 	}
 
-	
+	@Override
+	public List<RentalDto> sroomRentalCheck() throws Exception {
+		return rentalDao.sroomview();
+	}
+
+	@Override
+	public int sroomRental(RentalDto rentalDto) throws Exception {
+		return rentalDao.insertStudyroomlentalinfo(rentalDto);
+	}
 	
 	
 }

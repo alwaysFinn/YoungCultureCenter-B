@@ -50,7 +50,16 @@ public class RentalDaoImpl implements RentalDao{
 		return session.insert(namespace + "insertRentalinfo", dto);
 	}
 
-	
+	@Override
+	public List<RentalDto> sroomview() throws Exception {
+		return session.selectList(namespace + "selectSchedule");
+	}
+
+	@Override
+	public int insertStudyroomlentalinfo(RentalDto rentalDto) throws Exception {
+		return session.insert(namespace + "studyroomRental", rentalDto);
+	}
+
 	
 
 }

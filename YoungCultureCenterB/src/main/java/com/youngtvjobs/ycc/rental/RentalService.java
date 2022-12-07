@@ -16,6 +16,9 @@ public interface RentalService {
 	
 	int rental(RentalDto rentalDto) throws Exception;
 	
+	//studyroom start
+	List<RentalDto> sroomRentalCheck() throws Exception;
+	int sroomRental(RentalDto rentalDto) throws Exception; 
 	
 
 }

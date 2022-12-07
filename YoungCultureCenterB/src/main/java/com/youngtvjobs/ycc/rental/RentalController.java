@@ -2,7 +2,6 @@ package com.youngtvjobs.ycc.rental;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +24,50 @@ public class RentalController {
 	@Autowired
 	RentalService rentalService;
 
-	// 독서실 대여
-	@RequestMapping("/rental/studyroom")
-	public String studyRoom() {
-		
-		
+	// 독서실 페이지로 이동했을 때 조건이 지난 부분은 삭제되고, 그 결과를 받아오는 get
+	@GetMapping("/rental/studyroom")
+	public String studyRoom(HttpServletRequest request, Model m) throws Exception {
+			
+		try {
+			
+			List<RentalDto> rentalDto = rentalService.sroomRentalCheck();
+			m.addAttribute("rentalDto", rentalDto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
 		return "rental/studyRoom";
+	}
+	
+	// 독서실 페이지에서 예약을 진행했을 때 insert와 update를 진행하는 post
+	@PostMapping("/rental/studyroom")
+	public String studyRoom(HttpServletRequest request, Date sroom_rental_stime, Date sroom_rental_etime, String user_id, int sroom_seat_id) {
+		
+		//이건 업데이트용인데 잘못짜버렸다
+		try {
+			System.out.println("시작 시간 : " + sroom_rental_stime);
+			System.out.println("종료 시간 : " + sroom_rental_etime);
+			RentalDto rentalDto = new RentalDto();
+			rentalDto.setSroom_rental_stime(sroom_rental_stime);
+			rentalDto.setSroom_rental_etime(sroom_rental_etime);
+			rentalDto.setSroom_seat_id(sroom_seat_id);
+			rentalDto.setUser_id(user_id);
+			System.out.println("rentalDtl : " + rentalDto);
+			
+			if(rentalService.sroomRental(rentalDto) != 1) {
+				throw new Exception("예약 오류");
+			}else {
+				System.out.println("예약 성공");
+			}
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("예약 실패");
+		}
+		
+		return "rental/studyroom";
 	}
 
 	// 사물함 안내
