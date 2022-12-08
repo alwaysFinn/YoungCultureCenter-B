@@ -104,6 +104,19 @@
 		</choose>
 	</sql>
 	
+	<select id="selectCourseType" resultType="CourseDto">
+		SELECT course_cate_cd, course_cate_name
+		FROM course_type
+		ORDER BY course_cate_cd
+	</select>
+	
+	<!-- 강의실 불러오기 -->
+	<select id="selectCroomId" resultType="CourseDto">
+		SELECT croom_id, croom_name 
+		FROM classroom 
+		ORDER BY croom_id 
+	</select>
+	
 	<!-- 수강신청 테이블 -->
 	<select id="selectAttendTable" parameterType="map" resultType="AttendDto">
 		SELECT attend_code, course_id, b.user_id, attend_datetime, b.user_name 

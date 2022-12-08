@@ -5,11 +5,7 @@
   
   <mapper namespace="com.youngtvjobs.ycc.rental.rentalMapper">
 
-	  <!-- 대관 시간 선택에 보여질 시간을 불러오는 sql문 -->
-	  <select id="selectSchedule" resultType="RentalDto">
-	  	SELECT prtime_schedule from rental_time
-	  </select>
-	  
+	  <!-- 장소 대관 start -->	  
 	  <!-- selectBox에서 장소 고를때 장소를 불러오는 sql문 -->
 	  <select id="selectRentalPlace" resultType="RentalDto">
 	  	select * from classroom
@@ -29,4 +25,38 @@
 		prental_de, prtime_schedule, user_id, croom_id
 		VALUES(#{prental_de}::date, #{prtime_schedule}, #{user_id}, #{croom_id})
 	  </insert>
+	  
+	  <!-- 독서실 start -->
+	  <!-- 각 좌석마다 예약현황을 확인하기 위한 select -->
+	  <select id="selectSchedule" resultType="RentalDto">
+	  	SELECT * from studyroom
+	  </select>
+	  
+	  <!-- 해당 좌석에서 예약을 진행할때 사용하는 insert -->
+	  <insert id="studyroomRental" parameterType="RentalDto">
+	  	INSERT INTO public.sroom_rental_info
+		(sroom_rental_stime, sroom_rental_etime, user_id, sroom_seat_id)
+		VALUES(#{sroom_rental_stime}, #{sroom_rental_etime}, #{user_id}, #{sroom_seat_id})
+	  </insert>
+	  
+	  <!-- 예약 시간이 종료되었을 때 진행되는 delete -->
+	  <delete id="studyroomReset" parameterType="RentalDto">
+	  	delete from sroom_rental_info 
+		where sroom_rental_etime <![CDATA[ < ]]> 'now()'
+	  </delete>
+
+      <!-- 예약 insert시 n을 y로 update하는 sql -->		
+	  <update id="studyroomRentalupdate" parameterType="RentalDto">
+	  	UPDATE public.studyroom
+		SET sroom_rental_yn='y'
+		WHERE sroom_seat_id=#{sroom_seat_id}
+	  </update>
+	  
+	  <!-- 예약시간이 만료되어 delete시 y을 n으로 update하는 sql -->		
+	  <update id="studyroomDeleteupdate" parameterType="RentalDto">
+	  	UPDATE public.studyroom
+		SET sroom_rental_yn='n'
+		WHERE sroom_seat_id=#{sroom_seat_id}
+	  </update>
+	  
   </mapper>

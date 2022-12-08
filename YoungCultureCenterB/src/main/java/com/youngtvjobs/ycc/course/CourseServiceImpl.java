@@ -83,4 +83,16 @@ public class CourseServiceImpl implements CourseService {
 		return courseDao.update(courseDto);
 	}
 
+	@Override
+	public List<CourseDto> getcroomId() throws Exception {
+		// TODO Auto-generated method stub
+		return courseDao.selectCroomId();
+	}
+
+	@Override
+	public List<CourseDto> getCourseType() throws Exception {
+		// TODO Auto-generated method stub
+		return courseDao.selectCourseType();
+	}
+
 }

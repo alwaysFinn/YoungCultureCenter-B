@@ -70,19 +70,20 @@ public class CourseController {
 								&& courseDto.getCourse_reg_end_date().after(nowdate) == true)) { 
 					// 수강신청 시 attend에 insert & 신청인원 1명 증가
 					courseService.attendInsert(attendDto); 
+					System.out.println("수강신청이 성공적으로 완료되었습니다. 감사합니다.");
 					rattr.addFlashAttribute("msg", "REG_COMPLETE");
 				// 신청인원을 총정원과 비교	
 				} else if (courseDto.getCourse_applicants() >= courseDto.getCroom_mpop()) {
-					System.out.println("정원이 마감되었습니다.");
+					System.out.println("정원이 마감되었습니다. 새로고침 후 신청인원을 확인해주세요.");
 					rattr.addFlashAttribute("msg", "overcapacity");
 					return "redirect:/course/search";
 				} else {
-					System.out.println("접수기간이 아닙니다.");
+					System.out.println("접수기간이 아닙니다. 접수기간을 확인해주세요.");
 					rattr.addFlashAttribute("msg", "NO_PERIOD");
 					return "redirect:/course/search";
 				}
 			} else {
-				System.out.println("중복 신청은 할 수 없습니다.");
+				System.out.println("중복 신청은 할 수 없습니다. 나의 수강목록에서 확인해주세요.");
 				rattr.addFlashAttribute("msg", "OVERLAP");
 				return "redirect:/course/search";
 			}
@@ -130,10 +131,13 @@ public class CourseController {
 	public String courseModify(Model m, Integer course_id, CourseSearchItem sc, HttpServletRequest request) {
 		try {
 			CourseDto courseDto = courseService.readCourseDetail(course_id);
-			System.out.println(course_id);
-			System.out.println(courseDto);
-			m.addAttribute(courseDto);
+			List<CourseDto> classroomList = courseService.getcroomId();
+			List<CourseDto> typeList = courseService.getCourseType();
+			
 			m.addAttribute("mode", "modify");
+			m.addAttribute(courseDto);
+			m.addAttribute("classroomList", classroomList);
+			m.addAttribute("typeList", typeList);
 			
 			// 수정페이지에 queryString을 넘겨주기 위해서
 			int totalCnt = courseService.getsearchResultCnt(sc);
@@ -198,8 +202,19 @@ public class CourseController {
 	public String courseWrite(Model m, HttpServletRequest request) {
 		if (!logincheck(request))
 			return "redirect:/login?toURL=" + request.getRequestURL();
-
+		
 		m.addAttribute("mode", "new");
+		
+		try {
+			List<CourseDto> classroomList = courseService.getcroomId();
+			m.addAttribute("classroomList", classroomList);
+			List<CourseDto> typeList = courseService.getCourseType();
+			m.addAttribute("typeList", typeList);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 
 		return "/course/coursedetail"; // board.jsp 읽기와 쓰기에 사용. 쓰기에 사용할 때는 mode=new
 	}
