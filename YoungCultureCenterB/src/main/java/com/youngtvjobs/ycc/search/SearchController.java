@@ -1,5 +1,6 @@
 package com.youngtvjobs.ycc.search;
 
+import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -121,19 +123,27 @@ public class SearchController {
 		return "search/all";
 	}
 	
-	// 진행중) 검색어 자동완성 구현을 위한 ajax 컨트롤러//////////////////////////////////////////////////
-	@ResponseBody
-	@GetMapping(value = "/search/autocomplete", produces="application/json;charset=UTF-8") 
-	public String autocomplete(Model m, SearchItem sc) throws Exception {
-		List<BoardDto> nList = null;
-		nList = searchService.getNoticePage(sc);
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-	    for (BoardDto dto : nList) {
-	        map.add("article_title", dto.getArticle_title());
-	    }
-	    JSONObject jsonObject = new JSONObject(map);
-	    String data = jsonObject.toString();
-	  
-	    return data; 
+	// 검색어 자동완성
+	@Controller
+	public class AutoComController {
+		
+		@RequestMapping(value = "/search/autocomplete")
+		public @ResponseBody Map<String, Object> autocomplete
+	    						(@RequestParam Map<String, Object> paramMap) throws Exception{
+
+			List<Map<String, Object>> resultList = searchService.autocomplete(paramMap); 	//article data - 공지사항
+			List<Map<String, Object>> resultList2 = searchService.autocomplete2(paramMap);	//tb_course data
+//			resultList.addAll(resultList2);
+			paramMap.put("resultList", resultList);		
+			paramMap.put("resultList2", resultList2);
+			
+			/*
+			 * String article_Board_type = req.getParameter("type");
+			 * paramMap.put("article_Board_type", article_Board_type);
+			 * System.out.println(article_Board_type);
+			 */
+			
+			return paramMap;
+		}
 	}
 }

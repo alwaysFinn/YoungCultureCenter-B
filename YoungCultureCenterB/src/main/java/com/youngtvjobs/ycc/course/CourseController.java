@@ -70,19 +70,20 @@ public class CourseController {
 								&& courseDto.getCourse_reg_end_date().after(nowdate) == true)) { 
 					// 수강신청 시 attend에 insert & 신청인원 1명 증가
 					courseService.attendInsert(attendDto); 
+					System.out.println("수강신청이 성공적으로 완료되었습니다. 감사합니다.");
 					rattr.addFlashAttribute("msg", "REG_COMPLETE");
 				// 신청인원을 총정원과 비교	
 				} else if (courseDto.getCourse_applicants() >= courseDto.getCroom_mpop()) {
-					System.out.println("정원이 마감되었습니다.");
+					System.out.println("정원이 마감되었습니다. 새로고침 후 신청인원을 확인해주세요.");
 					rattr.addFlashAttribute("msg", "overcapacity");
 					return "redirect:/course/search";
 				} else {
-					System.out.println("접수기간이 아닙니다.");
+					System.out.println("접수기간이 아닙니다. 접수기간을 확인해주세요.");
 					rattr.addFlashAttribute("msg", "NO_PERIOD");
 					return "redirect:/course/search";
 				}
 			} else {
-				System.out.println("중복 신청은 할 수 없습니다.");
+				System.out.println("중복 신청은 할 수 없습니다. 나의 수강목록에서 확인해주세요.");
 				rattr.addFlashAttribute("msg", "OVERLAP");
 				return "redirect:/course/search";
 			}

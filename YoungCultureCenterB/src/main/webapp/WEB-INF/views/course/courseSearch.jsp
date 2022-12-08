@@ -34,9 +34,9 @@
 		if(msg == "DEL_ERR") alert("삭제되었거나 없는 게시물입니다.")
 		if(msg == "WRT_OK") alert("성공적으로 등록되었습니다.")
 		if(msg == "MOD_OK") alert("성공적으로 수정되었습니다.")
-		if(msg == "overcapacity") alert("정원이 마감되었습니다.")
-		if(msg == "NO_PERIOD") alert("접수기간이 아닙니다.")
-		if(msg == "OVERLAP") alert("중복 신청은 할 수 없습니다.")
+		if(msg == "overcapacity") alert("정원이 마감되었습니다.\n새로고침 후 신청인원을 확인해주세요.")
+		if(msg == "NO_PERIOD") alert("접수기간이 아닙니다.\n접수기간을 확인해주세요.")
+		if(msg == "OVERLAP") alert("중복 신청은 할 수 없습니다.\n나의 수강목록에서 확인해주세요.")
 	</script>
 
 	<!-- 본문 -->

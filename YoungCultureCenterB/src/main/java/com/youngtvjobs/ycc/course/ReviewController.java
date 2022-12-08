@@ -1,5 +1,6 @@
 package com.youngtvjobs.ycc.course;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,13 +17,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ReviewController {
 	
-	@Autowired
 	ReviewService reviewService;
+	CourseService courseService;
 	
+	public ReviewController(ReviewService reviewService, CourseService courseService) {
+		// super();
+		this.reviewService = reviewService;
+		this.courseService = courseService;
+	}
+
 	// 수강후기 수정
 	@PatchMapping("/course/reviews/{review_id}")
 	public ResponseEntity<String> modify(@PathVariable Integer review_id, String user_id
@@ -74,8 +82,10 @@ public class ReviewController {
 	
 	// 수강후기 작성
 	@PostMapping("/course/reviews")
-	public ResponseEntity<String> write(@RequestBody ReviewDto reviewDto, Integer course_id, HttpSession session){
+	public ResponseEntity<String> write(@RequestBody ReviewDto reviewDto, Integer course_id
+											, HttpSession session, RedirectAttributes rattr){
 		String user_id = (String) session.getAttribute("id");
+		Date nowdate = new Date();
 		
 		reviewDto.setUser_id(user_id);
 		reviewDto.setCourse_id(course_id);
@@ -83,9 +93,24 @@ public class ReviewController {
 		System.out.println("reviewDto" + reviewDto);
 		
 		try {
-			// 수강신청(attend) 테이블에 있을 경우에만 작성 가능하게 구현 '예정'
-			if(reviewService.reviewWrite(reviewDto) != 1)
-				throw new Exception("write failed");
+			CourseDto courseDto = courseService.readCourseDetail(course_id);
+			// 수강신청(attend) 테이블에 있을 경우에만 작성 가능하게 구현
+			if(courseService.attendDuplicateCheck(course_id, user_id) == 1) {
+				// 수강마감일부터 후기 작성 가능 (일일강좌는 수강후기 다음날 작성 가능)
+				if(courseDto.getCourse_end_date().before(nowdate) == true) {
+					if(reviewService.reviewWrite(reviewDto) != 1) {
+						throw new Exception("write failed");
+					}
+				} else {
+					System.out.println("수강마감일이 아닙니다. 수강마감일부터 작성하실 수 있습니다.");
+					rattr.addFlashAttribute("msg", "NOT_PASS_DEADLINE");
+					return new ResponseEntity<String>("NOT_PASS_DEADLINE", HttpStatus.OK);
+				}
+			} else {
+				System.out.println("수강생이 아닙니다.");
+				rattr.addFlashAttribute("msg", "NOT_STUDENT");
+				return new ResponseEntity<String>("NOT_STUDENT", HttpStatus.OK);
+			}
 			
 			return new ResponseEntity<String>("WRT_OK", HttpStatus.OK);
 			

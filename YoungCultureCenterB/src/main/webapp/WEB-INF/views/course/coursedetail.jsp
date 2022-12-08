@@ -114,19 +114,19 @@
 								</tr>	
 								<tr>
 									<th>접수시작일</th>
-									<td><input class="form-control w-75" type="date" id="date" name="course_reg_start_date" value="${courseDto.reg_sd() }"></td>
+									<td><input class="form-control w-auto" type="date" id="regStartDate" name="course_reg_start_date" value="${courseDto.reg_sd() }" onchange="validationChk1()"></td>
 								</tr>
 								<tr>
 									<th>접수마감일</th>
-									<td><input class="form-control w-75" type="date" id="date" name="course_reg_end_date" value="${courseDto.reg_ed() }"></td>
+									<td><input class="form-control w-auto" type="date" id="regEndDate" name="course_reg_end_date" value="${courseDto.reg_ed() }" onchange="validationChk2()"></td>
 								</tr>
 								<tr>
 									<th>수강시작일</th>
-									<td><input class="form-control w-75" type="date" id="date" name="course_start_date" value="${courseDto.course_sd() }"></td>
+									<td><input class="form-control w-auto" type="date" id="startDate" name="course_start_date" value="${courseDto.course_sd() }" onchange="validationChk3()"></td>
 								</tr>
 								<tr>
 									<th>수강종료일</th>
-									<td><input class="form-control w-75" type="date" id="date" name="course_end_date" value="${courseDto.course_ed() }"></td>
+									<td><input class="form-control w-auto" type="date" id="endDate" name="course_end_date" value="${courseDto.course_ed() }" onchange="validationChk4()"></td>
 								</tr>
 							</c:if>
 							<!-- //입력값 -->
@@ -134,7 +134,7 @@
 							<!-- 입출력값 -->
 							<tr>
 								<th>수강료</th>
-								<td><input class="form-control w-50 d-inline" type="text" name="course_cost" value="${courseDto.course_cost }" ${mode=="new" || mode=="modify" ? "" : "readonly" }>원</td>
+								<td><input class="form-control w-50 d-inline" id="price" type="number" onchange="onlyInteger()" name="course_cost" value="${courseDto.course_cost }" ${mode=="new" || mode=="modify" ? "" : "readonly" }>원</td>
 							</tr>
 							<!-- //입출력값 -->
 							</tbody>
@@ -382,6 +382,102 @@
 				</div>
 			</div>
 	</div>
+	
+	<script type="text/javascript">
+		function onlyInteger() {
+			var price = document.getElementById("price").value
+			price = Math.floor(price/1000)*1000
+			if(document.getElementById("price").value == "") {
+				alert("수강료를 입력해주세요.")
+			} else if(document.getElementById("price").value < 1000) {
+				alert("수강료는 1000원보다 작을 수 없습니다.")
+				document.getElementById("price").value = 1000
+			} else if(document.getElementById("price").value > 1000) {
+				alert("수강료는 1000 단위로만 입력이 가능합니다.")
+				document.getElementById("price").value = price
+			}
+		}
+	
+		let nowdate = Date.now()
+		let timeOff = new Date().getTimezoneOffset()*60000
+		let today = new Date(nowdate-timeOff).toISOString().split("T")[0]
+		
+		document.getElementById("regStartDate").setAttribute("min", today)
+		document.getElementById("regEndDate").setAttribute("min", today)
+		document.getElementById("startDate").setAttribute("min", today)
+		document.getElementById("endDate").setAttribute("min", today)
+		
+		// 접수시작일 : document.getElementById("regStartDate").value 
+		// 접수마감일 : document.getElementById("regEndDate").value 
+		// 수강시작일 : document.getElementById("startDate").value 
+		// 수강마감일 : document.getElementById("endDate").value 
+		
+		function validationChk1() {
+			if(document.getElementById("regStartDate").value >= document.getElementById("regEndDate").value) {
+				if(document.getElementById("regEndDate").value == "") {
+					alert("접수마감일을 먼저 설정해주세요.")
+					document.getElementById("regStartDate").value = ""
+					document.getElementById("regEndDate").focus()
+				} else if(document.getElementById("regStartDate").value == document.getElementById("regEndDate").value) {
+					alert("접수시작일은 접수마감일과 같게 설정할 수 없습니다.\n접수마감일을 확인해주세요.")
+					document.getElementById("regStartDate").value = ""
+					document.getElementById("regStartDate").focus()
+				} else {
+					alert("접수시작일은 접수마감일과 같거나 이후로 설정할 수 없습니다.\n접수마감일을 확인해주세요.")
+					document.getElementById("regStartDate").value = ""
+					document.getElementById("regStartDate").focus()
+				}
+			}
+		}
+		function validationChk2() {
+			if(document.getElementById("regStartDate").value >= document.getElementById("regEndDate").value) {
+				alert("접수마감일을 접수시작일과 같거나 이전으로 설정할 수 없습니다.\n접수마감일을 다시 선택해주세요.")
+				document.getElementById("regEndDate").value = ""
+				document.getElementById("regEndDate").focus()
+			} else if(document.getElementById("startDate").value != ""){
+					if(document.getElementById("regEndDate").value >= document.getElementById("startDate").value) {
+					alert("접수마감일은 수강시작일과 같거나 이후로 설정할 수 없습니다.\n수강시작일을 확인해주세요.")
+					document.getElementById("regEndDate").value = ""
+					document.getElementById("regEndDate").focus()
+				}
+			}
+		}
+		// validationChk1()과 같은 맥락 기억하기
+		function validationChk3() {
+			if(document.getElementById("endDate").value == "") {
+				alert("수강종료일을 먼저 선택해주세요.")
+				document.getElementById("startDate").value = ""
+				document.getElementById("endDate").focus()
+			} else if(document.getElementById("startDate").value <= document.getElementById("regEndDate").value) {
+				alert("수강시작일은 접수마감일과 같거나 이전으로 설정할 수 없습니다.\n수강시작일을 다시 선택해주세요")
+				document.getElementById("startDate").value = ""
+				document.getElementById("startDate").focus()
+			} else if(document.getElementById("startDate").value >= document.getElementById("endDate").value) {
+				alert("수강시작일을 수강종료일과 같거나 이후로 설정할 수 없습니다.\n수강시작일을 다시 선택해주세요.")
+				document.getElementById("startDate").value = ""
+				document.getElementById("startDate").focus()
+			}
+		}
+		function validationChk4() {
+			if(document.getElementById("endDate").value <= document.getElementById("regEndDate").value) {
+				alert("수강종료일은 접수마감일과 같거나 이전으로 설정할 수 없습니다.\n수강종료일을 다시 선택해주세요.")
+				document.getElementById("endDate").value = ""
+				document.getElementById("endDate").value.focus()
+			} else if(document.getElementById("startDate").value >= document.getElementById("endDate").value) {
+				alert("수강종료일을 수강시작일과 같거나 이전으로 설정할 수 없습니다.\n수강종료일을 다시 선택해주세요.")
+				document.getElementById("endDate").value = ""
+				document.getElementById("endDate").focus()
+			}
+		}
+	</script>
+	
+	<script type="text/javascript">
+		let msg = "${msg}"
+		if(msg == "WRT_ERR") alert("게시물 등록에 실패하였습니다. 다시 시도해주세요.")
+		if(msg == "MOD_ERR") alert("게시물 수정에 실패하였습니다. 다시 시도해주세요.")
+		if(msg == "NOT_STUDENT") alert("수강생이 아닙니다.\n수강신청을 해주세요.")
+		if(msg == "NOT_PASS_DEADLINE") alert("수강마감일이 아닙니다.\n수강마감일부터 작성하실 수 있습니다.")
+	</script>
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -639,12 +735,6 @@
 		})
 	</script>
 	
-	<script type="text/javascript">
-		let msg = "${msg}"
-		if(msg == "WRT_ERR") alert("게시물 등록에 실패하였습니다. 다시 시도해주세요.")
-		if(msg == "MOD_ERR") alert("게시물 수정에 실패하였습니다. 다시 시도해주세요.")
-	</script>
-
 	<!-- footer include -->
 	<%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
