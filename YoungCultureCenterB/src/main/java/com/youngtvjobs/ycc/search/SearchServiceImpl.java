@@ -56,5 +56,14 @@ public class SearchServiceImpl implements SearchService{
 		
 		return boardDto;
 	}
+	
+	@Override
+	public List<Map<String, Object>> autocomplete(Map<String, Object> paramMap) throws Exception {
+		return searchDao.autocomplete(paramMap);
+	}
+	@Override
+	public List<Map<String, Object>> autocomplete2(Map<String, Object> paramMap) throws Exception {
+		return searchDao.autocomplete2(paramMap);
+	}
 
 }

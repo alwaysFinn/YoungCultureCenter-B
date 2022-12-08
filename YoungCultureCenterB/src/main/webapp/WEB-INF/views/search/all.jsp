@@ -10,7 +10,10 @@
 	<!-- head & meta tag include -->
   <%@include file="/WEB-INF/views/metahead.jsp"%>
   
-  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>	
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<title>Young문화센터 - 전체보기</title>
 	
@@ -26,6 +29,58 @@
 </head>
 
 <body>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		 
+		// 검색어 자동완성
+		$('#search').autocomplete({
+			source : function(request, response) { //source: 입력시 보일 목록
+			     $.ajax({
+			           url : "/ycc/search/autocomplete"   
+			         , type : "POST"
+			         , dataType: "JSON"
+			         , data : {value: request.term}	// 검색 키워드. '수영'을 입력했을 때 request.term의 값이 '수영'이 됨
+			         								//			url: http://localhost:8080/ycc/autocomplete?value=수영 (GET방식일때)
+			         , success : function(data){
+						var arr = [];
+						/* console.log(data.resultList[0].article_title) */
+ 						for(var i = 0; i < data.resultList.length; i++) {
+							arr.push(data.resultList[i].article_title)
+						} 
+ 						for(var i = 0; i < data.resultList2.length; i++) {
+							arr.push(data.resultList2[i].course_nm)
+						} 
+ 						var arrUnique = arr.filter((val, idx) => {	// 배열 중복값 제거
+ 							  return arr.indexOf(val) === idx; //값이 처음나오는 배열 인덱스와 현재 인덱스가 같으면 포함
+ 						});	
+						response(
+								$.map(arrUnique, function(item) {
+									return { label:item, value:item }
+								})
+						)	//response
+						
+			         } //success
+			         ,error : function(){ //실패
+			             alert("오류가 발생했습니다.");
+			         }
+			     });
+			}
+			,focus : function(event, ui) { // 방향키로 자동완성단어 선택 가능하게 만들어줌	
+					return false;
+			}
+			,minLength: 1// 최소 글자수
+			,autoFocus : true // true == 첫 번째 항목에 자동으로 초점이 맞춰짐
+			,delay: 100	//autocomplete 딜레이 시간(ms)
+			,select : function(evt, ui) { 
+		      	// 아이템 선택시 실행 ui.item 이 선택된 항목을 나타내는 객체, lavel/value/idx를 가짐
+					console.log(ui.item.label);
+					console.log(ui.item.idx);
+			 }
+		});
+	})
+</script>
+
 	<!-- header inlcude -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
 	
@@ -35,7 +90,7 @@
 				<div class="row">
 					<div class="col-10">
 					<!-- all 페이지 내에서의 검색(해당 카테고리의 검색결과) -->
-						<input name="keyword" type="text" class="form-control" value="${param.keyword }"
+						<input name="keyword" type="text" id="search" class="form-control" value="${param.keyword }"
 						placeholder="현재 페이지 내에서 검색" aria-label="search" aria-describedby="button-addon2">
 						<input name="type" type="hidden" value="${param.type }">
 					</div>

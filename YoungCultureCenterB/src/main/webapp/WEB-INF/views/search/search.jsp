@@ -8,6 +8,9 @@
 <head>
 <!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <title>Young문화센터 - 통합검색</title>
@@ -77,21 +80,53 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		// 검색키워드 자동완성 ajax 구현 중
-		 $("#searchInput").autocomplete({
-			 source : function(request, response) {
-				 $.ajax({
-					 type : 'get',
-		             url: '/ycc/search/autocomplete',
-		             dataType : 'json',
-		             data: { value : request.term },
-		             success : function(data) {
-		           		alert(data)
-		             },
-		             error : function() { alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); }
-				 })
+		 
+		// 검색어 자동완성
+		$('#search').autocomplete({
+			source : function(request, response) { //source: 입력시 보일 목록
+			     $.ajax({
+			           url : "/ycc/search/autocomplete"   
+			         , type : "POST"
+			         , dataType: "JSON"
+			         , data : {value: request.term}	// 검색 키워드. '수영'을 입력했을 때 request.term의 값이 '수영'이 됨
+			         								//			url: http://localhost:8080/ycc/autocomplete?value=수영 (GET방식일때)
+			         , success : function(data){
+						var arr = [];
+						/* console.log(data.resultList[0].article_title) */
+ 						for(var i = 0; i < data.resultList.length; i++) {
+							arr.push(data.resultList[i].article_title)
+						} 
+ 						for(var i = 0; i < data.resultList2.length; i++) {
+							arr.push(data.resultList2[i].course_nm)
+						} 
+ 						var arrUnique = arr.filter((val, idx) => {	// 배열 중복값 제거
+ 							  return arr.indexOf(val) === idx; //값이 처음나오는 배열 인덱스와 현재 인덱스가 같으면 포함
+ 						});	
+						response(
+								$.map(arrUnique, function(item) {
+									return { label:item, value:item }
+								})
+						)	//response
+						
+			         } //success
+			         ,error : function(){ //실패
+			             alert("오류가 발생했습니다.");
+			         }
+			     });
+			}
+			,focus : function(event, ui) { // 방향키로 자동완성단어 선택 가능하게 만들어줌	
+					return false;
+			}
+			,minLength: 1// 최소 글자수
+			,autoFocus : true // true == 첫 번째 항목에 자동으로 초점이 맞춰짐
+			,delay: 100	//autocomplete 딜레이 시간(ms)
+			,select : function(evt, ui) { 
+		      	// 아이템 선택시 실행 ui.item 이 선택된 항목을 나타내는 객체, lavel/value/idx를 가짐
+					console.log(ui.item.label);
+					console.log(ui.item.idx);
 			 }
-		 })
+		});
+		 
 		 
 		// 탭 클릭시 해당되는 탭의 검색결과만 보이게 하는 기능
 		// 각각의 분류별 출력결과(공지사항, 이벤트, ...)를 감싸고 있는 div 태그에 .cont 클래스를 줌 ==> .cont{display:none;}
@@ -144,9 +179,6 @@
 	})
 
 </script>	
-	
-	<input type="hidden" id="searchInput">
-	
 	<!-- 검색창 -->
 	<div class="m-5">
 		<h2 class="m-4">통합검색</h2>
@@ -154,7 +186,7 @@
 				<form action="<c:url value="/search" />" class="search-form" method="get">
 					<div class="row">
 						<div class="col-10">
-							<input name="keyword" type="text" class="form-control" value="${param.keyword }" placeholder="검색어를 입력해주세요."
+							<input id="search" name="keyword" type="text" class="form-control" value="${param.keyword }" placeholder="검색어를 입력해주세요."
 								aria-label="search" aria-describedby="button-addon2">
 						</div>
 						<div class="col-2">

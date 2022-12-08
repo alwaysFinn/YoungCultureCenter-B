@@ -8,6 +8,23 @@
 <!-- 	<resultMap id="resultmap" type="BoardDto">
 		<result column="count" property="count" />
 	</resultMap> -->
+	
+	<select id="autocomplete" parameterType="map" resultType="map">
+		SELECT
+			article_title
+		FROM article 
+		WHERE article_title LIKE  '%'|| #{value} || '%' and article_board_type = '공지사항'
+	</select>
+	
+	<select id="autocomplete2" parameterType="map" resultType="map">
+		SELECT
+		course_nm
+		FROM tb_course
+		WHERE course_nm LIKE '%'|| #{value} || '%'
+	</select>
+
+	
+			
 
 	<insert id="insert" parameterType="BoardDto">
 		INSERT INTO public.article

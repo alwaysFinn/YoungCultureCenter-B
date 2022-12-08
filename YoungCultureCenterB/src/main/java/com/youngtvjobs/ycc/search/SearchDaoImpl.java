@@ -66,6 +66,15 @@ public class SearchDaoImpl implements SearchDao {
 		return session.update(namespace+"increaseViewCnt", article_id);
 	}
 
+	@Override
+	public List<Map<String, Object>> autocomplete(Map<String, Object> paramMap) throws Exception {
+		return session.selectList(namespace+"autocomplete", paramMap);
+	}
+	@Override
+	public List<Map<String, Object>> autocomplete2(Map<String, Object> paramMap) throws Exception {
+		return session.selectList(namespace+"autocomplete2", paramMap);
+	}
+
 }
 
 

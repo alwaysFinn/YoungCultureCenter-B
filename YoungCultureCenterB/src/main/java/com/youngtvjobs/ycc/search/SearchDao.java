@@ -28,6 +28,9 @@ public interface SearchDao {
 	BoardDto select(Integer article_id) throws Exception;
 	// 조회수 증가
 	int increaseViewCnt(Integer article_id) throws Exception;
+
+	List<Map<String, Object>> autocomplete(Map<String, Object> paramMap) throws Exception;
+	List<Map<String, Object>> autocomplete2(Map<String, Object> paramMap) throws Exception;
 	
 	
 }
