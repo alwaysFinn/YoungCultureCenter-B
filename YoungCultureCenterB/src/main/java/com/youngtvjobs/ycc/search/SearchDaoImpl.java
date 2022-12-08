@@ -74,6 +74,10 @@ public class SearchDaoImpl implements SearchDao {
 	public List<Map<String, Object>> autocomplete2(Map<String, Object> paramMap) throws Exception {
 		return session.selectList(namespace+"autocomplete2", paramMap);
 	}
+	@Override
+	public List<Map<String, Object>> autocompleteAll(Map<String, Object> paramMap) throws Exception {
+		return session.selectList(namespace+"autocompleteAll", paramMap);
+	}
 
 }
 

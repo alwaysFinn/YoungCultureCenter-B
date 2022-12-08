@@ -129,19 +129,18 @@ public class SearchController {
 		
 		@RequestMapping(value = "/search/autocomplete")
 		public @ResponseBody Map<String, Object> autocomplete
-	    						(@RequestParam Map<String, Object> paramMap) throws Exception{
+	    						(@RequestParam Map<String, Object> paramMap, @RequestParam("type") String type) throws Exception{
 
-			List<Map<String, Object>> resultList = searchService.autocomplete(paramMap); 	//article data - 공지사항
-			List<Map<String, Object>> resultList2 = searchService.autocomplete2(paramMap);	//tb_course data
-//			resultList.addAll(resultList2);
-			paramMap.put("resultList", resultList);		
-			paramMap.put("resultList2", resultList2);
+			List<Map<String, Object>> resultList = searchService.autocomplete(paramMap); 	//article data => search페이지
+			List<Map<String, Object>> resultList2 = searchService.autocomplete2(paramMap);	//tb_course data => search페이지
 			
-			/*
-			 * String article_Board_type = req.getParameter("type");
-			 * paramMap.put("article_Board_type", article_Board_type);
-			 * System.out.println(article_Board_type);
-			 */
+			//파라미터 type별로 data 필터링해서 출력 => all 페이지
+			List<Map<String, Object>> autocompleteAll = searchService.autocompleteAll(paramMap);	
+			
+			resultList.addAll(resultList2);		//resultList2를 resultList로 합침
+			paramMap.put("resultList", resultList);		
+			paramMap.put("autocompleteAll", autocompleteAll);
+			paramMap.put("type", type);			//파라미터. type=공지사항
 			
 			return paramMap;
 		}

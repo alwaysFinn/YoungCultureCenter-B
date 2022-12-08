@@ -31,6 +31,8 @@ public interface SearchDao {
 
 	List<Map<String, Object>> autocomplete(Map<String, Object> paramMap) throws Exception;
 	List<Map<String, Object>> autocomplete2(Map<String, Object> paramMap) throws Exception;
+
+	List<Map<String, Object>> autocompleteAll(Map<String, Object> paramMap) throws Exception;
 	
 	
 }

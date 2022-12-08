@@ -80,6 +80,10 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		
+     	 const url = new URL(window.location.href)	//현재 페이지의 url 객체 생성
+    	 const urlParams = url.searchParams;		//url의 파라미터를 가져옴
+    	 const param = urlParams.get('type')		//url의 파라미터들 중, type의 값
 		 
 		// 검색어 자동완성
 		$('#search').autocomplete({
@@ -88,20 +92,25 @@
 			           url : "/ycc/search/autocomplete"   
 			         , type : "POST"
 			         , dataType: "JSON"
-			         , data : {value: request.term}	// 검색 키워드. '수영'을 입력했을 때 request.term의 값이 '수영'이 됨
-			         								//			url: http://localhost:8080/ycc/autocomplete?value=수영 (GET방식일때)
+			         , data : {value: request.term, type: param}	
+			     		// value: request.term => 검색 키워드. '수영'을 입력했을 때 request.term의 값이 '수영'이 됨
+			         	// url: http://localhost:8080/ycc/autocomplete?value=수영 (GET방식일때)
+			         	// type: param => url의 type 파라미터
 			         , success : function(data){
+			        	 
 						var arr = [];
-						/* console.log(data.resultList[0].article_title) */
+						
  						for(var i = 0; i < data.resultList.length; i++) {
 							arr.push(data.resultList[i].article_title)
+							arr.push(data.resultList[i].course_nm)
 						} 
- 						for(var i = 0; i < data.resultList2.length; i++) {
-							arr.push(data.resultList2[i].course_nm)
-						} 
- 						var arrUnique = arr.filter((val, idx) => {	// 배열 중복값 제거
- 							  return arr.indexOf(val) === idx; //값이 처음나오는 배열 인덱스와 현재 인덱스가 같으면 포함
- 						});	
+						
+						const set = new Set(arr);	//중복값이 있는 배열을 Set 객체로 만들어서 중복을 제거한 후,
+ 						const setToArr = [...set];	//Spread Operator(전개연산자)를 사용하여 Set 객체를 다시 배열로 변환
+ 						
+ 						// 위 반복문에서 생성되는 undefined를 필터링해서 제거해줌
+ 						var arrUnique = setToArr.filter((element) => element !== undefined);
+ 						
 						response(
 								$.map(arrUnique, function(item) {
 									return { label:item, value:item }
