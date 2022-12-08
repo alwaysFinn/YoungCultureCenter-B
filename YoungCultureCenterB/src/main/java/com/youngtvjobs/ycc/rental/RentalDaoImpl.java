@@ -60,6 +60,11 @@ public class RentalDaoImpl implements RentalDao{
 		return session.insert(namespace + "studyroomRental", rentalDto);
 	}
 
+	@Override
+	public int updateStudyroomStatusInsert(RentalDto rentalDto) throws Exception {
+		return session.update(namespace + "studyroomRentalupdate", rentalDto);
+	}
+
 	
 
 }

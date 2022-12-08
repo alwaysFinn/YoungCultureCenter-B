@@ -10,6 +10,7 @@
 
 	<link rel="stylesheet" href="/ycc/resources/css/studyRoom.css" type="text/css"/>	
 	<script type="text/javascript" src="/ycc/resources/js/studyRoom.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <title>독서실 예약</title>
 
@@ -33,10 +34,9 @@
     <!-- 좌석 선택 폼 -->
     <div>
 	    <c:forEach var="rentalDto" items="${rentalDto }">
-			<tr>
-				<td>${rentalDto.sroom_seat_id }</td>
-				<td>${rentalDto.sroom_rental_yn }</td>
-			</tr>
+			<li class="seat">
+				<input type="checkbox" name="indvSeat" value="${rentalDto.sroom_seat_id }" onclick="checkOnlyOne(this)"/>
+				<label for="${rentalDto.sroom_seat_id }">${rentalDto.sroom_seat_id }</label>
 		</c:forEach>
 	</div>
     <div class="container w-100 pt-1">
@@ -70,12 +70,10 @@
                         <input type="checkbox" id="07" name="indvSeat" onclick="checkOnlyOne(this)" />
                         <label for="07">07</label>
                     </li>
-
                     <li class="seat">
                         <input type="checkbox" id="08" name="indvSeat" onclick="checkOnlyOne(this)" />
                         <label for="08">08</label>
                     </li>
-
                     <li class="seat">
                         <input type="checkbox" id="09" name="indvSeat" onclick="checkOnlyOne(this)" />
                         <label for="09">09</label>
@@ -186,7 +184,7 @@
                         <label for="35">35</label>
                     </li>
                     <li class="seat">
-                        <input type="checkbox" id="36" name="indvSeat" onclick="checkOnlyOne(this)" />
+                        <input type="checkbox" id="36" name="indvSeat" onclick="checkOnlyOne(this)" value="36"/>
                         <label for="36">36</label>
                     </li>
                     <li class="seat">
@@ -279,25 +277,10 @@
 	
 	
     <!-- 예약 정보 폼 -->
-    <form>
       <div class="container mt-5">
         <div class="row text-center" >
           <div class="col-md-6">
-            <label for="time" >입실 예정 시간 : </label>
-            <select id="time" class="form-control w-25" style="display: inline">
-              <option value="9">9:00</option>
-              <option value="10">10:00</option>
-              <option value="11">11:00</option>
-              <option value="12">12:00</option>
-              <option value="13">13:00</option>
-              <option value="14">14:00</option>
-              <option value="15">15:00</option>
-              <option value="16">16:00</option>
-              <option value="17">17:00</option>
-              <option value="18">18:00</option>
-              <option value="19">19:00</option>
-              <option value="20">20:00</option>
-            </select>
+            <label for="time" >입실 예정 시간은 '현재시각' 기준입니다. </label>
           </div>
           <div class="col-md-6">
             <label for="usetime" class=" col-form-label">
@@ -306,14 +289,13 @@
             <select
               id="usetime"
               class="form-control w-auto"
-              style="display: inline"
-            >
-              <option value="1h">1</option>
-              <option value="2h">2</option>
-              <option value="3h">3</option>
-              <option value="4h">4</option>
-              <option value="5h">5</option>
-              <option value="6h">6</option>
+              style="display: inline">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
             </select>
             <label for="usetime" class="col-form-label"> 시간</label>
           </div>
@@ -324,16 +306,16 @@
       <!-- 모달 버튼  -->
       <div class="text-center">
         <button
+          id="modalBtn"
           type="button"
           class="btn btn-primary m-5"
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-        >
+          data-bs-target="#staticBackdrop">
           확인
         </button>
       </div>
-    </form>
     <!-- 결제 전 예약정보 확인 모달창 -->
+    <form id="form" method="post" action="" >
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -357,7 +339,7 @@
                   <tr>
                     <th scope="row" class="col-sm-4">이름</th>
                     <td>
-                      <div class="col-sm-8"></div>
+                      <div class="col-sm-8">${sessionScope.id }</div>
                     </td>
                   </tr>
                   <tr>
@@ -370,19 +352,13 @@
                   <tr>
                     <th scope="row">좌석번호</th>
                     <td>
-                      <div class="col-sm-8"></div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">이용일</th>
-                    <td>
-                      <div class="col-sm-8"></div>
+                      <div class="col-sm-8" id="sroom_seat_id" name="sroom_seat_id"></div>
                     </td>
                   </tr>
                   <tr>
                     <th scope="row">이용시간</th>
                     <td>
-                      <div class="col-sm-8"></div>
+                      <div class="col-sm-8" id="sroom_rental_etime" name="sroom_rental_etime"></div>
                     </td>
                   </tr>
                   <tr>
@@ -405,12 +381,63 @@
             >
               취소
             </button>
-            <button type="button" class="btn btn-primary">결제</button>
+            <button id="submitBtn" type="button" class="btn btn-primary">결제</button>
           </div>
         </div>
       </div>
     </div>
+    </form>
 
+
+	<script type="text/javascript">
+	$(document).ready(function () {
+		
+		
+		$("#modalBtn").on("click", function(){
+			
+			//현재시간의 형식을 hh:mm:ss로 바꾸는 기능 
+			function getFormatTime(date) {
+				
+				var hh = (date.getHours()*1)+(document.getElementById("usetime").value*1)
+				hh = hh >= 10 ? hh : '0' + hh
+				var mm = date.getMinutes()
+				mm = mm >= 10 ? mm : '0' + mm
+				var ss = date.getSeconds()
+				ss = ss >= 10 ? ss : '0' + ss
+				
+				return hh+':'+mm+':'+ss;
+				
+			}
+			
+			var time = getFormatTime(new Date())
+			console.log(time)
+			console.log(typeof(time))
+			
+			let check = $('input:checkbox[name=indvSeat]').each(function (index) {
+						if($(this).is(":checked")==true){
+					    	console.log($(this).val())
+						    }
+						})
+
+        	//클릭 시 장소값 넘겨주는 기능
+        	let seatno = document.getElementsByName('indvSeat')
+        	seatno.innerHTML = document.getElementById("pickplace")
+        	
+        	//클릭 시 종료시간 넘겨주는 기능
+        	document.getElementById("sroom_rental_etime").innerHTML = time
+
+        })
+        
+        $("#submitBtn").on("click", function(){
+			let form = $("#form")
+			form.attr("action", "<c:url value='/rental/studyroom' />")
+			form.attr("method", "post")
+			form.submit()
+		})
+		
+		
+	})
+	</script>
 
 	<!-- footer include -->
 <%@include file="/WEB-INF/views/footer.jsp"%>

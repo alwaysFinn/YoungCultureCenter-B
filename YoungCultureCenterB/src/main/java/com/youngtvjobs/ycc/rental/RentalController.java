@@ -42,23 +42,30 @@ public class RentalController {
 	
 	// 독서실 페이지에서 예약을 진행했을 때 insert와 update를 진행하는 post
 	@PostMapping("/rental/studyroom")
-	public String studyRoom(HttpServletRequest request, Date sroom_rental_stime, Date sroom_rental_etime, String user_id, int sroom_seat_id) {
+	public String studyRoom(HttpServletRequest request, HttpSession session, String sroom_rental_yn, Date sroom_rental_etime, int sroom_seat_id) throws Exception{
 		
-		//이건 업데이트용인데 잘못짜버렸다
 		try {
-			System.out.println("시작 시간 : " + sroom_rental_stime);
 			System.out.println("종료 시간 : " + sroom_rental_etime);
 			RentalDto rentalDto = new RentalDto();
-			rentalDto.setSroom_rental_stime(sroom_rental_stime);
+			String customer = (String)session.getAttribute("id");
 			rentalDto.setSroom_rental_etime(sroom_rental_etime);
 			rentalDto.setSroom_seat_id(sroom_seat_id);
-			rentalDto.setUser_id(user_id);
+			rentalDto.setUser_id(customer);
+			
+			//for update(y->n)
+			rentalDto.setSroom_rental_yn(sroom_rental_yn);
 			System.out.println("rentalDtl : " + rentalDto);
 			
 			if(rentalService.sroomRental(rentalDto) != 1) {
 				throw new Exception("예약 오류");
 			}else {
 				System.out.println("예약 성공");
+			}
+			
+			if(rentalService.sroomRentalUpdate(rentalDto) != 1) {
+				throw new Exception("n>y오류");
+			}else {
+				System.out.println("n>y업데이터 성공");
 			}
 			
 			
