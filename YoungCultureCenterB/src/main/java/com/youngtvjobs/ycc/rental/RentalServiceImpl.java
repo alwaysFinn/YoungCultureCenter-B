@@ -53,12 +53,18 @@ public class RentalServiceImpl implements RentalService{
 
 	@Override
 	public int sroomRental(RentalDto rentalDto) throws Exception {
+		System.out.println("service : " + rentalDto.getSroom_rental_etime());
 		return rentalDao.insertStudyroomlentalinfo(rentalDto);
 	}
 
 	@Override
-	public int sroomRentalUpdate(RentalDto rentalDto) throws Exception {
+	public int sroomRentalInsUpdate(RentalDto rentalDto) throws Exception {
 		return rentalDao.updateStudyroomStatusInsert(rentalDto);
+	}
+
+	@Override
+	public int sroomRentalDelUpdate(RentalDto rentalDto) throws Exception {
+		return rentalDao.updateStudyroomStatusDelete(rentalDto);
 	}
 	
 	

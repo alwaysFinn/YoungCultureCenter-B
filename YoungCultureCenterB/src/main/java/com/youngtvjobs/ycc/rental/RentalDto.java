@@ -23,7 +23,7 @@ public class RentalDto {
 	private int locker_cost;
 	private Date locker_end_date;
 	// end of tb_rental_locker(사물함 대여)
-	private int sroom_seat_id;
+	private Integer sroom_seat_id;
 	private String sroom_rental_yn;
 	// end of tb_studyroom(독서실)
 	private int srental_no;
@@ -36,7 +36,7 @@ public class RentalDto {
 	}
 	public RentalDto(Integer prental_id, Date prental_de, String prtime_schedule, String user_id, String croom_id,
 			String croom_location, int croom_mpop, String croom_name, String locker_id, String locker_location,
-			Date locker_start_date, int locker_cost, Date locker_end_date, int sroom_seat_id, String sroom_rental_yn,
+			Date locker_start_date, int locker_cost, Date locker_end_date, Integer sroom_seat_id, String sroom_rental_yn,
 			int srental_no, Date sroom_rental_stime, Date sroom_rental_etime) {
 		super();
 		this.prental_id = prental_id;
@@ -136,7 +136,7 @@ public class RentalDto {
 	public void setLocker_end_date(Date locker_end_date) {
 		this.locker_end_date = locker_end_date;
 	}
-	public int getSroom_seat_id() {
+	public Integer getSroom_seat_id() {
 		return sroom_seat_id;
 	}
 	public void setSroom_seat_id(int sroom_seat_id) {

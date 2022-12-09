@@ -1,5 +1,6 @@
 package com.youngtvjobs.ycc.rental;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -29,9 +30,12 @@ public class RentalController {
 	public String studyRoom(HttpServletRequest request, Model m) throws Exception {
 			
 		try {
+			//rentalService.sroomRentalDelUpdate(null);
 			
 			List<RentalDto> rentalDto = rentalService.sroomRentalCheck();
 			m.addAttribute("rentalDto", rentalDto);
+			System.out.println(rentalDto);
+			System.out.println(rentalDto.getClass());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,14 +46,21 @@ public class RentalController {
 	
 	// 독서실 페이지에서 예약을 진행했을 때 insert와 update를 진행하는 post
 	@PostMapping("/rental/studyroom")
-	public String studyRoom(HttpServletRequest request, HttpSession session, String sroom_rental_yn, Date sroom_rental_etime, int sroom_seat_id) throws Exception{
+	public String studyRoom(HttpServletRequest request, HttpSession session, String sroom_rental_yn, String sroom_rental_etime, Integer sroom_seat_id) throws Exception{
 		
 		try {
 			System.out.println("종료 시간 : " + sroom_rental_etime);
+			System.out.println("좌석 no : " + sroom_seat_id);
 			RentalDto rentalDto = new RentalDto();
 			String customer = (String)session.getAttribute("id");
-			rentalDto.setSroom_rental_etime(sroom_rental_etime);
+			
 			rentalDto.setSroom_seat_id(sroom_seat_id);
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			Date date_sroom_rental_etime = sdf.parse(sroom_rental_etime);
+			rentalDto.setSroom_rental_etime(date_sroom_rental_etime);
+
+			
 			rentalDto.setUser_id(customer);
 			
 			//for update(y->n)
@@ -62,7 +73,7 @@ public class RentalController {
 				System.out.println("예약 성공");
 			}
 			
-			if(rentalService.sroomRentalUpdate(rentalDto) != 1) {
+			if(rentalService.sroomRentalInsUpdate(rentalDto) != 1) {
 				throw new Exception("n>y오류");
 			}else {
 				System.out.println("n>y업데이터 성공");
@@ -74,7 +85,7 @@ public class RentalController {
 			System.out.println("예약 실패");
 		}
 		
-		return "rental/studyroom";
+		return "/rental/studyroom";
 	}
 
 	// 사물함 안내

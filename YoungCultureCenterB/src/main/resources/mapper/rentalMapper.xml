@@ -29,14 +29,14 @@
 	  <!-- 독서실 start -->
 	  <!-- 각 좌석마다 예약현황을 확인하기 위한 select -->
 	  <select id="selectSchedule" resultType="RentalDto">
-	  	SELECT * from studyroom
+	  	SELECT * from studyroom order by sroom_seat_id
 	  </select>
 	  
 	  <!-- 해당 좌석에서 예약을 진행할때 사용하는 insert -->
 	  <insert id="studyroomRental" parameterType="RentalDto">
 	  	INSERT INTO public.sroom_rental_info
 		(sroom_rental_stime, sroom_rental_etime, user_id, sroom_seat_id)
-		VALUES(#{sroom_rental_stime}, #{sroom_rental_etime}, #{user_id}, #{sroom_seat_id})
+		VALUES(now(), #{sroom_rental_etime}, #{user_id}, #{sroom_seat_id})
 	  </insert>
 	  
 	  <!-- 예약 시간이 종료되었을 때 진행되는 delete -->

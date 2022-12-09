@@ -57,12 +57,18 @@ public class RentalDaoImpl implements RentalDao{
 
 	@Override
 	public int insertStudyroomlentalinfo(RentalDto rentalDto) throws Exception {
+		System.out.println("dao : " + rentalDto.getSroom_rental_etime());
 		return session.insert(namespace + "studyroomRental", rentalDto);
 	}
 
 	@Override
 	public int updateStudyroomStatusInsert(RentalDto rentalDto) throws Exception {
 		return session.update(namespace + "studyroomRentalupdate", rentalDto);
+	}
+
+	@Override
+	public int updateStudyroomStatusDelete(RentalDto rentalDto) throws Exception {
+		return session.update(namespace + "studyroomDeleteupdate", rentalDto);
 	}
 
 	
