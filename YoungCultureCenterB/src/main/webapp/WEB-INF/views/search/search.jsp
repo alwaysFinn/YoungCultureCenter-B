@@ -84,11 +84,13 @@
 		const url = new URL(window.location.href)	//현재 페이지의 url 객체 생성
     	const urlParams = url.searchParams;		//url의 파라미터를 가져옴
     	const param = urlParams.get('type')		//url의 파라미터들 중, type의 값
-    	 
+    	const keyword = urlParams.get('keyword')
+    	console.log(keyword)
 		$.ajax({
 			type : 'get',
 		    url: '/ycc/search/array',
 		    dataType : 'json',
+		    data : {keyword:keyword},
 		    headers: { "content-type" : "application/json" },
 		    success : function(data) {
 		    	$("ul.nList").html(printNList(data))
@@ -159,7 +161,7 @@
 					type : 'get',
 					url: '/ycc/search/array/',
 					dataType : 'json',
-					data: {array:array},
+					data: {array:array, keyword:keyword} ,
 					headers: { "content-type" : "application/json" },
 					success : function(data) {
 						$("ul.nList").html(printNList(data))

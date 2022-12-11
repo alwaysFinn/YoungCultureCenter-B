@@ -101,7 +101,8 @@ public class SearchController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/search/array")
-	public Map<String, Object> Array(Model m, SearchItem sc, BoardDto boardDto, @RequestParam(value = "array", required = false) String array) throws Exception {
+	public Map<String, Object> Array(Model m, SearchItem sc, BoardDto boardDto, @RequestParam(value = "array", required = false) String array,
+			@RequestParam(value = "keyword", required = false) String keyword) throws Exception {
 		sc.setPageSize(5);
 		
 		List<BoardDto> nList = searchService.getNoticePage(sc);
@@ -114,6 +115,8 @@ public class SearchController {
 		map.put("eList", eList);
 		map.put("clubList", clubList);
 		map.put("courseList", courseList);
+		
+		System.out.println(keyword);
 		
 		return map;
 
