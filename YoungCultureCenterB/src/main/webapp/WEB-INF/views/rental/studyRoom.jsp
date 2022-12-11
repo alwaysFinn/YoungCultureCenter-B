@@ -34,7 +34,7 @@
     <!-- 좌석 선택 폼 -->
     <div>
     	<c:forEach var="rentalDto" items="${rentalDto }">
-    		<input type="checkbox" name="selectSeat" value="${rentalDto.sroom_seat_id }" onclick="checkOnlyOne(this)">${rentalDto.sroom_seat_id }
+    		<input type="radio" name="selectSeat" value="${rentalDto.sroom_seat_id }"> ${rentalDto.sroom_seat_id }
     	</c:forEach>
     </div>
     <div class="container w-100 pt-1" >
@@ -48,7 +48,7 @@
                   type="checkbox"
                   id="01"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[1].sroom_rental_yn }"
                 />
                 <label for="01">01</label>
@@ -58,7 +58,7 @@
                   type="checkbox"
                   id="02"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[2].sroom_rental_yn }"
                 />
                 <label for="02">02</label>
@@ -68,7 +68,7 @@
                   type="checkbox"
                   id="03"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[3].sroom_rental_yn }"    
                 />
                 <label for="03">03</label>
@@ -76,10 +76,9 @@
               <li class="seat">
                 <input
                   type="checkbox"
-                  disabled
                   id="04"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[4].sroom_rental_yn }"
                 />
                 <label for="04">04</label>
@@ -89,7 +88,7 @@
                   type="checkbox"
                   id="05"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[5].sroom_rental_yn }"
                 />
                 <label for="05">05</label>
@@ -99,7 +98,7 @@
                   type="checkbox"
                   id="06"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[6].sroom_rental_yn }"
                 />
                 <label for="06">06</label>
@@ -109,7 +108,7 @@
                   type="checkbox"
                   id="07"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[7].sroom_rental_yn }"
                 />
                 <label for="07">07</label>
@@ -120,7 +119,7 @@
                   type="checkbox"
                   id="08"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[8].sroom_rental_yn }"
                 />
               <label for="08">08</label>
@@ -131,7 +130,7 @@
                   type="checkbox"
                   id="09"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[9].sroom_rental_yn }"
                 />
                 <label for="09">09</label>
@@ -141,7 +140,7 @@
                   type="checkbox"
                   id="10"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[10].sroom_rental_yn }"
                 />
                 <label for="10">10</label>
@@ -151,7 +150,7 @@
                   type="checkbox"
                   id="11"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[11].sroom_rental_yn }"
                 />
                 <label for="11">11</label>
@@ -162,7 +161,7 @@
                   disabled
                   id="12"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[12].sroom_rental_yn }"
                 />
                 <label for="12">12</label>
@@ -177,7 +176,7 @@
                   type="checkbox"
                   id="13"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[13].sroom_rental_yn }"
                 />
                 <label for="13">13</label>
@@ -187,7 +186,7 @@
                   type="checkbox"
                   id="14"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[14].sroom_rental_yn }"
                 />
                 <label for="14">14</label>
@@ -197,7 +196,7 @@
                   type="checkbox"
                   id="15"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[15].sroom_rental_yn }"
                 />
                 <label for="15">15</label>
@@ -207,7 +206,7 @@
                   type="checkbox"
                   id="16"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[16].sroom_rental_yn }"
                 />
                 <label for="16">16</label>
@@ -218,7 +217,7 @@
                   type="checkbox"
                   id="17"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[17].sroom_rental_yn }"
                 />
                 <label for="17">17</label>
@@ -228,7 +227,7 @@
                   type="checkbox"
                   id="18"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[18].sroom_rental_yn }"
                 />
                 <label for="18">18</label>
@@ -238,7 +237,7 @@
                   type="checkbox"
                   id="19"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[19].sroom_rental_yn }"
                 />
                 <label for="19">19</label>
@@ -249,7 +248,7 @@
                   disabled
                   id="20"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[20].sroom_rental_yn }"
                 />
                 <label for="20">20</label>
@@ -259,7 +258,7 @@
                   type="checkbox"
                   id="21"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[21].sroom_rental_yn }"
                 />
                 <label for="21">21</label>
@@ -269,7 +268,7 @@
                   type="checkbox"
                   id="22"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[22].sroom_rental_yn }"
                 />
                 <label for="22">22</label>
@@ -279,7 +278,7 @@
                   type="checkbox"
                   id="23"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[23].sroom_rental_yn }"
                 />
                 <label for="23">23</label>
@@ -289,7 +288,7 @@
                   type="checkbox"
                   id="24"
                   name="indvSeat"
-                  onclick="checkOnlyOne(this)"
+                  onclick="return false"
                   value="${rentalDto[24].sroom_rental_yn }"
                 />
                 <label for="24">24</label>
@@ -306,7 +305,7 @@
                     type="checkbox"
                     id="25"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[25].sroom_rental_yn }"
                   />
                   <label for="25">25</label>
@@ -316,7 +315,7 @@
                     type="checkbox"
                     id="26"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[26].sroom_rental_yn }"
                   />
                   <label for="26">26</label>
@@ -326,7 +325,7 @@
                     type="checkbox"
                     id="27"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[27].sroom_rental_yn }"
                   />
                   <label for="27">27</label>
@@ -337,7 +336,7 @@
                     disabled
                     id="28"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[28].sroom_rental_yn }"
                   />
                   <label for="28">28</label>
@@ -347,7 +346,7 @@
                     type="checkbox"
                     id="29"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[29].sroom_rental_yn }"
                   />
                   <label for="29">29</label>
@@ -357,7 +356,7 @@
                     type="checkbox"
                     id="30"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[30].sroom_rental_yn }"
                   />
                   <label for="30">30</label>
@@ -367,7 +366,7 @@
                     type="checkbox"
                     id="31"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[31].sroom_rental_yn }"
                   />
                   <label for="31">31</label>
@@ -377,7 +376,7 @@
                     type="checkbox"
                     id="32"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[32].sroom_rental_yn }"
                   />
                   <label for="32">32</label>
@@ -387,7 +386,7 @@
                     type="checkbox"
                     id="33"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[33].sroom_rental_yn }"
                   />
                   <label for="33">33</label>
@@ -397,7 +396,7 @@
                     type="checkbox"
                     id="34"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[34].sroom_rental_yn }"
                   />
                   <label for="34">34</label>
@@ -407,7 +406,7 @@
                     type="checkbox"
                     id="35"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[35].sroom_rental_yn }"
                   />
                   <label for="35">35</label>
@@ -418,7 +417,7 @@
                     disabled
                     id="36"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[36].sroom_rental_yn }"
                   />
                   <label for="36">36</label>
@@ -433,7 +432,7 @@
                     type="checkbox"
                     id="37"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[37].sroom_rental_yn }"
                   />
                   <label for="37">37</label>
@@ -443,7 +442,7 @@
                     type="checkbox"
                     id="38"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[38].sroom_rental_yn }"
                   />
                   <label for="38">38</label>
@@ -453,7 +452,7 @@
                     type="checkbox"
                     id="39"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[39].sroom_rental_yn }"
                   />
                   <label for="39">39</label>
@@ -463,7 +462,7 @@
                     type="checkbox"
                     id="40"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[40].sroom_rental_yn }"
                   />
                   <label for="40">40</label>
@@ -474,7 +473,7 @@
                     type="checkbox"
                     id="41"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[41].sroom_rental_yn }"
                   />
                   <label for="41">41</label>
@@ -484,7 +483,7 @@
                     type="checkbox"
                     id="42"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[42].sroom_rental_yn }"
                   />
                   <label for="42">42</label>
@@ -494,7 +493,7 @@
                     type="checkbox"
                     id="43"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[43].sroom_rental_yn }"
                   />
                   <label for="43">43</label>
@@ -505,7 +504,7 @@
                     disabled
                     id="44"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[44].sroom_rental_yn }"
                   />
                   <label for="44">44</label>
@@ -515,7 +514,7 @@
                     type="checkbox"
                     id="45"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[45].sroom_rental_yn }"
                   />
                   <label for="45">45</label>
@@ -525,7 +524,7 @@
                     type="checkbox"
                     id="46"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[46].sroom_rental_yn }"
                   />
                   <label for="46">46</label>
@@ -535,7 +534,7 @@
                     type="checkbox"
                     id="47"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[47].sroom_rental_yn }"
                   />
                   <label for="47">47</label>
@@ -545,7 +544,7 @@
                     type="checkbox"
                     id="48"
                     name="indvSeat"
-                    onclick="checkOnlyOne(this)"
+                    onclick="return false"
                     value="${rentalDto[48].sroom_rental_yn }"
                   />
                   <label for="48">48</label>
@@ -665,7 +664,7 @@
                   <tr>
                     <th scope="row">좌석번호</th>
                     <td>
-                      <div><textarea class="col-sm-8" id="sroom_seat_id" name="sroom_seat_id" style="display:none;"></textarea></div>
+                      <div><textarea class="col-sm-8" id="sroom_seat_id" name="sroom_seat_id"></textarea></div>
                     </td>
                   </tr>
                   <tr>
@@ -709,6 +708,8 @@
 		
 		$("#modalBtn").on("click", function(){
 			
+			//chkDisabled()
+			
 			//현재시간의 형식을 hh:mm:ss로 바꾸는 기능 
 			function getFormatTime(date) {
 				
@@ -725,17 +726,15 @@
 			
 			var time = getFormatTime(new Date())
 			console.log(time)
-			console.log(typeof(time))
+
+			//선택한 좌석 번호 받아오는 변수
+			let seleted = $("input[name='selectSeat']:checked").val()*1
 			
-			let check = $('input:checkbox[name=selectSeat]').each(function (index) {
-						if($(this).is(":checked")==true){
-					    	console.log($(this).val())
-						    }
-						})
-			
-							
+			console.log(seleted)
+			console.log(typeof(seleted))
+
         	//클릭 시 장소값 넘겨주는 기능 type을 int로 바꾸기 위해 *1
-        	document.getElementById("sroom_seat_id").innerHTML = check.val()*1
+        	document.getElementById("sroom_seat_id").innerHTML = seleted
         	
         	//클릭 시 종료시간 넘겨주는 기능
         	document.getElementById("sroom_rental_etime").innerHTML = time

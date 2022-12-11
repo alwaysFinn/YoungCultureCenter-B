@@ -85,7 +85,7 @@ public class RentalController {
 			System.out.println("예약 실패");
 		}
 		
-		return "/rental/studyroom";
+		return "rental/studyroom";
 	}
 
 	// 사물함 안내
