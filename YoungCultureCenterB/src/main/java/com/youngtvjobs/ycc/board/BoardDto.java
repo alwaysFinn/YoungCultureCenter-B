@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class BoardDto {
 
 	//inq_board
@@ -17,6 +19,7 @@ public class BoardDto {
 
 	//article
 	private Integer article_id ;			// 번호PK
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date  article_date;				// 게시글 등록 날짜
 	private String  article_Board_type;		// 게시글 유형
 	private String user_id;					// 작성자

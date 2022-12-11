@@ -1,23 +1,17 @@
 package com.youngtvjobs.ycc.search;
 
-import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.youngtvjobs.ycc.board.BoardDto;
 import com.youngtvjobs.ycc.club.ClubDto;
@@ -32,14 +26,10 @@ public class SearchController {
 	
 	// 검색결과 메인 페이지
 	@RequestMapping("/search")
-	public String searchPage(SearchItem sc, Model m, ModelAndView mav) {
+	public String searchPage(SearchItem sc, Model m) {
 
 		try {
 			
-			// 검색결과수 5개 제한
-			sc.setPageSize(5);
-			
-			// 총 검색결과수 (공지사항, 이벤트, 강좌, ...)
 			int totalCnt = searchService.getSearchAllResultCnt(sc);
 			m.addAttribute("totalCnt", totalCnt);
 			
@@ -56,20 +46,6 @@ public class SearchController {
 			List<CourseDto> courseList = searchService.getCoursePage(sc);
 			m.addAttribute("courseList", courseList);
 			
-			// 자동완성 구현 중 //////////////////////////////////////////////////
-			// 위의 List를 map으로 변환 --> 검색어자동완성 기능에 사용
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-	        for (BoardDto dto : nList) {
-	            map.add("article_title", dto.getArticle_title());
-	        }
-	        
-	        // map -> json 변환
-	        JSONObject jsonObject = new JSONObject(map);
-	        System.out.println(jsonObject);
-	        //////////////////////////////////////////////////////////////////
-	        
-//	        System.out.println(map.get("article_title"));
-	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -123,26 +99,44 @@ public class SearchController {
 		return "search/all";
 	}
 	
-	// 검색어 자동완성
-	@Controller
-	public class AutoComController {
+	@ResponseBody
+	@RequestMapping(value = "/search/array")
+	public Map<String, Object> Array(Model m, SearchItem sc, BoardDto boardDto, @RequestParam(value = "array", required = false) String array) throws Exception {
+		sc.setPageSize(5);
 		
-		@RequestMapping(value = "/search/autocomplete")
-		public @ResponseBody Map<String, Object> autocomplete
-	    						(@RequestParam Map<String, Object> paramMap, @RequestParam("type") String type) throws Exception{
+		List<BoardDto> nList = searchService.getNoticePage(sc);
+		List<BoardDto> eList = searchService.getEventPage(sc);
+		List<ClubDto> clubList = searchService.getClubPage(sc);
+		List<CourseDto> courseList = searchService.getCoursePage(sc);
+		 
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("nList", nList);
+		map.put("eList", eList);
+		map.put("clubList", clubList);
+		map.put("courseList", courseList);
+		
+		return map;
 
-			List<Map<String, Object>> resultList = searchService.autocomplete(paramMap); 	//article data => search페이지
-			List<Map<String, Object>> resultList2 = searchService.autocomplete2(paramMap);	//tb_course data => search페이지
+	}
+	
+	// 검색어 자동완성
+	@RequestMapping(value = "/search/autocomplete")
+	public @ResponseBody Map<String, Object> autocomplete
+	    					(@RequestParam Map<String, Object> paramMap, @RequestParam("type") String type) throws Exception {
+
+		List<Map<String, Object>> resultList = searchService.autocomplete(paramMap); 	//article data => search페이지
+		List<Map<String, Object>> resultList2 = searchService.autocomplete2(paramMap);	//tb_course data => search페이지
 			
-			//파라미터 type별로 data 필터링해서 출력 => all 페이지
-			List<Map<String, Object>> autocompleteAll = searchService.autocompleteAll(paramMap);	
+		//파라미터 type별로 data 필터링해서 출력 => all 페이지
+		List<Map<String, Object>> autocompleteAll = searchService.autocompleteAll(paramMap);	
 			
-			resultList.addAll(resultList2);		//resultList2를 resultList로 합침
-			paramMap.put("resultList", resultList);		
-			paramMap.put("autocompleteAll", autocompleteAll);
-			paramMap.put("type", type);			//파라미터. type=공지사항
+		resultList.addAll(resultList2);		//resultList2를 resultList로 합침
+		paramMap.put("resultList", resultList);		
+		paramMap.put("autocompleteAll", autocompleteAll);
+		paramMap.put("type", type);			//파라미터. type=공지사항
 			
 			return paramMap;
+			
 		}
-	}
+	
 }

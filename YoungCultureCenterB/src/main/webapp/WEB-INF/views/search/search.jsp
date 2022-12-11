@@ -81,10 +81,25 @@
 
 	$(document).ready(function() {
 		
-     	 const url = new URL(window.location.href)	//현재 페이지의 url 객체 생성
-    	 const urlParams = url.searchParams;		//url의 파라미터를 가져옴
-    	 const param = urlParams.get('type')		//url의 파라미터들 중, type의 값
-		 
+		const url = new URL(window.location.href)	//현재 페이지의 url 객체 생성
+    	const urlParams = url.searchParams;		//url의 파라미터를 가져옴
+    	const param = urlParams.get('type')		//url의 파라미터들 중, type의 값
+    	 
+		$.ajax({
+			type : 'get',
+		    url: '/ycc/search/array',
+		    dataType : 'json',
+		    headers: { "content-type" : "application/json" },
+		    success : function(data) {
+		    	$("ul.nList").html(printNList(data))
+		        $("ul.eList").html(printEList(data))
+		        $("ul.courseList").html(printCourseList(data))
+		    },
+		    error : function(data) { 
+		    	alert("error")
+		    }
+		})
+ 
 		// 검색어 자동완성
 		$('#search').autocomplete({
 			source : function(request, response) { //source: 입력시 보일 목록
@@ -92,7 +107,7 @@
 			           url : "/ycc/search/autocomplete"   
 			         , type : "POST"
 			         , dataType: "JSON"
-			         , data : {value: request.term, type: param}	
+					 , data : {value: request.term, type: param}	
 			     		// value: request.term => 검색 키워드. '수영'을 입력했을 때 request.term의 값이 '수영'이 됨
 			         	// url: http://localhost:8080/ycc/autocomplete?value=수영 (GET방식일때)
 			         	// type: param => url의 type 파라미터
@@ -135,8 +150,116 @@
 					console.log(ui.item.idx);
 			 }
 		});
-		 
-		 
+    	 
+    	
+  		$("#arrayBtn").click(function() {
+ 	     	 const array = $('#array option:selected').val()
+ 	    	 console.log(array) 
+				$.ajax({
+					type : 'get',
+					url: '/ycc/search/array/',
+					dataType : 'json',
+					data: {array:array},
+					headers: { "content-type" : "application/json" },
+					success : function(data) {
+						$("ul.nList").html(printNList(data))
+						$("ul.eList").html(printEList(data))
+						$("ul.courseList").html(printCourseList(data))
+					},
+					error : function(data) { 
+						alert("error")
+					}
+			   	})
+ 		}) 
+ 					 
+ 		let printNList = function(data) {
+ 			let tmp = ''
+ 			for(idx in data.nList) {
+ 				tmp += '<li>'
+ 		 		tmp += '<div class="p-3">'
+ 		 		tmp += '<h5 id="nTitle" class="fw-bold">'
+ 		 		tmp += '<a href="<c:url value="/board/post?article_id='+data.nList[idx].article_id+'" />">' + data.nList[idx].article_title + '</a>'
+ 		 		tmp += '</h5>'
+ 		 		tmp += '<p>' + data.nList[idx].article_contents + '</p>'
+ 		 		tmp += '<div class="d-flex flex-row">'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">작성자</span>'
+ 		 		tmp += '<span class="fw-light">' + data.nList[idx].user_id + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">작성일</span>'
+ 		 		tmp += '<span class="fw-light">' + data.nList[idx].article_date + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">조회수</span>'
+ 		 		tmp += '<span class="fw-light">' + data.nList[idx].article_viewcnt + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '</div>'
+ 		 		tmp += '</div>'
+ 		 		tmp += '</li>'
+ 			};
+	 		return tmp += ''
+ 		}
+  		
+ 		let printEList = function(data) {
+ 			let tmp = ''
+ 			for(idx in data.eList) {
+ 				tmp += '<li>'
+ 		 		tmp += '<div class="p-3">'
+ 		 		tmp += '<h5 id="eTitle" class="fw-bold">'
+ 		 		tmp += '<a href="<c:url value="/board/post?article_id='+data.eList[idx].article_id+'" />">' + data.eList[idx].article_title + '</a>'
+ 		 		tmp += '</h5>'
+ 		 		tmp += '<p>' + data.eList[idx].article_contents + '</p>'
+ 		 		tmp += '<div class="d-flex flex-row">'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">작성자</span>'
+ 		 		tmp += '<span class="fw-light">' + data.eList[idx].user_id + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">작성일</span>'
+ 		 		tmp += '<span class="fw-light">' + data.eList[idx].article_date + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">조회수</span>'
+ 		 		tmp += '<span class="fw-light">' + data.eList[idx].article_viewcnt + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '</div>'
+ 		 		tmp += '</div>'
+ 		 		tmp += '</li>'
+ 			};
+	 		return tmp += ''
+ 		}
+ 		
+ 		let printCourseList = function(data) {
+ 			let tmp = ''
+ 			for(idx in data.courseList) {
+ 				tmp += '<li>'
+ 		 		tmp += '<div class="p-3">'
+ 		 		tmp += '<h5 id="cTitle" class="fw-bold">'
+ 		 		tmp += '<a href="<c:url value="/course/detail?course_id='+data.courseList[idx].course_id+'" />">' + data.courseList[idx].course_nm + '</a>'
+ 		 		tmp += '</h5>'
+ 		 		tmp += '<p>' + data.courseList[idx].course_info + '</p>'
+ 		 		tmp += '<div class="d-flex flex-row">'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">강사명</span>'
+ 		 		tmp += '<span class="fw-light">' + data.courseList[idx].user_id + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">수강시간</span>'
+ 		 		tmp += '<span class="fw-light">' + data.courseList[idx].course_day + '</span>'
+ 		 		tmp += '<span class="fw-light">' + data.courseList[idx].course_time + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '<span class="pe-4">'
+ 		 		tmp += '<span class="fw-bold">수강료</span>'
+ 		 		tmp += '<span class="fw-light">' + data.courseList[idx].course_cost + '</span>'
+ 		 		tmp += '</span>'
+ 		 		tmp += '</div>'
+ 		 		tmp += '</div>'
+ 		 		tmp += '</li>'
+ 			};
+	 		return tmp += ''
+ 		}
+
 		// 탭 클릭시 해당되는 탭의 검색결과만 보이게 하는 기능
 		// 각각의 분류별 출력결과(공지사항, 이벤트, ...)를 감싸고 있는 div 태그에 .cont 클래스를 줌 ==> .cont{display:none;}
 		
@@ -226,13 +349,14 @@
 				
 				<!-- 검색시 기본적으로 정확도순으로 정렬됨. 키워드랑 완전히 일치하는 검색결과일 경우 0점으로 가장 우선순위로 조회되고,
 				키워드 앞 뒤에 키워드 이외의 글자가 많이 붙어있을수록(1점, 2점, ...) 우선순위가 낮아지는 식 (searchMapper) -->
-				<div class="row float-end me-4">
-					<select class="form-select form-select-sm col-auto" name="array" aria-label=".form-select-sm example" style="width: auto; margin-right: 10px;">
+				<div class="row float-end me-4 array">
+				<select class="form-select form-select-sm col-auto" id="array" name="array" aria-label=".form-select-sm example" style="width: auto; margin-right: 10px;">
 						<option value="A" ${pr.sc.array=='A' || pr.sc.array=='' ? "selected" : ""}>정확도순</option>
 						<option value="V" ${pr.sc.array=='V' ? "selected" : ""}>조회순</option>
 						<option value="N" ${pr.sc.array=='N' ? "selected" : ""}>최신순</option>
-					</select>  
-					<input type="submit" class="search-button btn btn-secondary col-auto" value="정렬">
+					</select>   
+					<!-- <input type="submit" class="search-button btn btn-secondary col-auto" value="정렬"> -->
+					<input type="button" id="arrayBtn" class="search-button btn btn-secondary col-auto" value="정렬">
 				</div>
 			</form>
 			<p class="ms-5 mt-3">총 <b>${totalCnt }</b>건이 검색되었습니다.</p>
@@ -243,50 +367,21 @@
 			<div id="notice" class="p-3 is_on cont">
 				<h4 class="text-start fw-bold">공지사항 (${noticeList[0].count == null ? "0" : noticeList[0].count }건)</h4>
 				<hr>
-				
 				<!-- 더보기 버튼 클릭시 type="공지사항" 파라미터 넘김 -> all 페이지에서 파라미터 받고 그에 공지사항 결과만 가져오게끔 함 -->
 				<form action="<c:url value="/search/all?type=${noticeList[0].article_Board_type }" />">
 					<input type="hidden" name="type" value="${noticeList[0].article_Board_type }" /> 
 					<input type="hidden" name="keyword" value="${param.keyword }" />
-							
 					<!-- choose 태그로 검색결과가 없을 때는 결과 없다는 문구만 출력, 검색결과가 있으면 검색결과 출력 -->
 					<c:choose>
 						<c:when test="${noticeList[0].count == 0 || noticeList[0].count == null}">
 							<p class="noResult m-5">검색결과가 없습니다.</p>
 						</c:when>
 						<c:otherwise>
-								
 							<!-- 검색결과가 6개 이상이면 더보기 버튼 활성화 -->
 							<c:if test="${noticeList[0].count gt 5}">
 								<input style="float: right;" class="btn btn-write" type="submit" value="더보기" >
 							</c:if>	
-							<ul class="mx-3"style="padding-left: 0px;margin-bottom: 0px;">
-									
-								<!-- 검색결과 출력 부분 -->
-								<c:forEach var="BoardDto" items="${noticeList }">
-									<li>
-										<div class="p-3">
-											<h5 id="nTitle" class="fw-bold">
-												<a href="<c:url value="/board/post?article_id=${BoardDto.article_id }" />">${BoardDto.article_title }</a>
-											</h5>
-											<p>${BoardDto.article_contents }</p>
-											<div class="d-flex flex-row">
-												<span class="pe-4">
-													<span class="fw-bold">작성자</span>
-													<span class="fw-light">${BoardDto.user_id }</span>
-												</span>
-												<span class="pe-4">
-													<span class="fw-bold">작성일</span>
-													<span class="fw-light"><fmt:formatDate pattern="yyyy-MM-dd" value="${BoardDto.article_date }" /></span>
-												</span>
-												<span class="pe-4">
-													<span class="fw-bold">조회수</span>
-													<span class="fw-light">${BoardDto.article_viewcnt }</span>
-												</span>
-											</div>
-										</div>
-									</li>
-								</c:forEach>
+							<ul class="mx-3 nList"style="padding-left: 0px;margin-bottom: 0px;">
 							</ul>
 						</c:otherwise>
 					</c:choose>
@@ -308,31 +403,7 @@
 							<c:if test="${eventList[0].count gt 5}">
 								<input style="float: right;" class="btn btn-write" type="submit" value="더보기" >
 							</c:if>	
-							<ul class="mx-3"style="padding-left: 0px;margin-bottom: 0px;">
-								<c:forEach var="BoardDto" items="${eventList }">
-									<li>
-										<div class="p-3">
-											<h5 id="eTitle" class="fw-bold">
-												<a href="<c:url value="/board/post?article_id=${BoardDto.article_id }" />">${BoardDto.article_title }</a>
-											</h5>
-											<p>${BoardDto.article_contents }</p>
-											<div class="d-flex flex-row">
-												<span class="pe-4">
-													<span class="fw-bold">작성자</span>
-													<span class="fw-light">${BoardDto.user_id }</span>
-												</span>
-												<span class="pe-4">
-													<span class="fw-bold">작성일</span>
-													<span class="fw-light"><fmt:formatDate pattern="yyyy-MM-dd" value="${BoardDto.article_date }" /></span>
-												</span>
-												<span class="pe-4">
-													<span class="fw-bold">조회수</span>
-													<span class="fw-light">${BoardDto.article_viewcnt }</span>
-												</span>
-											</div>
-										</div>
-									</li>
-								</c:forEach>
+							<ul class="mx-3 eList"style="padding-left: 0px;margin-bottom: 0px;">
 							</ul>
 						</c:otherwise>
 					</c:choose>
@@ -396,33 +467,7 @@
 							<c:if test="${courseList[0].count gt 5}">
 								<input style="float: right;" class="btn btn-write" type="submit" value="더보기" >
 							</c:if>	
-							<ul class="mx-3"style="padding-left: 0px;margin-bottom: 0px;">
-								<c:forEach var="CourseDto" items="${courseList }">
-									<li>
-										<div class="p-3">
-											<c:set var="course_id" value="${CourseDto.course_id }" />
-											<h5 id="cTitle" class="fw-bold">
-												<a href="<c:url value="/course/detail?course_id=${course_id }&keyword=${param.keyword }" />">${CourseDto.course_nm }</a>
-											</h5>
-											<p>${CourseDto.course_info }</p>
-											<div class="d-flex flex-row">
-												<span class="pe-4">
-													<span class="fw-bold">강사명</span>
-													<span class="fw-light">${CourseDto.user_id }</span>
-												</span>
-												<span class="pe-4">
-													<span class="fw-bold">수강시간</span>
-													<span class="fw-light">${CourseDto.course_day }</span>
-													<span class="fw-light">${CourseDto.course_time }</span>
-												</span>
-												<span class="pe-4">
-													<span class="fw-bold">수강료</span>
-													<span class="fw-light">${CourseDto.course_cost } 원</span>
-												</span>
-											</div>
-										</div>
-									</li>
-								</c:forEach>
+							<ul class="mx-3 courseList"style="padding-left: 0px;margin-bottom: 0px;">
 							</ul>
 						</c:otherwise>
 					</c:choose>
