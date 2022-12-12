@@ -17,6 +17,7 @@ public interface RentalDao {
 	int insertStudyroomlentalinfo(RentalDto rentalDto) throws Exception;
 	int updateStudyroomStatusInsert(RentalDto rentalDto) throws Exception;
 	int updateStudyroomStatusDelete(RentalDto rentalDto) throws Exception;
+	int deleteStudyroom() throws Exception;
 	
 	
 

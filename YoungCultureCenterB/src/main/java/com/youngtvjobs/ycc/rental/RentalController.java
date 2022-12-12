@@ -31,11 +31,12 @@ public class RentalController {
 			
 		try {
 			//rentalService.sroomRentalDelUpdate(null);
-			
+			rentalService.sroomClear();
+			//rentalService.sroomRentalDelUpdate(null);
 			List<RentalDto> rentalDto = rentalService.sroomRentalCheck();
 			m.addAttribute("rentalDto", rentalDto);
-			System.out.println(rentalDto);
-			System.out.println(rentalDto.getClass());
+			//System.out.println(rentalDto);
+			//System.out.println(rentalDto.getClass());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

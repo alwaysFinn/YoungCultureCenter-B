@@ -71,6 +71,11 @@ public class RentalDaoImpl implements RentalDao{
 		return session.update(namespace + "studyroomDeleteupdate", rentalDto);
 	}
 
+	@Override
+	public int deleteStudyroom() throws Exception {
+		return session.delete(namespace + "studyroomReset");
+	}
+
 	
 
 }

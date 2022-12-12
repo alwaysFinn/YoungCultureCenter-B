@@ -66,6 +66,11 @@ public class RentalServiceImpl implements RentalService{
 	public int sroomRentalDelUpdate(RentalDto rentalDto) throws Exception {
 		return rentalDao.updateStudyroomStatusDelete(rentalDto);
 	}
+
+	@Override
+	public int sroomClear() throws Exception {
+		return rentalDao.deleteStudyroom();
+	}
 	
 	
 }
