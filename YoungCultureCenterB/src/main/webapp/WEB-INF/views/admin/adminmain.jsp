@@ -56,7 +56,7 @@
 		<hr>
 		<div class="row m-1 h-25">
 			<div class="col-md-3 mb-3">
-				<button type="button" class="flat-menu border border-0 w-100 belizehole fs-5" onclick="location.href='/ycc/admin'">홈페이지 관리</button>
+				<button type="button" class="flat-menu border border-0 w-100 belizehole fs-5" onclick="location.href='/ycc/admin/profile'">홈페이지 관리</button>
 			</div>
 			<div class="col-md-3 mb-3">
 				<button type="button"  class="flat-menu border border-0 w-100 orange fs-5" onclick="location.href='/ycc/admin'">회원 관리</button>
