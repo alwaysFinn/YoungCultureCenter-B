@@ -32,84 +32,100 @@
   <hr>
 </div>
     <!-- 좌석 선택 폼 -->
-    <div>
-    	<c:forEach var="rentalDto" items="${rentalDto }">
-    		<input type="radio" name="selectSeat" value="${rentalDto.sroom_seat_id }"> ${rentalDto.sroom_seat_id }
-    	</c:forEach>
-    </div>
+    
     <div class="container w-100 pt-1" >
+    	<div>
+		    <h5>대여 좌석 선택</h5>
+		    <table>
+		    	<tr>
+		    	<c:forEach var="rentalDto" items="${rentalDto }">
+		    		<td>
+		    		<input type="radio" name="selectSeat" value="${rentalDto.sroom_seat_id }"> ${rentalDto.sroom_seat_id }
+		    		</td>
+		    	</c:forEach>
+		    	</tr>
+		    </table>
+		</div> <br/>
       <div class="container-lg" style="border: solid 1px gray; border-radius: 10px; overflow: scroll;">
         <ol class="rRoomTotal" style="margin-top: 3%">
+        <h5>좌석 배치도</h5>
           <ol class="rRoomUpper mb-5">
           <li class="row row--1">
             <ol class="seats" type="A">
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="1"
+                  id="room0"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[0].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="01">01</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="2"
+                  id="room1"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[1].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="02">02</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="3"
+                  id="room2"
                   name="indvSeat"
                   onclick="return false"
-                  value="${rentalDto[2].sroom_rental_yn }"    
+                  value="${rentalDto[2].sroom_rental_yn }"
+                  disabled="disabled"   
                 />
                 <label for="03">03</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="4"
+                  id="room3"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[3].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="04">04</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="5"
+                  id="room4"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[4].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="05">05</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="6"
+                  id="room5"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[5].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="06">06</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="7"
+                  id="room6"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[6].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="07">07</label>
               </li>
@@ -117,10 +133,11 @@
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="8"
+                  id="room7"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[7].sroom_rental_yn }"
+                  disabled="disabled"
                 />
               <label for="08">08</label>
               </li>
@@ -128,40 +145,44 @@
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="9"
+                  id="room8"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[8].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="09">09</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="10"
+                  id="room9"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[9].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="10">10</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="11"
+                  id="room10"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[10].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="11">11</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="12"
+                  id="room11"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[11].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="12">12</label>
               </li>
@@ -173,40 +194,44 @@
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="13"
+                  id="room12"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[12].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="13">13</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="14"
+                  id="room13"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[13].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="14">14</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="15"
+                  id="room14"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[14].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="15">15</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="16"
+                  id="room15"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[15].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="16">16</label>
               </li>
@@ -214,80 +239,88 @@
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="17"
+                  id="room16"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[16].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="17">17</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="18"
+                  id="room17"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[17].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="18">18</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="19"
+                  id="room18"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[18].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="19">19</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="20"
+                  id="room19"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[29].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="20">20</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="21"
+                  id="room20"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[20].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="21">21</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="22"
+                  id="room21"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[21].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="22">22</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="23"
+                  id="room22"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[22].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="23">23</label>
               </li>
               <li class="seat">
                 <input
                   type="checkbox"
-                  id="24"
+                  id="room23"
                   name="indvSeat"
                   onclick="return false"
                   value="${rentalDto[23].sroom_rental_yn }"
+                  disabled="disabled"
                 />
                 <label for="24">24</label>
               </li>
@@ -301,121 +334,132 @@
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="25"
+                    id="room24"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[24].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="25">25</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="26"
+                    id="room25"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[25].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="26">26</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="27"
+                    id="room26"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[26].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="27">27</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="28"
+                    id="room27"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[27].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="28">28</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="29"
+                    id="room28"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[28].sroom_rental_yn }"
-                    disable="true"
+                    disabled="disabled"
                   />
                   <label for="29">29</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="30"
+                    id="room29"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[29].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="30">30</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="31"
+                    id="room30"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[30].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="31">31</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="32"
+                    id="room31"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[31].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="32">32</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="33"
+                    id="room32"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[32].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="33">33</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="34"
+                    id="room33"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[33].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="34">34</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="35"
+                    id="room34"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[34].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="35">35</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="36"
+                    id="room35"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[35].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="36">36</label>
                 </li>
@@ -427,40 +471,44 @@
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="37"
+                    id="room36"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[36].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="37">37</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="38"
+                    id="room37"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[37].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="38">38</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="39"
+                    id="room38"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[38].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="39">39</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="40"
+                    id="room39"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[39].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="40">40</label>
                 </li>
@@ -468,80 +516,88 @@
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="41"
+                    id="room40"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[40].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="41">41</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="42"
+                    id="room41"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[41].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="42">42</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="43"
+                    id="room42"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[42].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="43">43</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="44"
+                    id="room43"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[43].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="44">44</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="45"
+                    id="room44"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[44].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="45">45</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="46"
+                    id="room45"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[45].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="46">46</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="47"
+                    id="room46"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[46].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="47">47</label>
                 </li>
                 <li class="seat">
                   <input
                     type="checkbox"
-                    id="48"
+                    id="room47"
                     name="indvSeat"
                     onclick="return false"
                     value="${rentalDto[47].sroom_rental_yn }"
+                    disabled="disabled"
                   />
                   <label for="48">48</label>
                 </li>
@@ -553,7 +609,7 @@
 
       	<!-- 좌석 선택 정보 이미지 -->
 	<div class="row">
-    <div class="col-md-2">
+    <div class="col-md-3">
       <div class="fs-6 pt-3 mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="fill: #39adffed;"
           class="bi bi-square-fill" viewBox="0 0 16 16">
@@ -562,22 +618,13 @@
         사용가능
       </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <div class="fs-6 pt-3  mb-3">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="fill: #dddddd" class="bi bi-square-fill"
           viewBox="0 0 16 16">
           <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"></path>
         </svg>
         사용중
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="fs-6 pt-3  mb-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="fill: #bada55;"
-          class="bi bi-square-fill" viewBox="0 0 16 16">
-          <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"></path>
-        </svg>
-        선택
       </div>
     </div>
   </div>
@@ -701,34 +748,21 @@
 	<script type="text/javascript">
 	$(document).ready(function () {
 		
-		
-		//0번쨰 즉 1번째 인덱스 접근방법?
-		//test는 value에 접근 y인지 n인지
-		//checked는 해당 Object에 접근
+		// 좌석 대여 여부를 담기 위한 배열 선언
 		test = []
+		// 좌석 수 만큼 반복하며 대여 여부(.value)를 배열에 담음
 		for(var i = 1; i <= 48; i++){
-			test.push(document.getElementById(i).value)
-			if(test[i]=='y'){
-				document.getElementById(i).innerHTML = 'disabled'		
-			}
-		}
-		for(var j = 1; j <= 48; j++){
-			checked = []
-			checked[j] = document.getElementById(j)
-			if(test[j]=='y'){
-				//document.getElementById(j).attr("disabled", true)
-				//document.getElementById(j).innerHTML = 'disabled'
-				//document.getElementById(j).innerHTML = "disabled"
-				console.log(j)
-			}
+			test.push(document.getElementById("room"+(i-1)).value)
 			
 		}
-		console.log(checked[j])
-		console.log(test[j])
 		console.log(test)
-		//console.log(typeof(test))
-		
-
+		// 위에서 담은 값이 n이면 disabled 조건을 주지 않고, n이 아닐 경우에는 disabled를 주는 반복문 
+		for (var j = 0; j <= 48; j++){
+			if(test[j]=='n'){
+				$("#room"+j).attr("disabled", false)	
+			}
+		}
+	
 		$("#modalBtn").on("click", function(){
 			
 			//현재시간의 형식을 hh:mm:ss로 바꾸는 기능 
@@ -747,18 +781,24 @@
 			
 			var time = getFormatTime(new Date())
 			console.log(time)
+			console.log(typeof(time))
 
 			//선택한 좌석 번호 받아오는 변수
-			let seleted = $("input[name='selectSeat']:checked").val()*1
+			let selected = $("input[name='selectSeat']:checked").val()*1
 			
-			console.log(seleted)
-			console.log(typeof(seleted))
+			console.log(selected)
+			console.log(typeof(selected))
 
         	//클릭 시 장소값 넘겨주는 기능 type을 int로 바꾸기 위해 *1
-        	document.getElementById("sroom_seat_id").innerHTML = seleted
+        	document.getElementById("sroom_seat_id").innerHTML = selected
         	
         	//클릭 시 종료시간 넘겨주는 기능
         	document.getElementById("sroom_rental_etime").innerHTML = time
+        	
+        	//좌석 정보 미선택 후 넘어갈 시 alert로 경고 메세지 출력
+        	/* if(selected==''){
+        		alert("필수값입니다 선택해주세요")
+        	} */
 
         })
         

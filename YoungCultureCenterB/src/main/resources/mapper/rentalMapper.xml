@@ -56,7 +56,16 @@
 	  <update id="studyroomDeleteupdate" parameterType="RentalDto">
 	  	UPDATE public.studyroom
 		SET sroom_rental_yn='n'
-		WHERE sroom_seat_id=#{sroom_seat_id}
 	  </update>
+	  
+	  <!-- 비교하기 위해 현재 예약 현황 select하는 sql -->
+	  <select id="rentaledSelect" resultType="RentalDto">
+	  	SELECT sroom_seat_id from sroom_rental_info order by sroom_seat_id
+	  </select>
+	  
+	  <!-- y를n으로 바꾸기 위해 현재 y로 되어있는 부분 select하는 sql -->
+	  <select id="seatstatusy" resultType="RentalDto">
+	  	select sroom_seat_id from studyroom where sroom_rental_yn='y' order by sroom_seat_id
+	  </select>
 	  
   </mapper>

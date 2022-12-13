@@ -76,6 +76,16 @@ public class RentalDaoImpl implements RentalDao{
 		return session.delete(namespace + "studyroomReset");
 	}
 
+	@Override
+	public List<RentalDto> checky() throws Exception {
+		return session.selectList(namespace + "rentaledSelect");
+	}
+
+	@Override
+	public List<RentalDto> checkrentalStatus() throws Exception {
+		return session.selectList(namespace + "seatstatusy");
+	}
+
 	
 
 }

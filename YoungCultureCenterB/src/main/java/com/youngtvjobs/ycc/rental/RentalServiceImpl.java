@@ -71,6 +71,16 @@ public class RentalServiceImpl implements RentalService{
 	public int sroomClear() throws Exception {
 		return rentalDao.deleteStudyroom();
 	}
+
+	@Override
+	public List<RentalDto> sroomYCheck() throws Exception {
+		return rentalDao.checky();
+	}
+
+	@Override
+	public List<RentalDto> sroomRentaledCheck() throws Exception {
+		return rentalDao.checkrentalStatus();
+	}
 	
 	
 }

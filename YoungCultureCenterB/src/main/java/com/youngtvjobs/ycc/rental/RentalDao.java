@@ -18,6 +18,8 @@ public interface RentalDao {
 	int updateStudyroomStatusInsert(RentalDto rentalDto) throws Exception;
 	int updateStudyroomStatusDelete(RentalDto rentalDto) throws Exception;
 	int deleteStudyroom() throws Exception;
+	List<RentalDto> checky() throws Exception;
+	List<RentalDto> checkrentalStatus() throws Exception;
 	
 	
 

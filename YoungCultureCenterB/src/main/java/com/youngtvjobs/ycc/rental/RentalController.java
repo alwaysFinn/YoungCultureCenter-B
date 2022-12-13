@@ -28,15 +28,50 @@ public class RentalController {
 	// 독서실 페이지로 이동했을 때 조건이 지난 부분은 삭제되고, 그 결과를 받아오는 get
 	@GetMapping("/rental/studyroom")
 	public String studyRoom(HttpServletRequest request, Model m) throws Exception {
-			
+		
+		if(!logincheck(request))
+			return "redirect:/login?toURL="+request.getRequestURL();
+		
+		
+		
 		try {
-			//rentalService.sroomRentalDelUpdate(null);
-			rentalService.sroomClear();
-			//rentalService.sroomRentalDelUpdate(null);
+			  rentalService.sroomClear();
+			  
+			  RentalDto rentalDtoa = new RentalDto();
+			  
+			  //예약테이블 현황
+			  List<RentalDto> lista = rentalService.sroomYCheck();
+			  //studyroom에서 y값을 가지는 것들
+			  List<RentalDto> listb = rentalService.sroomRentaledCheck();
+				
+			  System.out.println("lista : " + lista);
+			  System.out.println();
+			  System.out.println("listb : " + listb);
+			  System.out.println();
+			  System.out.println("listb's length : " + listb.size());
+			  
+			  
+			  for(RentalDto b : listb) {
+				  boolean isEquals = false;
+				  for(RentalDto a : lista) {
+					  if(b.equals(a)) isEquals = true;
+				  }
+				  if(isEquals) {
+					  System.out.println("pass");
+				  }else {
+					  System.out.println(b);
+					  rentalService.sroomRentalDelUpdate(b);
+				  }
+			  }
+			  
+				/*
+				 * for(RentalDto a : listb) { boolean isEquals = false; for(RentalDto b : lista)
+				 * { if(a.equals(b)) isEquals = true; } if(isEquals) { System.out.println("패스");
+				 * }else { System.out.println(a); rentalService.sroomRentalDelUpdate(a); } }
+				 * 
+				 */
 			List<RentalDto> rentalDto = rentalService.sroomRentalCheck();
 			m.addAttribute("rentalDto", rentalDto);
-			//System.out.println(rentalDto);
-			//System.out.println(rentalDto.getClass());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +121,7 @@ public class RentalController {
 			System.out.println("예약 실패");
 		}
 		
-		return "rental/studyroom";
+		return "/ycc";
 	}
 
 	// 사물함 안내

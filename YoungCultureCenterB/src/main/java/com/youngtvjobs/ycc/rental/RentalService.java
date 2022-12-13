@@ -21,7 +21,9 @@ public interface RentalService {
 	int sroomRental(RentalDto rentalDto) throws Exception; 
 	int sroomRentalInsUpdate(RentalDto rentalDto) throws Exception;
 	int sroomRentalDelUpdate(RentalDto rentalDto) throws Exception;
-	int sroomClear() throws Exception; 
+	int sroomClear() throws Exception;
+	List<RentalDto> sroomYCheck() throws Exception;
+	List<RentalDto> sroomRentaledCheck() throws Exception;
 	
 
 }
