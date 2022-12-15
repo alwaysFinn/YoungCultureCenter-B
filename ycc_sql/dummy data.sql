@@ -95,10 +95,14 @@ insert into prental_info
 (prental_de, prtime_schedule, user_id, croom_id)
 values('2022-11-24', '14:10 ~ 16:00', 'admin', '풋살장');
 
+do $$
+begin
+for i in 1..48 loop
+INSERT INTO studyroom ("sroom_seat_id", "sroom_rental_yn") VALUES (i,'n');
+end loop;
+end;
+$$;
 
-INSERT INTO prental_info
-(prental_de, prtime_schedule, user_id, croom_id)
-VALUES('2022-11-27', '14:10 ~ 16:00', 'admin', '101');
 
 ------------------------------------------------------성호------------------------------------------------------
 -- course_type dummy data
