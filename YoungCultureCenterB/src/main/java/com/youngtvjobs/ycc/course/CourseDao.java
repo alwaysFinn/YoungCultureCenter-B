@@ -37,5 +37,11 @@ public interface CourseDao {
 	List<CourseDto> selectCroomId() throws Exception;
 
 	List<CourseDto> selectCourseType() throws Exception;
+	
+	int courseImageInsert(CourseImageDto courseImageDto) throws Exception;
+	
+	List<CourseImageDto> getCourseImageList(int course_id) throws Exception;
 
+	int courseImageDelete(int course_id) throws Exception;
+	
 }
