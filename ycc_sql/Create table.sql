@@ -173,12 +173,9 @@ ALTER TABLE rental_time ADD CONSTRAINT rental_time_PK PRIMARY KEY ( prtime_sched
 
 CREATE TABLE studyroom (
     sroom_seat_id    integer NOT NULL,
-    sroom_entry_time    timestamp without time zone NOT NULL,
-    sroom_checkout_time    timestamp without time zone NOT NULL,
-    user_id    varchar(16) NOT NULL
+    sroom_rental_yn  character(1) not null
 );
 ALTER TABLE studyroom ADD CONSTRAINT studyroom_PK PRIMARY KEY ( sroom_seat_id );
-alter table studyroom add column use_yn boolean not null;
 
 -- course_id 타입 변경 Integer -> serial 
 -- course_image 컬럼 삭제(2022-12-08 KimSeongho)
@@ -253,6 +250,17 @@ create table tb_terms
 ,	join_privacy_terms text --개인정보취급방침
 );
 
+create table sroom_rental_info 
+(
+	srental_no				serial not null
+,	sroom_rental_stime		time without time zone not null
+,	sroom_rental_etime		time without time zone not null
+,	user_id					varchar(16) not null
+,	sroom_seat_id			integer NOT NULL
+);
+alter table sroom_rental_info add constraint sroom_rental_info_PK primary key (srental_no); 
+
+
 
 --FK============================================================================================================
 --동아리
@@ -272,7 +280,8 @@ alter table prental_info add FOREIGN KEY(prtime_schedule) REFERENCES rental_time
 
 alter table tb_rental_locker add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 
-alter table studyroom add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
+alter table sroom_rental_info add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
+alter table sroom_rental_info add FOREIGN KEY(sroom_seat_id) REFERENCES studyroom(sroom_seat_id) ON DELETE CASCADE;
 
 --게시글, 첨부파일, 문의게시판 테이블 fk생성
 alter table ARTICLE add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
