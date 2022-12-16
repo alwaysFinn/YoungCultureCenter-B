@@ -6,25 +6,26 @@
   <mapper namespace="com.youngtvjobs.ycc.rental.rentalMapper">
 
 	  <!-- 장소 대관 start -->	  
-	  <!-- selectBox에서 장소 고를때 장소를 불러오는 sql문 -->
-	  <select id="selectRentalPlace" resultType="RentalDto">
-	  	select * from classroom
-	  </select>
-	  	  
-	  <!-- 해당 장소, 시간, 날짜에 예약이 있는지 확인하는 sql문 -->
-	  <select id="tlscjfghks" parameterType="RentalDto" resultType="RentalDto">
-		  select prental_id, prental_de, prtime_schedule, user_id, c.croom_id, c.croom_name
-		  from prental_info INNER JOIN classroom c
-		  on prental_info.croom_id = c.croom_id
-		  where c.croom_id = #{croom_id} and prental_de = #{prental_de}::date
+	  <!-- 기존 예약 데이터들을 불러옴 -->
+	  <select id="selectInfo" resultType="RentalDto" parameterType="RentalDto">
+	  	select * 
+		from classroom c, prental_info p
+		where c.croom_id = p.croom_id and
+		p.croom_id = #{croom_id} and p.prental_de = #{prental_de}
 	  </select>
 	  
-	  <!-- 예약하기 버튼 클릭 시 해당 정보를 기반으로 예약하는 sql문 -->
-	  <insert id="insertRentalinfo" parameterType="RentalDto">
-	  	INSERT INTO prental_info
-		prental_de, prtime_schedule, user_id, croom_id
-		VALUES(#{prental_de}::date, #{prtime_schedule}, #{user_id}, #{croom_id})
+	  <!-- 선택한 예약 정보들을 insert -->
+	  <insert id="insertInfo" parameterType="RentalDto">
+		INSERT INTO public.prental_info
+		(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
+		VALUES(#{prental_de}, #{user_id}, #{croom_id}, #{time1}, #{time2}, #{time3}, #{time4}, #{time5}, #{time6})
 	  </insert>
+	  
+	  <!-- selectBox에서 장소 고를때 장소를 불러오는 sql문 -->
+	  <select id="selectRentalPlace" resultType="RentalDto">
+	  	select croom_id, croom_location, croom_name 
+	  	from classroom
+	  </select>
 	  
 	  <!-- 독서실 start -->
 	  <!-- 각 좌석마다 예약현황을 확인하기 위한 select -->

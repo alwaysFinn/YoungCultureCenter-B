@@ -7,14 +7,13 @@ import java.util.Map;
 
 public interface RentalService {
 	
-	
-	List<RentalDto> selectschedule() throws Exception;
-	List<RentalDto> viewRentalPlace() throws Exception;
+	// 대관
+	List<RentalDto> selectInfo(String croom_id, Date prental_de) throws Exception;
+	int insertInfo(RentalDto rentalDto) throws Exception;
 	List<RentalDto> selectRentalPlace() throws Exception;
-	List<RentalDto> getList(String croom_id, Date prental_de) throws Exception;
-	List<RentalDto> checkRental() throws Exception;
 	
-	int rental(RentalDto rentalDto) throws Exception;
+	List<RentalDto> viewRentalPlace() throws Exception;
+	List<RentalDto> getList(String croom_id, Date prental_de) throws Exception;
 	
 	//studyroom start
 	List<RentalDto> sroomRentalCheck() throws Exception;
