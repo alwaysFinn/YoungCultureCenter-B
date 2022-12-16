@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS tb_rental_locker CASCADE;
 DROP TABLE IF EXISTS tb_user CASCADE;
 DROP TABLE IF EXISTS club_attach CASCADE;
 DROP TABLE IF EXISTS tb_attach CASCADE;
-DROP TABLE IF EXISTS rental_time CASCADE;
 DROP TABLE IF EXISTS tb_terms CASCADE;
+DROP TABLE IF EXISTS sroom_rental_info CASCADE;
 
 
 CREATE TABLE admin_section (
@@ -156,7 +156,7 @@ ALTER TABLE main_modal ADD CONSTRAINT main_modal_PK PRIMARY KEY ( modal_id );
 --user_id, croom_id -> varchar로 수정
 --prental_id 타입 변경 = integer -> serial
 --이름 변경 ->  prental_time_info --> prtime_schdule 
---prtime_schedule 컬럼 삭제 , rental_time 테이블 삭제 --> time1 ~ time6
+--prtime_schedule 컬럼 삭제 , rental_time 테이블 삭제 --> time1 ~ time6로 대체
 CREATE TABLE prental_info (
     prental_id    serial,
     prental_de    Date NOT NULL,
@@ -276,7 +276,6 @@ alter table club_member add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON 
 --렌탈
 alter table prental_info add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 alter table prental_info add FOREIGN KEY(croom_id) REFERENCES classroom(croom_id) ON DELETE CASCADE;
-alter table prental_info add FOREIGN KEY(prtime_schedule) REFERENCES rental_time(prtime_schedule) ON DELETE CASCADE;
 
 alter table tb_rental_locker add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 
