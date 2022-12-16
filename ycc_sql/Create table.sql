@@ -156,20 +156,20 @@ ALTER TABLE main_modal ADD CONSTRAINT main_modal_PK PRIMARY KEY ( modal_id );
 --user_id, croom_id -> varchar로 수정
 --prental_id 타입 변경 = integer -> serial
 --이름 변경 ->  prental_time_info --> prtime_schdule 
+--prtime_schedule 컬럼 삭제 , rental_time 테이블 삭제 --> time1 ~ time6
 CREATE TABLE prental_info (
     prental_id    serial,
     prental_de    Date NOT NULL,
-    prtime_schedule    varchar(20) NOT NULL,
     user_id    varchar(16) NOT NULL,
-    croom_id    character(10) NOT NULL
+    croom_id    varchar(10) NOT NULL,
+    time1		boolean NOT NULL,
+    time2		boolean NOT NULL,
+    time3		boolean NOT NULL,
+    time4		boolean NOT NULL,
+    time5		boolean NOT NULL,
+    time6		boolean NOT NULL
 );
 ALTER TABLE prental_info ADD CONSTRAINT prental_info_PK PRIMARY KEY ( prental_id );
-
--- 대관 시간값 테이블
-create table rental_time (	
-	prtime_schedule	varchar(20)
-);
-ALTER TABLE rental_time ADD CONSTRAINT rental_time_PK PRIMARY KEY ( prtime_schedule );
 
 CREATE TABLE studyroom (
     sroom_seat_id    integer NOT NULL,
