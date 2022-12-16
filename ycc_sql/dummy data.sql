@@ -45,55 +45,16 @@ values(303, '3층', '30', '303호');
 insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
 values('풋살장', '외부', '20', '풋살장');
 
-INSERT INTO public.rental_time
-(prtime_schedule)
-VALUES('08:10 ~ 10:00');
-INSERT INTO public.rental_time
-(prtime_schedule)
-VALUES('10:10 ~ 12:00');
-INSERT INTO public.rental_time
-(prtime_schedule)
-VALUES('12:10 ~ 14:00');
-INSERT INTO public.rental_time
-(prtime_schedule)
-VALUES('14:10 ~ 16:00');
-INSERT INTO public.rental_time
-(prtime_schedule)
-VALUES('16:10 ~ 18:00');
-INSERT INTO public.rental_time
-(prtime_schedule)
-VALUES('18:10 ~ 20:00');
 
 INSERT INTO public.prental_info
-(prental_de, prtime_schedule, user_id, croom_id)
-VALUES('2022-11-21', '08:10 ~ 10:00', 'admin', '101');
+(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
+VALUES('2022-12-25', 'admin', '101', true, false, false, false ,false, false);
 INSERT INTO public.prental_info
-(prental_de, prtime_schedule, user_id, croom_id)
-VALUES('2022-11-21', '10:10 ~ 12:00', 'admin', '101');
+(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
+VALUES('2022-12-25', 'admin', '101', false, true, false, false ,false, false);
 INSERT INTO public.prental_info
-(prental_de, prtime_schedule, user_id, croom_id)
-VALUES('2022-11-21', '12:10 ~ 14:00', 'admin', '101');
-INSERT INTO public.prental_info
-(prental_de, prtime_schedule, user_id, croom_id)
-VALUES('2022-11-21', '14:10 ~ 16:00', 'admin', '101');
-
-
-INSERT INTO public.prental_info
-(prental_de, prtime_schedule, user_id, croom_id)
-VALUES('2022-11-24', '14:10 ~ 16:00', 'admin', '101');
-
-insert into prental_info 
-(prental_de, prtime_schedule, user_id, croom_id)
-values('2022-11-24', '08:10 ~ 10:00', 'admin', '풋살장');
-insert into prental_info 
-(prental_de, prtime_schedule, user_id, croom_id)
-values('2022-11-24', '10:10 ~ 12:00', 'admin', '풋살장');
-insert into prental_info 
-(prental_de, prtime_schedule, user_id, croom_id)
-values('2022-11-24', '12:10 ~ 14:00', 'admin', '풋살장');
-insert into prental_info 
-(prental_de, prtime_schedule, user_id, croom_id)
-values('2022-11-24', '14:10 ~ 16:00', 'admin', '풋살장');
+(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
+VALUES('2022-12-14', 'admin', '수영장', false, false, false, false ,false, true);
 
 do $$
 begin
