@@ -1,22 +1,24 @@
 package com.youngtvjobs.ycc.rental;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -137,84 +139,79 @@ public class RentalController {
 	}
 
 	// 대관신청
+		@GetMapping("/rental/place")
+		// Dto에서 장소들 이름 받아와 selectBox에 출력해주는 메서드
+		public String rentalPlace(Model m, HttpServletRequest request, RentalDto rentalDto, HttpSession session) {
+			try {
+				//String croom_id = request.getParameter("croom_id");
+				//String date = request.getParameter("date");
+				//System.out.println(croom_id);
+				//System.out.println(date);
+				
+				// 대관 장소 (classroom) 리스트 출력
+				List<RentalDto> placelist = rentalService.selectRentalPlace();
+				m.addAttribute("placelist", placelist);
 
-	@GetMapping("/rental/place")
-	// Dto에서 장소들 이름 받아와 selectBox에 출력해주는 메서드
-
-	public String selectpage(Model m, HttpServletRequest request) {
-		// 로그인 확인
-		// if(!logincheck(request))
-		// return "redirect:/login?toURL="+request.getRequestURL();
-
-		// dto에서 장소 이름들 받아오는 부분
-		try {
-			List<RentalDto> placelist = rentalService.selectRentalPlace();
-			m.addAttribute("placelist", placelist);
-			System.out.println(placelist);
-			
-			List<RentalDto> timelist = rentalService.selectschedule();
-			m.addAttribute("timelist", timelist);
-			System.out.println(timelist);
-		} catch (Exception e) {
-			e.printStackTrace();
+				String customer = (String)session.getAttribute("id");
+				rentalDto.setUser_id(customer);
+				m.addAttribute("customer", customer);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "rental/place";
 		}
-		return "rental/place";
-	}
-
-	@GetMapping("/rental/place.send")
-	public ResponseEntity<List<RentalDto>> rentalcheck(@RequestParam("croom_id") String croom_id,
-			@RequestParam("prental_de") String prental_de, HttpServletRequest request) {
-
-		List<RentalDto> list = null;
-		System.out.println(croom_id);
-		System.out.println(prental_de);
 		
-
-		RentalDto rentalDto = new RentalDto();
-
-		try {
-
-			// jsp에서 온 값이 string이므로 DB에서 값을 가져오려면 Date 형식으로 변환해줘야 함 / 해당 부분을 이행하기 위해 형변환 후
-			// setter를 이용해 지정해주는 부분
+		// 예약 정보 insert해주는 메서드
+		@PostMapping("/rental/place.do")
+		public String rentalInfoInsert(RentalDto rentalDto, RedirectAttributes rattr, HttpSession session, Model m, 
+				HttpServletRequest request, @RequestParam("user_id") String user_id, @RequestParam("date") String date, 
+				@RequestParam("croom_id") String croom_id, @RequestParam(value = "timeList", required = false) String timeList) throws Exception {
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date date_rental_de = sdf.parse(prental_de);
-			rentalDto.setPrental_de(date_rental_de);
-
-			/*
-			 * String croom_id2 = URLDecoder.decode(croom_id, "UTF-8"); String prental_de2 =
-			 * URLDecoder.decode(prental_de, "UTF-8");
-			 */
-
-			list = rentalService.getList(croom_id, date_rental_de);
+			Date prental_de = sdf.parse(date);
+			rentalDto.setPrental_de(prental_de);
 			
-			System.out.println("list : " + list); // 하나의 인자씩 받아와서 해보기
-			return new ResponseEntity<List<RentalDto>>(list, HttpStatus.OK); // 200
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<List<RentalDto>>(HttpStatus.BAD_REQUEST); // 400
-		}
-
-	}
-
-	@PostMapping("/rental/place")
-	public String rental(RentalDto rentalDto, RedirectAttributes rattr, HttpSession session, Model m) throws Exception{
-		
-		String customer = (String)session.getAttribute("id");
-		rentalDto.setUser_id(customer);
-		
-		try {
-			if(rentalService.rental(rentalDto) != 1)
-				throw new Exception("Rental Failed");
-			rattr.addFlashAttribute("msg", "REN_OK");
-			return "redirect:/rental/place";
+			JSONParser parser = new JSONParser();
+			Object timeListObj = parser.parse(timeList);
+			JSONObject jsonObj = (JSONObject) timeListObj;
+			  
+			boolean time1 = Boolean.parseBoolean((String)jsonObj.get("time1"));
+			boolean time2 = Boolean.parseBoolean((String)jsonObj.get("time2"));
+			boolean time3 = Boolean.parseBoolean((String)jsonObj.get("time3"));
+			boolean time4 = Boolean.parseBoolean((String)jsonObj.get("time4"));
+			boolean time5 = Boolean.parseBoolean((String)jsonObj.get("time5"));
+			boolean time6 = Boolean.parseBoolean((String)jsonObj.get("time6"));
+			rentalDto.setTime1(time1);
+			rentalDto.setTime2(time2);
+			rentalDto.setTime3(time3);
+			rentalDto.setTime4(time4);
+			rentalDto.setTime5(time5);
+			rentalDto.setTime6(time6);
 			
-		}catch(Exception e) {
-			e.printStackTrace();
-			m.addAttribute("msg", "REN_ERR");
-			return "place";
+			rentalService.insertInfo(rentalDto);
+		
+			return null;
 		}
-	}
+		
+		
+		@ResponseBody
+		@GetMapping("/rental/place.send")
+		// 장소, 날짜 선택 후 조회하기 눌렀을 때 prental_info 데이터를 불러와서 선택한 장소, 날짜의 예약 가능한 시간대만 출력해주는 메서드
+		public Map<String, Object> rentalSelect(Model m, @RequestParam("croom_id") String croom_id, 
+				@RequestParam(value = "date", required = false) String date, HttpServletRequest req, RentalDto dto) throws Exception {
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date prental_de = sdf.parse(date);
+			
+			List<RentalDto> infoList = rentalService.selectInfo(croom_id, prental_de);
+			m.addAttribute("infoList", infoList);
+			map.put("infoList", infoList);
+			
+			return map;
+		}
 
 	private boolean logincheck(HttpServletRequest request) {
 		// TODO Auto-generated method stub

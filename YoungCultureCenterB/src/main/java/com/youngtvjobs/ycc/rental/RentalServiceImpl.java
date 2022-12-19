@@ -12,20 +12,29 @@ public class RentalServiceImpl implements RentalService{
 	
 	@Autowired
 	RentalDao rentalDao;
-
-	@Override//대관 가능 시간 보여주는 기능
-	public List<RentalDto> selectschedule() throws Exception {
-		return rentalDao.selecttime();
+	
+	// 대관
+	@Override // selectBox에서 장소 고를때 장소를 불러옴
+	public List<RentalDto> selectRentalPlace() throws Exception {
+		return rentalDao.selectRentalPlace();
 	}
+	
+	@Override	// 기존 예약 데이터들을 불러옴
+	public List<RentalDto> selectInfo(String croom_id, Date prental_de) throws Exception {
+		List<RentalDto> infoList = null;
+		infoList = rentalDao.selectInfo(croom_id, prental_de);
+		return infoList;
+	}
+	
+	@Override	// 선택한 예약 정보들을 insert
+	public int insertInfo(RentalDto rentalDto) throws Exception {
+		return rentalDao.insertInfo(rentalDto);
+	}
+	// 대관 끝
 	
 	@Override//날짜, 장소 선택하면 해당 장소 예약현황 보여주는 기능
 	public List<RentalDto> viewRentalPlace() throws Exception {
 		return rentalDao.selectview();
-	}
-
-	@Override//select에 DB에서 장소 값 넣는 기능 , 작동확인
-	public List<RentalDto> selectRentalPlace() throws Exception {
-		return rentalDao.select();
 	}
 
 	@Override//select, calender에서 선택한 값을 기반으로 하단 테이블에 보여주는 기능
@@ -34,16 +43,6 @@ public class RentalServiceImpl implements RentalService{
 		list = rentalDao.selectAll(croom_id, prental_de);
 		System.out.println("list = " + list);
 		return list;
-	}
-
-	@Override
-	public int rental(RentalDto rentalDto) throws Exception {
-		return rentalDao.insertRentalinfo(rentalDto);
-	}
-
-	@Override
-	public List<RentalDto> checkRental() throws Exception {
-		return rentalDao.selectRental();
 	}
 
 	@Override
@@ -81,7 +80,6 @@ public class RentalServiceImpl implements RentalService{
 	public List<RentalDto> sroomRentaledCheck() throws Exception {
 		return rentalDao.checkrentalStatus();
 	}
-	
 	
 }
 	

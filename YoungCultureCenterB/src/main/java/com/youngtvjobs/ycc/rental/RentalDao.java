@@ -6,12 +6,13 @@ import java.util.Map;
 
 public interface RentalDao {
 	
-	List<RentalDto> selecttime() throws Exception;
-	List<RentalDto> select() throws Exception;
+	// 대관
+	int insertInfo(RentalDto rentalDto) throws Exception;	
+	List<RentalDto> selectRentalPlace() throws Exception;
+	List<RentalDto> selectInfo(String croom_id, Date prental_de) throws Exception;
+	
 	List<RentalDto> selectview() throws Exception;
 	List<RentalDto> selectAll(String croom_id, Date prental_de) throws Exception;
-	List<RentalDto> selectRental() throws Exception;
-	int insertRentalinfo(RentalDto dto)throws Exception;	//예약하는 insert 로직
 	
 	List<RentalDto> sroomview() throws Exception;
 	int insertStudyroomlentalinfo(RentalDto rentalDto) throws Exception;

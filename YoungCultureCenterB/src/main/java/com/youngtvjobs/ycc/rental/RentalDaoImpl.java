@@ -15,16 +15,26 @@ public class RentalDaoImpl implements RentalDao{
 	@Autowired
 	private SqlSession session;
 	private static String namespace = "com.youngtvjobs.ycc.rental.rentalMapper.";
-
+	
+	// 대관
 	@Override
-	public List<RentalDto> selecttime() throws Exception {
-		return session.selectList(namespace + "selectSchedule");
+	public List<RentalDto> selectRentalPlace() throws Exception {
+		return session.selectList(namespace + "selectRentalPlace");
 	}
 	
 	@Override
-	public List<RentalDto> select() throws Exception {
-		return session.selectList(namespace + "selectRentalPlace");
+	public List<RentalDto> selectInfo(String croom_id, Date prental_de) throws Exception {
+		Map map = new HashMap();
+		map.put("croom_id", croom_id);
+		map.put("prental_de", prental_de);
+		return session.selectList(namespace + "selectInfo", map);
 	}
+
+	@Override
+	public int insertInfo(RentalDto rentalDto) throws Exception {
+		return session.insert(namespace + "insertInfo", rentalDto);
+	}
+	// 대관 끝
 
 	@Override
 	public List<RentalDto> selectview() throws Exception {
@@ -37,17 +47,6 @@ public class RentalDaoImpl implements RentalDao{
 		map.put("croom_id", croom_id);
 		map.put("prental_de", prental_de);
 		return session.selectList(namespace + "tlscjfghks", map);
-	}
-
-	@Override
-	public List<RentalDto> selectRental() throws Exception {
-		return session.selectList(namespace + "viewRentalTable");
-	}
-	
-	//예약하는 insert 로직
-	@Override
-	public int insertRentalinfo(RentalDto dto) throws Exception {
-		return session.insert(namespace + "insertRentalinfo", dto);
 	}
 
 	@Override

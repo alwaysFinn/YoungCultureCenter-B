@@ -126,13 +126,22 @@
 			<tbody class="table-group-divider align-middle">
 				<c:forEach var="courseDto" items="${list }">
 					<tr>
-						<td><a class="tdeco-none" href="<c:url value="/course/detail${pr.sc.queryString }&course_id=${courseDto.course_id }" />">${courseDto.course_nm }</a></td>
+						<td>
+							<a class="tdeco-none" href="<c:url value="/course/detail${pr.sc.queryString }&course_id=${courseDto.course_id }" />">
+								${courseDto.course_nm }
+							</a>
+						</td>
 						<td>${courseDto.course_sd() }<br>~${courseDto.course_ed() }</td>
 						<td>${courseDto.course_day }<br>${courseDto.course_time }</td>
 						<td>${courseDto.user_name }</td>
 						<td>${courseDto.course_cost }원</td>
 						<td>${courseDto.reg_sd() }<br>~${courseDto.reg_ed() }</td>
-						<td><button class="${courseDto.course_stat() == '접수가능' ? 'btn btn-primary' : 'btn btn-secondary' } ${courseDto.course_stat() == '정원마감' ? 'btn btn-danger' : '' }">${courseDto.course_stat() }</button> </td>
+						<td>
+							<button class="${courseDto.course_stat() == '접수가능' ? 'btn btn-primary' : 'btn btn-secondary' } 
+							${courseDto.course_stat() == '정원마감' ? 'btn btn-danger' : '' }">
+								${courseDto.course_stat() }
+							</button>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
