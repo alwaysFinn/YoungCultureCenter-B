@@ -32,266 +32,40 @@
   <hr>
 </div>
     <!-- 좌석 선택 폼 -->
-    <c:forEach var="name" items="${list}" varStatus="status">
-    	<div hidden="hidden" value="${name.sroom_seat_id}" id="${name.sroom_seat_id}"></div>
-    	좌석 : ${name.sroom_seat_id}
-    	고객 : ${name.user_id }	
-    </c:forEach>
-    
-    <div class="container w-100 pt-1" >
+     <div class="container w-100 pt-1" >
       <div class="container-lg" style="border: solid 1px gray; border-radius: 10px; overflow: scroll;">
         <ol class="rRoomTotal" style="margin-top:3 %">
           <ol class="rRoomUpper mb-5">
           <li class="row row--1">
-            <ol class="seats" type="A">  
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="1"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"                  
-                  
-                />
-                <label for="1">1</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="2"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="2">2</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="3"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                     
-                />
-                <label for="3">3</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="4"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="4">4</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="5"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="5">5</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="6"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="6">6</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="7"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="7">7</label>
-              </li>
-              
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="8"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-              <label for="8">8</label>
-              </li>
-              
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="9"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="9">9</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="10"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="10">10</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="11"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="11">11</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="12"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="12">12</label>
-              </li>
+            <ol class="seats" type="A">
+	            <c:forEach var="i" begin="0" end="11">
+	            	<li class="seat">
+	            		<input
+	            			type="checkbox"
+	            			id="${i+1 }"
+	            			name="indvSeat"
+	            			onclick="checkOnlyOne(this)"
+	            			
+	            		/>
+	            		<label for="${i+1 }">${i+1 }</label>
+	            	</li>
+	        	</c:forEach>
             </ol>
           </li>
 
           <li class="row row--2">
             <ol class="seats" type="A">
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="13"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="13">13</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="14"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="14">14</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="15"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="15">15</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="16"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="16">16</label>
-              </li>
-
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="17"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="17">17</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="18"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="18">18</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="19"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="19">19</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="20"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="20">20</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="21"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="21">21</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="22"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="22">22</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="23"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="23">23</label>
-              </li>
-              <li class="seat">
-                <input
-                  type="checkbox"
-                  id="24"
-                  name="indvSeat"
-                  onclick="checkOnlyOne(this)"
-                  
-                />
-                <label for="24">24</label>
-              </li>
+              <c:forEach var="i" begin="12" end="23">
+	            	<li class="seat">
+	            		<input
+	            			type="checkbox"
+	            			id="${i+1 }"
+	            			name="indvSeat"
+	            			onclick="checkOnlyOne(this)"
+	            		/>
+	            		<label for="${i+1 }">${i+1 }</label>
+	            	</li>
+	        	</c:forEach>
             </ol>
           </li>
           </ol>
@@ -299,252 +73,33 @@
           <ol class="rRoomUnder" style="margin-bottom: 2%">
             <li class="row row--3">
               <ol class="seats" type="A">
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="25"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="25">25</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="26"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="26">26</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="27"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="27">27</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="28"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="28">28</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="29"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="29">29</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="30"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="30">30</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="31"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="31">31</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="32"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="32">32</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="33"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="33">33</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="34"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="34">34</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="35"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="35">35</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="36"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="36">36</label>
-                </li>
+                <c:forEach var="i" begin="24" end="35">
+	            	<li class="seat">
+	            		<input
+	            			type="checkbox"
+	            			id="${i+1 }"
+	            			name="indvSeat"
+	            			onclick="checkOnlyOne(this)"
+	            		/>
+	            		<label for="${i+1 }">${i+1 }</label>
+	            	</li>
+	        	</c:forEach>
               </ol>
             </li>
 
             <li class="row row--4">
               <ol class="seats" type="A">
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="37"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="37">37</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="38"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="38">38</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="39"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="39">39</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="40"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                   
-                  />
-                  <label for="40">40</label>
-                </li>
-
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="41"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="41">41</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="42"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="42">42</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="43"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="43">43</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="44"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="44">44</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="45"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="45">45</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="46"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="46">46</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="47"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="47">47</label>
-                </li>
-                <li class="seat">
-                  <input
-                    type="checkbox"
-                    id="48"
-                    name="indvSeat"
-                    onclick="checkOnlyOne(this)"
-                    
-                  />
-                  <label for="48">48</label>
-                </li>
+                <c:forEach var="i" begin="36" end="47">
+	            	<li class="seat">
+	            		<input
+	            			type="checkbox"
+	            			id="${i+1 }"
+	            			name="indvSeat"
+	            			onclick="checkOnlyOne(this)"
+	            		/>
+	            		<label for="${i+1 }">${i+1 }</label>
+	            	</li>
+	        	</c:forEach>
               </ol>
             </li>
           </ol>
@@ -611,6 +166,7 @@
 
       <br />
       <!-- 모달 버튼  -->
+      <div id="foralert"></div>
       <div class="text-center">
         <button
           id="modalBtn"
@@ -653,56 +209,77 @@
 
 	<script type="text/javascript">
 	$(document).ready(function () {
-		
+
 		function checkOnlyOne(element) {  
 		      const checkboxes = document.getElementsByName("indvSeat");	
 		      checkboxes.forEach((cb) => {
 		        cb.checked = false;
 		      })
 		      element.checked = true;	 
-		      $("#sroom_seat_id").html(element.getAttribute("id"))*1  
+		      $("#sroom_seat_id").html(element.getAttribute(F))*1 
 		    }
-		
-		test = []
-		
-		for(var i = 0; i<1; i++){
-			test.push("${list.get(i).sroom_seat_id}"*1)
-		}
-		console.log(test)
-		
-		for(var j = 1; j<=48; j++){
-			if(test[j]==j){
-				console.log(j)
-				console.log(test[j])
-				$("#"+j).prop("disabled",true);
-				$("#"+j).attr("disabled", true);
-				document.getElementById(j).disabled = true;
+
+
+		var arr = new Array()	
+		<c:forEach items="${list}" var="test">
+			arr.push({user_id:"${test.user_id}"
+				,sroom_seat_id:"${test.sroom_seat_id}"})	
+		</c:forEach>
+			
+		for(var i = 0; i<arr.length; i++){
+			if(arr[i].user_id=="${sessionScope.id }"){
+				$("#modalBtn").attr("disabled", true);
+				$("#foralert").append(
+					'<span class="text-primary">'
+				   +'<p class="text-center fw-bold fs-3">'
+				   +'이미 예약된 좌석이 있습니다.'
+				   +'<br>'
+				   +'예약 좌석 : '
+				   +arr[i].sroom_seat_id
+				   +'</p>'
+				   +'</span>'
+				)
+				
 			}
-		} 
-		
-		/*  
-		for (var i = 1; i<=48; i++){
-			if(result[i].sroom_seat_id==i){
-				id(i).attr(disabled,true)
-			}	
-		} */
-		 
+			for(var j = 1; j <= 48; j++){
+				if(arr[i].sroom_seat_id==j){
+					document.getElementById(j).disabled = true;
+				}
+			}
+		}
+ 
+
 		$("#modalBtn").on('click', function(){
 			
 			//현재시간의 형식을 hh:mm:ss로 바꾸는 기능 
 			function getFormatTime(date) {
+				var yy = date.getFullYear()
+				var MM = date.getMonth()+1
+				var dd = date.getDate()
 				var hh = (date.getHours()*1)+(document.getElementById("usetime").value*1)
 				hh = hh >= 10 ? hh : '0' + hh
 				var mm = date.getMinutes()
 				mm = mm >= 10 ? mm : '0' + mm
 				var ss = date.getSeconds()
 				ss = ss >= 10 ? ss : '0' + ss
+				var ms = date.getMilliseconds()
 				
-				return hh+':'+mm+':'+ss;
+				return yy+"-"+MM+"-"+dd+" "+hh+':'+mm+':'+ss+"."+ms;
+			}
+			
+			function getFT(date){
+				var hh = (date.getHours()*1)+(document.getElementById("usetime").value*1)
+				hh = hh >= 10 ? hh : '0' + hh
+				var mm = date.getMinutes()
+				mm = mm >= 10 ? mm : '0' + mm
+				var ss = date.getSeconds()
+				ss = ss >= 10 ? ss : '0' + ss
+						
+				return hh+':'+mm+':'+ss
 			}
 				
 			var time = getFormatTime(new Date())
-			var spantime = getFormatTime(new Date())
+			var spantime = getFT(new Date())
 			
 			//선택한 좌석 번호 받아오는 변수
 			let selected = $("input[name='indvSeat']:checked").attr('id')*1

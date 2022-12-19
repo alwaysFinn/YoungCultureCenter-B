@@ -19,5 +19,6 @@
 		<typeAlias alias="ClubDto" type="com.youngtvjobs.ycc.club.ClubDto" />
 		<typeAlias alias="RentalDto" type="com.youngtvjobs.ycc.rental.RentalDto" />
 		<typeAlias alias="AdminDto" type="com.youngtvjobs.ycc.admin.AdminDto" />
+		<typeAlias alias="StudyroomDto" type="com.youngtvjobs.ycc.rental.StudyroomDto" />
 	</typeAliases>
 </configuration>
