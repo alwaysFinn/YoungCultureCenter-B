@@ -8,6 +8,7 @@ public interface StudyroomDao {
 		
 	List<StudyroomDto> sroomDefault() throws Exception;
 	int insertStudyroomrental(StudyroomDto studyroomDto)throws Exception;
+	int chkRental(StudyroomDto studyroomDto) throws Exception;
 	
 	
 

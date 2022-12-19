@@ -63,18 +63,25 @@ public class StudyroomController {
 			 
 
 			  studyroomDto.setUser_id(user_id);
+			  
+			  if(studyroomService.validationChkRentaled(studyroomDto) == 1) {
+				  return "redirect:/error/403";
+			  }else {
+				  
+				  if (studyroomService.sroomInsert(studyroomDto) != 1) {
+						throw new Exception("예약오류");
+					  } else {
+						System.out.println("예약 성공");
+					  }
+			  }
 
-			if (studyroomService.sroomInsert(studyroomDto) != 1) {
-				throw new Exception("예약오류");
-			} else {
-				System.out.println("예약 성공");
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("예약 실패");
 		}
 
-		return "redirect:/rental/studyRoom";
+		return "/course/courseRegComplete";
 	}
 
 	

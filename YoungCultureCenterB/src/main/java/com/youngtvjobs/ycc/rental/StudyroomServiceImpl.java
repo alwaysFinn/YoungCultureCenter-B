@@ -22,6 +22,11 @@ public class StudyroomServiceImpl implements StudyroomService{
 	public int sroomInsert(StudyroomDto studyroomDto) throws Exception {
 		return studyroomDao.insertStudyroomrental(studyroomDto);
 	}
+
+	@Override
+	public int validationChkRentaled(StudyroomDto studyroomDto) throws Exception {
+		return studyroomDao.chkRental(studyroomDto);
+	}
 	
 	
 }

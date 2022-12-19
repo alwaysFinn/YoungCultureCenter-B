@@ -151,7 +151,8 @@
             <select
               id="usetime"
               class="form-control w-auto"
-              style="display: inline">
+              style="display: inline"
+              onchange="alert(this.value)">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -160,6 +161,7 @@
               <option value="6">6</option>
             </select>
             <label for="usetime" class="col-form-label"> 시간</label>
+            <div id="timealert"></div>
           </div>
         </div>
       </div>
@@ -216,7 +218,7 @@
 		        cb.checked = false;
 		      })
 		      element.checked = true;	 
-		      $("#sroom_seat_id").html(element.getAttribute(F))*1 
+		      $("#sroom_seat_id").html(element.getAttribute("id"))*1 
 		    }
 
 
@@ -235,7 +237,7 @@
 				   +'이미 예약된 좌석이 있습니다.'
 				   +'<br>'
 				   +'예약 좌석 : '
-				   +arr[i].sroom_seat_id
+				   +arr[i].sroom_seat_id+'번'
 				   +'</p>'
 				   +'</span>'
 				)
@@ -247,6 +249,22 @@
 				}
 			}
 		}
+		
+		$("#usetime").on('click', function(){
+		        var vv = $(this).val()*1
+		        var nh = new Date().getHours()*1
+		        console.log(vv)
+		        console.log(nh)
+		        	if(vv+nh>24 || vv+nh<6){
+						$(this).attr("disabled", true)
+						$("#timealert").append(
+							'<p class="text-center text-danger fw-bold">'
+						   +'현재 이용 가능한 시간이 아닙니다.'
+						   +'</p>'
+						)
+					}	
+				
+	    });
  
 
 		$("#modalBtn").on('click', function(){

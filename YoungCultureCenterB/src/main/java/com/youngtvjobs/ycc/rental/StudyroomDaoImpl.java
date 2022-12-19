@@ -26,6 +26,10 @@ public class StudyroomDaoImpl implements StudyroomDao{
 		return session.insert(namespace + "insertRentalInfo", studyroomDto);
 	}
 
+	@Override
+	public int chkRental(StudyroomDto studyroomDto) throws Exception{
+		return session.selectOne(namespace + "rentalChk", studyroomDto);
+	}
 	
 
 }
