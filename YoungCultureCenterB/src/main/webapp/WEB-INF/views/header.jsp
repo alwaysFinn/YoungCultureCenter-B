@@ -41,7 +41,7 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/ycc/rental/place">대관신청</a></li>
                             <li><a class="dropdown-item" href="/ycc/rental/studyroom">독서실예약</a></li>
-                            <li><a class="dropdown-item" href="/ycc/rental/locker">사물함신청</a></li>
+                            <li><a class="dropdown-item" href="/ycc/rental/locker/info">사물함신청</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button"

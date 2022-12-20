@@ -90,7 +90,7 @@
 
   <div class="row">
     <div class="d-grid gap-2 col-md-3 mx-auto pt-5">
-      <a href="/ycc/rental/locker/reservation" class="btn btn-primary" role="button">신청하기</a>
+      <a href="/ycc/rental/locker?locker_location_id=1" class="btn btn-primary" role="button">신청하기</a>
     </div>  
   
   </div> 

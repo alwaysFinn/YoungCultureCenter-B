@@ -145,6 +145,7 @@ public class CourseController {
 		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 	
+	/* 이미지 보여주기 */
 	@GetMapping("/course/imagedisplay")
 	public ResponseEntity<byte[]> getImage(String fileName) { // ResponseEntity 객체를 통해 body에 byte[] 데이터를 보내야 하기 때문에 
 															  // ResponseEntity<byte[]>를 반환 타입으로 작성

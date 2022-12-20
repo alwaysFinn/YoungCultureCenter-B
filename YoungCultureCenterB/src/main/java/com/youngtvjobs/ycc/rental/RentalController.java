@@ -126,18 +126,6 @@ public class RentalController {
 		return "/ycc";
 	}
 
-	// 사물함 안내
-	@RequestMapping("/rental/locker")
-	public String lockerinfo() {
-		return "rental/lockerinfo";
-	}
-
-	// 사물함 신청
-	@RequestMapping("/rental/locker/reservation")
-	public String locker() {
-		return "rental/locker";
-	}
-
 	// 대관신청
 		@GetMapping("/rental/place")
 		// Dto에서 장소들 이름 받아와 selectBox에 출력해주는 메서드
