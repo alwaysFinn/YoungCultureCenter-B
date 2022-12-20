@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS club_attach CASCADE;
 DROP TABLE IF EXISTS tb_attach CASCADE;
 DROP TABLE IF EXISTS rental_time CASCADE;
 DROP TABLE IF EXISTS tb_terms CASCADE;
-DROP TABLE IF EXISTS sroom_rental_info CASCADE;
+
 
 
 CREATE TABLE admin_section (
@@ -175,10 +175,13 @@ CREATE TABLE prental_info (
 ALTER TABLE prental_info ADD CONSTRAINT prental_info_PK PRIMARY KEY ( prental_id );
 
 CREATE TABLE studyroom (
-    sroom_seat_id    integer NOT NULL,
-    sroom_rental_yn  character(1) not null
+	serial_id		  	serial
+,   	sroom_seat_id   		integer NOT NULL
+,	sroom_rental_stime		timestamp without time zone 
+,	sroom_rental_etime		timestamp without time zone 
+,	user_id				varchar(16) 
 );
-ALTER TABLE studyroom ADD CONSTRAINT studyroom_PK PRIMARY KEY ( sroom_seat_id );
+ALTER TABLE studyroom ADD CONSTRAINT studyroom_PK PRIMARY KEY ( serial_id );
 
 -- course_id 타입 변경 Integer -> serial 
 -- course_image 컬럼 삭제(2022-12-08 KimSeongho)
@@ -270,16 +273,6 @@ create table tb_terms
 ,	join_privacy_terms text --개인정보취급방침
 );
 
-create table sroom_rental_info 
-(
-	srental_no				serial not null
-,	sroom_rental_stime		time without time zone not null
-,	sroom_rental_etime		time without time zone not null
-,	user_id					varchar(16) not null
-,	sroom_seat_id			integer NOT NULL
-);
-alter table sroom_rental_info add constraint sroom_rental_info_PK primary key (srental_no); 
-
 
 
 --FK============================================================================================================
@@ -300,8 +293,7 @@ alter table prental_info add FOREIGN KEY(croom_id) REFERENCES classroom(croom_id
 alter table tb_locker add FOREIGN KEY(locker_location_id) REFERENCES locker_location(locker_location_id) ON DELETE CASCADE;
 alter table tb_locker add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 
-alter table sroom_rental_info add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
-alter table sroom_rental_info add FOREIGN KEY(sroom_seat_id) REFERENCES studyroom(sroom_seat_id) ON DELETE CASCADE;
+alter table studyroom add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 
 --게시글, 첨부파일, 문의게시판 테이블 fk생성
 alter table ARTICLE add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
