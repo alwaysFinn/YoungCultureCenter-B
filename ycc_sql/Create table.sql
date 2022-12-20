@@ -298,6 +298,7 @@ alter table prental_info add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON
 alter table prental_info add FOREIGN KEY(croom_id) REFERENCES classroom(croom_id) ON DELETE CASCADE;
 
 alter table tb_locker add FOREIGN KEY(locker_location_id) REFERENCES locker_location(locker_location_id) ON DELETE CASCADE;
+alter table tb_locker add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 
 alter table sroom_rental_info add FOREIGN KEY(user_id) REFERENCES tb_user(user_id) ON DELETE CASCADE;
 alter table sroom_rental_info add FOREIGN KEY(sroom_seat_id) REFERENCES studyroom(sroom_seat_id) ON DELETE CASCADE;
