@@ -19,51 +19,10 @@ VALUES('ezen1', '전이젠', '0111', 'F', '960305', 'ezenjeon@gmail.com', '01012
 
 
 ------------------------------------------------------지호------------------------------------------------------
--- classroom dummy data
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(101, '1층', '30', '101호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(201, '2층', '30', '201호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(301, '3층', '30', '301호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values('수영장', '외부', '60', '수영장');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(102, '1층', '30', '102호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(202, '2층', '30', '202호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(302, '3층', '30', '302호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values('축구장', '외부', '60', '축구장');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(103, '1층', '30', '103호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(203, '2층', '30', '203호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values(303, '3층', '30', '303호');
-insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
-values('풋살장', '외부', '20', '풋살장');
-
-
-INSERT INTO public.prental_info
-(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
-VALUES('2022-12-25', 'admin', '101', true, false, false, false ,false, false);
-INSERT INTO public.prental_info
-(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
-VALUES('2022-12-25', 'admin', '101', false, true, false, false ,false, false);
-INSERT INTO public.prental_info
-(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
-VALUES('2022-12-14', 'admin', '수영장', false, false, false, false ,false, true);
-
-do $$
-begin
-for i in 1..48 loop
-INSERT INTO studyroom ("sroom_seat_id", "sroom_rental_yn") VALUES (i,'n');
-end loop;
-end;
-$$;
-
+-- studyroom dummy data
+insert into studyroom 
+(sroom_seat_id, sroom_rental_stime, sroom_rental_etime, user_id)
+values(3, '2022-12-01 12:26:00', '2023-12-26 12:26:00', 'admin');
 
 ------------------------------------------------------성호------------------------------------------------------
 -- locker_location dummy data
@@ -245,6 +204,42 @@ INSERT INTO public.article
 VALUES('2022-11-15', '이벤트', 'admin', '헬스장 이벤트 안내', '이벤트입니다', 14);
 
 
+-- classroom dummy data
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(101, '1층', '30', '101호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(201, '2층', '30', '201호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(301, '3층', '30', '301호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values('수영장', '외부', '60', '수영장');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(102, '1층', '30', '102호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(202, '2층', '30', '202호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(302, '3층', '30', '302호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values('축구장', '외부', '60', '축구장');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(103, '1층', '30', '103호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(203, '2층', '30', '203호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values(303, '3층', '30', '303호');
+insert INTO classroom (croom_id, croom_location, croom_mpop, croom_name)
+values('풋살장', '외부', '20', '풋살장');
+
+
+INSERT INTO public.prental_info
+(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
+VALUES('2022-12-25', 'admin', '101', true, false, false, false ,false, false);
+INSERT INTO public.prental_info
+(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
+VALUES('2022-12-25', 'admin', '101', false, true, false, false ,false, false);
+INSERT INTO public.prental_info
+(prental_de, user_id, croom_id, time1, time2, time3, time4, time5, time6)
+VALUES('2022-12-14', 'admin', '수영장', false, false, false, false ,false, true);
 
 
 
