@@ -66,6 +66,25 @@ $$;
 
 
 ------------------------------------------------------성호------------------------------------------------------
+-- locker_location dummy data
+INSERT INTO locker_location (location_name) VALUES('본관 1층');
+INSERT INTO locker_location (location_name) VALUES('본관 2층');
+INSERT INTO locker_location (location_name) VALUES('수영장 로비');
+INSERT INTO locker_location (location_name) VALUES('강당 입구');
+
+
+-- tb_locker dummy data
+do $$
+begin 
+	for i in 1..4 loop
+		for j in 1..40 loop
+			INSERT INTO tb_locker (locker_no, locker_location_id) VALUES(j, i);
+		end loop;
+	end loop;
+end;
+$$;
+
+
 -- course_type dummy data
 INSERT INTO public.course_type (course_cate_cd, course_cate_name) VALUES('Spo', '운동');
 INSERT INTO public.course_type (course_cate_cd, course_cate_name) VALUES('Cul', '문화');
