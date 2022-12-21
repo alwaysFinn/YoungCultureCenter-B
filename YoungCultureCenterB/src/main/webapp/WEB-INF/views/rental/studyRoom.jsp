@@ -33,7 +33,7 @@
 </div>
     <!-- 좌석 선택 폼 -->
      <div class="container w-100 pt-1" >
-      <div class="container-lg" style="border: solid 1px gray; border-radius: 10px; overflow: scroll;">
+      <div class="container-lg d-grid" style="border: solid 1px gray; border-radius: 10px; overflow: scroll;">
         <ol class="rRoomTotal" style="margin-top:3 %">
           <ol class="rRoomUpper mb-5">
           <li class="row row--1">
@@ -152,16 +152,17 @@
               id="usetime"
               class="form-control w-auto"
               style="display: inline"
-              onchange="alert(this.value)">
+              >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
               <option value="6">6</option>
+              <option value="12">12</option>	<!-- 테스트용 -->
             </select>
             <label for="usetime" class="col-form-label"> 시간</label>
-            <div id="timealert"></div>
+            <div id="timealert"></div> <!-- 이용가능한 시간이 아닙니다 문구가 출력될 부분 -->
           </div>
         </div>
       </div>
@@ -173,9 +174,10 @@
         <button
           id="modalBtn"
           type="button"
-          class="btn btn-primary m-5"
+          class="btn btn-primary"
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop">
+          data-bs-target="#staticBackdrop"
+          >
           확인
         </button>
       </div>
@@ -211,7 +213,7 @@
 
 	<script type="text/javascript">
 	$(document).ready(function () {
-
+		//체크박스 중복 선택 안되게 하는 함수
 		function checkOnlyOne(element) {  
 		      const checkboxes = document.getElementsByName("indvSeat");	
 		      checkboxes.forEach((cb) => {
@@ -221,7 +223,7 @@
 		      $("#sroom_seat_id").html(element.getAttribute("id"))*1 
 		    }
 
-
+		//해당 유저가 예약을 했는지 확인하는 부분
 		var arr = new Array()	
 		<c:forEach items="${list}" var="test">
 			arr.push({user_id:"${test.user_id}"
@@ -231,6 +233,7 @@
 		for(var i = 0; i<arr.length; i++){
 			if(arr[i].user_id=="${sessionScope.id }"){
 				$("#modalBtn").attr("disabled", true);
+				$("#usetime").attr("disabled", true);
 				$("#foralert").append(
 					'<span class="text-primary">'
 				   +'<p class="text-center fw-bold fs-3">'
@@ -240,9 +243,11 @@
 				   +arr[i].sroom_seat_id+'번'
 				   +'</p>'
 				   +'</span>'
+				   
 				)
+				document.getElementById('modalBtn').classList.replace('btn-primary', 'btn-secondary');
 				
-			}
+			}//해당 좌석이 예약되어있는지 확인하는 부분
 			for(var j = 1; j <= 48; j++){
 				if(arr[i].sroom_seat_id==j){
 					document.getElementById(j).disabled = true;
@@ -250,18 +255,26 @@
 			}
 		}
 		
+		
 		$("#usetime").on('click', function(){
 		        var vv = $(this).val()*1
 		        var nh = new Date().getHours()*1
-		        console.log(vv)
-		        console.log(nh)
+		        //console.log(vv)
+		        //console.log(nh)
+		        $("#disabletime").remove()
+		        $("#modalBtn").attr("disabled", false);
+		        document.getElementById('modalBtn').classList.replace('btn-secondary', 'btn-primary');
 		        	if(vv+nh>24 || vv+nh<6){
-						$(this).attr("disabled", true)
-						$("#timealert").append(
-							'<p class="text-center text-danger fw-bold">'
-						   +'현재 이용 가능한 시간이 아닙니다.'
-						   +'</p>'
-						)
+		        	   $("#timealert").append(
+						'<p id ="disabletime" class="text-center text-danger fw-bold">'
+					   +'현재 이용 가능한 시간이 아닙니다.'
+					   +'</p>'
+					)
+						$("#modalBtn").attr("disabled", true);
+			        	   if($("#modalBtn").is(":disabled") == true){
+			        		   document.getElementById('modalBtn').classList.replace('btn-primary', 'btn-secondary');
+			       			}
+						
 					}	
 				
 	    });
