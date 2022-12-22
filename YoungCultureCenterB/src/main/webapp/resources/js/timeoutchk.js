@@ -7,7 +7,7 @@
     
    function fncClearTime() {
    //기준단위 : 초(second)
-       iSecond = 3599;
+       iSecond = 1 * 60;
    }
     
    Lpad = function(str, len) {
@@ -38,8 +38,9 @@
    }
     
    function refreshTimer() {
+	   //ajax로 임의 주소에 post method 보내서 세션 갱신
        var xhr = initAjax();
-//    xhr.open("POST", "/jsp_std/kor/util/window_reload2.jsp", false);
+	   xhr.open("POST", "/ycc/", false);
        xhr.send();
        fncClearTime();
    }
@@ -49,16 +50,15 @@
        var xhr = initAjax();
        xhr.open("GET", "/ycc/logout", true);
        xhr.send();
-       location.reload();
        alert('세션이 만료되어 로그아웃 하였습니다.');
-       
+       location.reload();
    }
     
-   function initAjax() { // 브라우저에 따른 AjaxObject 인스턴스 분기 처리
+   function initAjax() { 						// 브라우저에 따른 AjaxObject 인스턴스 분기 처리
        var xmlhttp;
-       if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+       if (window.XMLHttpRequest) {				// 지원브라우저 : IE7+, Firefox, Chrome, Opera, Safari
            xmlhttp = new XMLHttpRequest();
-       } else {// code for IE6, IE5
+       } else {									// 구형브라우저 : IE6, IE5 => 엑티브X
            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
        }
        return xmlhttp;

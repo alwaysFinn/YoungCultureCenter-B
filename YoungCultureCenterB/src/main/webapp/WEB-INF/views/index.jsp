@@ -247,9 +247,9 @@
 							alt="수강신청" /><span>수강신청</span></a></li>
 				<li><a href="/ycc/rental/place"><img class="quickIcon" src="resources\img\main_img\rental_icon.png"
 							alt="대관신청" /><span>대관 신청</span></a></li>
-				<li><a href="/ycc/rental/locker"><img class="quickIcon" src="resources\img\main_img\studyroom_icon.png"
+				<li><a href="/ycc/rental/studyroom"><img class="quickIcon" src="resources\img\main_img\studyroom_icon.png"
 							alt="독서실예약" /><span>독서실 예약</span></a></li>
-				<li><a href="/ycc/rental/locker?locker_location_id=1"><img class="quickIcon" src="resources\img\main_img\Locker_icon.png"
+				<li><a href="/ycc/rental/locker/info"><img class="quickIcon" src="resources\img\main_img\Locker_icon.png"
 							alt="사물함신청" /><span>사물함 신청</span></a></li>
 				<li><a href="/ycc/club"><img class="quickIcon" src="resources\img\main_img\club_icon.png"
 							alt="동아리" /><span>동아리</span></a></li>
