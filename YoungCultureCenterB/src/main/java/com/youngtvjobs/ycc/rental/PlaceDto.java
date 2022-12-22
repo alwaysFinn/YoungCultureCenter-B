@@ -3,13 +3,13 @@ package com.youngtvjobs.ycc.rental;
 import java.util.Date;
 import java.util.Objects;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.util.UriComponentsBuilder;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class RentalDto {
+public class PlaceDto {
 
 	private Integer prental_id; // 대여예약번호(pk)
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	//@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date prental_de; // 대여날짜
 	//private String prtime_schedule;// 대여시간  ====> 삭제 - time 컬럼으로 대체
 	private String user_id; // 회원아이디 (fk)
@@ -25,27 +25,13 @@ public class RentalDto {
 	private int croom_mpop; // 강의실 정원
 	private String croom_name; // 강의실 이름
 	// end of tb_classroom(강의실)
-	private String locker_id;
-	private String locker_location;
-	private Date locker_start_date;
-	private int locker_cost;
-	private Date locker_end_date;
-	// end of tb_rental_locker(사물함 대여)
-	private Integer sroom_seat_id;
-	private String sroom_rental_yn;
-	// end of tb_studyroom(독서실)
-	private int srental_no;
-	private Date sroom_rental_stime;
-	private Date sroom_rental_etime;
-	// end of sroom_rental_info(독서실 예약 정보)
 
-	public RentalDto() {
+	public PlaceDto() {
 		// TODO Auto-generated constructor stub
 	}
-	public RentalDto(Integer prental_id, Date prental_de, String user_id, String croom_id, boolean time1, boolean time2,
-			boolean time3, boolean time4, boolean time5, boolean time6, String croom_location, int croom_mpop, String croom_name, 
-			String locker_id, String locker_location, Date locker_start_date, int locker_cost, Date locker_end_date, 
-			Integer sroom_seat_id, String sroom_rental_yn, int srental_no, Date sroom_rental_stime, Date sroom_rental_etime) {
+	public PlaceDto(Integer prental_id, Date prental_de, String user_id, String croom_id, boolean time1, boolean time2,
+			boolean time3, boolean time4, boolean time5, boolean time6, String croom_location, int croom_mpop,
+			String croom_name) {
 		super();
 		this.prental_id = prental_id;
 		this.prental_de = prental_de;
@@ -60,17 +46,8 @@ public class RentalDto {
 		this.croom_location = croom_location;
 		this.croom_mpop = croom_mpop;
 		this.croom_name = croom_name;
-		this.locker_id = locker_id;
-		this.locker_location = locker_location;
-		this.locker_start_date = locker_start_date;
-		this.locker_cost = locker_cost;
-		this.locker_end_date = locker_end_date;
-		this.sroom_seat_id = sroom_seat_id;
-		this.sroom_rental_yn = sroom_rental_yn;
-		this.srental_no = srental_no;
-		this.sroom_rental_stime = sroom_rental_stime;
-		this.sroom_rental_etime = sroom_rental_etime;
 	}
+
 	public Integer getPrental_id() {
 		return prental_id;
 	}
@@ -150,71 +127,11 @@ public class RentalDto {
 	public void setCroom_name(String croom_name) {
 		this.croom_name = croom_name;
 	}
-	public String getLocker_id() {
-		return locker_id;
-	}
-	public void setLocker_id(String locker_id) {
-		this.locker_id = locker_id;
-	}
-	public String getLocker_location() {
-		return locker_location;
-	}
-	public void setLocker_location(String locker_location) {
-		this.locker_location = locker_location;
-	}
-	public Date getLocker_start_date() {
-		return locker_start_date;
-	}
-	public void setLocker_start_date(Date locker_start_date) {
-		this.locker_start_date = locker_start_date;
-	}
-	public int getLocker_cost() {
-		return locker_cost;
-	}
-	public void setLocker_cost(int locker_cost) {
-		this.locker_cost = locker_cost;
-	}
-	public Date getLocker_end_date() {
-		return locker_end_date;
-	}
-	public void setLocker_end_date(Date locker_end_date) {
-		this.locker_end_date = locker_end_date;
-	}
-	public Integer getSroom_seat_id() {
-		return sroom_seat_id;
-	}
-	public void setSroom_seat_id(int sroom_seat_id) {
-		this.sroom_seat_id = sroom_seat_id;
-	}
-	public String getSroom_rental_yn() {
-		return sroom_rental_yn;
-	}
-	public void setSroom_rental_yn(String sroom_rental_yn) {
-		this.sroom_rental_yn = sroom_rental_yn;
-	}
-	public int getSrental_no() {
-		return srental_no;
-	}
-	public void setSrental_no(int srental_no) {
-		this.srental_no = srental_no;
-	}
-	public Date getSroom_rental_stime() {
-		return sroom_rental_stime;
-	}
-	public void setSroom_rental_stime(Date sroom_rental_stime) {
-		this.sroom_rental_stime = sroom_rental_stime;
-	}
-	public Date getSroom_rental_etime() {
-		return sroom_rental_etime;
-	}
-	public void setSroom_rental_etime(Date sroom_rental_etime) {
-		this.sroom_rental_etime = sroom_rental_etime;
-	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(croom_id, croom_location, croom_mpop, croom_name, locker_cost, locker_end_date, locker_id,
-				locker_location, locker_start_date, prental_de, prental_id, srental_no,
-				sroom_rental_etime, sroom_rental_stime, sroom_rental_yn, sroom_seat_id, time1, time2, time3, time4, time5, time6, user_id);
+		return Objects.hash(croom_id, croom_location, croom_mpop, croom_name, prental_de, prental_id, time1, time2,
+				time3, time4, time5, time6, user_id);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -224,31 +141,20 @@ public class RentalDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RentalDto other = (RentalDto) obj;
+		PlaceDto other = (PlaceDto) obj;
 		return Objects.equals(croom_id, other.croom_id) && Objects.equals(croom_location, other.croom_location)
 				&& croom_mpop == other.croom_mpop && Objects.equals(croom_name, other.croom_name)
-				&& locker_cost == other.locker_cost && Objects.equals(locker_end_date, other.locker_end_date)
-				&& Objects.equals(locker_id, other.locker_id) && Objects.equals(locker_location, other.locker_location)
-				&& Objects.equals(locker_start_date, other.locker_start_date)
 				&& Objects.equals(prental_de, other.prental_de) && Objects.equals(prental_id, other.prental_id)
-				&& srental_no == other.srental_no
-				&& Objects.equals(sroom_rental_etime, other.sroom_rental_etime)
-				&& Objects.equals(sroom_rental_stime, other.sroom_rental_stime)
-				&& Objects.equals(sroom_rental_yn, other.sroom_rental_yn) && sroom_seat_id == other.sroom_seat_id
-				&& time1 == other.time1 && time2 == other.time2
-				&& time3 == other.time3 && time4 == other.time4 && time5 == other.time5 && time6 == other.time6
-				&& Objects.equals(user_id, other.user_id);
+				&& time1 == other.time1 && time2 == other.time2 && time3 == other.time3 && time4 == other.time4
+				&& time5 == other.time5 && time6 == other.time6 && Objects.equals(user_id, other.user_id);
 	}
 	@Override
 	public String toString() {
-		return "RentalDto [prental_id=" + prental_id + ", prental_de=" + prental_de + ", user_id=" + user_id + ", croom_id=" + croom_id + ", croom_location="
-				+ croom_location + ", croom_mpop=" + croom_mpop + ", croom_name=" + croom_name + ", locker_id="
-				+ locker_id + ", locker_location=" + locker_location + ", locker_start_date=" + locker_start_date
-				+ ", locker_cost=" + locker_cost + ", locker_end_date=" + locker_end_date + ", sroom_seat_id="
-				+ sroom_seat_id + ", sroom_rental_yn=" + sroom_rental_yn + ", srental_no=" + srental_no
-				+ ", sroom_rental_stime=" + sroom_rental_stime + ", sroom_rental_etime=" + sroom_rental_etime + "]";
+		return "RentalDto [prental_id=" + prental_id + ", prental_de=" + prental_de + ", user_id=" + user_id
+				+ ", croom_id=" + croom_id + ", time1=" + time1 + ", time2=" + time2 + ", time3=" + time3 + ", time4="
+				+ time4 + ", time5=" + time5 + ", time6=" + time6 + ", croom_location=" + croom_location
+				+ ", croom_mpop=" + croom_mpop + ", croom_name=" + croom_name + "]";
 	}
-
 	
 }
 

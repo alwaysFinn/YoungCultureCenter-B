@@ -1,20 +1,38 @@
+<%@page import="java.net.URLDecoder"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
+	<!-- head & meta tag include -->
+	<%@include file="/WEB-INF/views/metahead.jsp" %>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="/resources/demos/style.css">
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
- 	<!-- head & meta tag include -->
-    <%@include file="/WEB-INF/views/metahead.jsp" %>
+	<link rel="stylesheet" href="/ycc/resources/css/datepicker.css">
+	<!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
+	<!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
+	<script src="/ycc/resources/js/jquery-ui.js"></script>
+	
+	<!-- <script src="/ycc/resources/js/bootstrap-datepicker.js"></script> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    
     <title>Young문화센터 - 대관신청</title>
     <style>
-	    td {
-	    text-align: center;
+	    td { text-align: center; }
+	    .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {background: #ffc107;}
+	    .wrap-slider > h4 {
+	        margin: 0 0em;
+		    line-height: 16px;
+		    font-size: 14px;
+		    padding: 0px;
+		    font-weight: bold;
 	    }
+	    
     </style>
 </head>
 
@@ -36,12 +54,12 @@
 
 	<div>
 		<h5>대관 장소 선택</h5>
-		<select id="pickplace" name="croom_id">
+		<select id="pickplace" name="croom_id" onchange="placeSelect()">
 									<option value="">장소 선택</option>
 									<optgroup label="외부">
 										<!-- 외부 location code = 0 -->
 										<c:forEach var="result" items="${placelist }">
-											<option value="${result.croom_id }" <c:if
+											<option value="${result.croom_id}" <c:if
 												test="${result.croom_location ne '외부'}">hidden</c:if>
 												>${result.croom_name}</option>
 										</c:forEach>
@@ -49,7 +67,7 @@
 									<optgroup label="1층">
 										<!-- 1층 location code = 1 -->
 										<c:forEach var="result" items="${placelist }">
-											<option value="${result.croom_id }" <c:if
+											<option value="${result.croom_id}" <c:if
 												test="${result.croom_location ne '1층'}">hidden</c:if>
 												>${result.croom_name}</option>
 										</c:forEach>
@@ -57,7 +75,7 @@
 									<optgroup label="2층">
 										<!-- 2층 location code = 2 -->
 										<c:forEach var="result" items="${placelist }">
-											<option value="${result.croom_id }" <c:if
+											<option value="${result.croom_id}" <c:if
 												test="${result.croom_location ne '2층'}">hidden</c:if>
 												>${result.croom_name}</option>
 										</c:forEach>
@@ -65,7 +83,7 @@
 									<optgroup label="3층">
 										<!-- 3층 location code = 3 -->
 										<c:forEach var="result" items="${placelist }">
-											<option value="${result.croom_id }" <c:if
+											<option value="${result.croom_id}" <c:if
 												test="${result.croom_location ne '3층'}">hidden</c:if>
 												>${result.croom_name}</option>
 										</c:forEach>
@@ -73,8 +91,9 @@
 		</select>                 
 			<label for="datetime-local">
 				<h5>대여 일자 지정</h5>
-			</label> <input type="date" id="datetime-local" name="prental_de">
-		<button id="viewBtn">조회하기</button>
+			</label> 
+			<input type="text" id="datetime-local" name="prental_de">   
+			<button id="viewBtn" >조회하기</button>
 	</div>
 
 	<div class="row mb-3">
@@ -191,14 +210,117 @@
 <script type="text/javascript">
 /* const url = new URL(window.location.href)	//현재 페이지의 url 객체 생성
 const urlOrigin = url.origin;		//url의 파라미터를 가져옴 */
+//let cookieCroomID = ${cookie.croom_id.value }
+/* let cookieDate = ${cookie.date.value }
+console.log(cookieDate) */
+
 var referrer = document.referrer
-	console.log(referrer)	
+console.log(referrer)	
+let closedDate = []
+
 /* var url = window.location.href
 console.log(url) */
-
 if (referrer == "http://localhost:8080/ycc/login?toURL=http://localhost:8080/ycc/rental/place") {
 	alert("referrer") 
+	//$("#pickplace").val(cookieCroomID).prop("selected", true);
+	//$("#datetime-local").val(cookieCroomID).prop("selected", true);
 }
+
+function nullCheck() {
+	const date = document.getElementById("datetime-local").value
+	const croom_id = document.getElementById("pickplace").value
+	
+	if(date == null || croom_id == null) {
+		alert("값을 선택해주세요")
+	}
+}
+
+
+
+
+$("#datetime-local").datepicker({
+	
+	//$('.ui-datepicker-calendar').html(toPrintTest)
+	 		beforeShowDay: function(date){
+			       var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+			       return [ closedDate.indexOf(string) == -1 ]
+			},
+			daysOfWeekDisabled: [0],   //Disable sunday
+/* 			onSelect: function(e) {
+				 e.preventDefault();
+			} */
+			dateFormat: "yy-mm-dd", // 텍스트 필드에 입력되는 날짜 형식.
+			prevText: '이전 달',
+			nextText: '다음 달',
+			monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+			dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+			dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+			showMonthAfterYear: true,
+			yearSuffix: '년',
+			minDate: 0
+})
+
+
+//$('#datetime-local').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
+
+function placeSelect() {
+	var croom_id = document.getElementById("pickplace").value
+	console.log(croom_id)
+	
+	// 배열 초기화
+	filteredList.length = 0
+	closedDate.length = 0
+	
+	$.ajax({
+		type: 'get',			//요청 메서드
+		url: '/ycc/rental/place.select',		//요청 URI
+		headers: { "content-type" : "application/json" },		//요청 헤더
+		dataType: 'json',	//전송받을 데이터의 타입(서버에서 반환되는 데이터 형식)
+		data: {croom_id:croom_id},		//서버로 전송할 데이터. stringify()로 직렬화 필요
+		success : function(data) {		//서버로부터 응답이 도착하면 호출될 함수
+			console.log(data)
+ 			for(var i=0; i<data.placeList.length; i++) {
+				infoDate.push(data.placeList[i].prental_de)
+			}
+			let infoDateSet = new Set(infoDate);
+			const infoDateList = [...infoDateSet];
+			
+			for( var i = 0; i< data.placeList.length; i++ ) {
+			function find(element) {
+				if(element.prental_de === infoDateList[i]) {
+					return true
+				}
+			}
+			let filteredDate = data.placeList.filter(find)
+			filteredList.push(filteredDate)
+			}
+
+			// filteredList의 빈 값 제거
+			for(var i = 0; i < filteredList.length; i++){ 
+				  if (filteredList[i].length === 0) { 
+				    filteredList.splice(i, 1); 
+				    i--; 
+				  }
+			}
+			
+			// filteredList의 배열 길이가 6이면 closedDate 리스트에 추가
+ 			for(var i = 0; i < filteredList.length; i++){ 
+				  if (filteredList[i].length === 6) { 
+					  closedDate.push(filteredList[i][0].prental_de)
+				  }
+			}
+			console.log(filteredList)
+			console.log(closedDate)
+		},
+		error : function(data) { 
+			alert("error") 
+			console.log(data) 
+		}	//에러가 발생했을 때 호출될 함수
+	}) 
+}
+
 
 // 로그인되어 있는지 체크
 function loginCheck(){ 
@@ -225,7 +347,56 @@ area.innerHTML = document.getElementById("pickplace").value
 const date = document.getElementById('Chkdate')
 date.innerHTML = document.getElementById("datetime-local").value
 
+let mergeInfo = []
+let infoTimeList = []
+let infoTimeObj = {}
+let infoDate = []
+let infoCroom = []
+let filteredList = []
+let total = []
+/* infoTime.time1 = true
+console.log(infoTime) */
+
+// 시간테이블 출력
+let toTimeList = function(data) {
+	let tmp = ''
+		tmp += '<table class="table table-striped">'
+		tmp += '<thead>'
+		tmp += '<tr>'
+		tmp += '<th scope="col" style="text-align: center;">시간</th>'
+		tmp += '<th scope="col" style="text-align: center;">예약</th>'
+		tmp += '</tr>'
+		tmp += '</thead>'
+		tmp += '<tbody>'
+		tmp += '<div>'
+		tmp += '<tr id="time1"><td>08:10 ~ 10:00</td><td><input type="radio" name="time"></td></tr>'
+		tmp += '<tr id="time2"><td>10:10 ~ 12:00</td><td><input type="radio" name="time"></td></tr>'
+		tmp += '<tr id="time3"><td>12:10 ~ 14:00</td><td><input type="radio" name="time"></td></tr>'
+		tmp += '<tr id="time4"><td>14:10 ~ 16:00</td><td><input type="radio" name="time"></td></tr>'
+		tmp += '<tr id="time5"><td>16:10 ~ 18:00</td><td><input type="radio" name="time"></td></tr>'
+		tmp += '<tr id="time6"><td>18:10 ~ 20:00</td><td><input type="radio" name="time"></td></tr>'
+		tmp += '</div>'
+	return tmp += ''
+} 
+
+
 $(document).ready(function(){
+	
+	nullCheck()
+	//$('.ui-datepicker-calendar').html(divTag)
+/* 	$.ajax({
+		type: 'GET',
+		url: '/ycc/rental/place.total', //수정요망
+		headers: { 'content-type': 'application/json' },
+		dataType: 'json',
+		success : function(data) {
+			console.log(data)	
+		},
+		error : function(data) { 
+			alert("error") 
+			
+		}	
+	}) */
 	
 	// 예약하기 버튼 눌렀을 때
 	$("#renBtn").click(function(){
@@ -233,7 +404,6 @@ $(document).ready(function(){
 		const user_id = '<%=(String)session.getAttribute("id")%>';
 		const date = document.getElementById("datetime-local").value
 		const croom_id = document.getElementById("pickplace").value
-		console.log(croom_id)
 		
 		var timeList = {
 			time1: $('#time1').children().first().text(),
@@ -248,7 +418,6 @@ $(document).ready(function(){
 			if($(this).is(":checked")==true){
 				const checkedTime = $(this).parent().prev().text()
 				console.log(checkedTime)
-				
 				for(var key in timeList) {
 					console.log("key: ", key)
 					console.log("value: ", timeList[key])
@@ -285,20 +454,27 @@ $(document).ready(function(){
                         	
     // 조회하기 버튼 눌렀을 때                    	
 	$("#viewBtn").click(function(){
-		
+		alert("viewBtn")
 		var date = document.getElementById("datetime-local").value
-		console.log(date)
 		var croom_id = document.getElementById("pickplace").value
-		console.log(croom_id)
-
+		const area = document.getElementById('Chkplace')
 		$.ajax({
 			type: 'GET',
 			url: '/ycc/rental/place.send', //수정요망
 			headers: { 'content-type': 'application/json' },
 			data: {croom_id:croom_id , date:date},
 			dataType: 'json',
-			success: function (data){
+			success: function(data){
+				console.log(date)
+				console.log(croom_id)
+				area.innerHTML = $('option[value='+croom_id+']').first().text()
+				console.log("option tag", $('option[value='+croom_id+']').first().text())
+				if(closedDate.includes(date)) {
+					alert("예약 가능한 시간이 없습니다.")
+				}
+				
 				$("#timeTable").html(toTimeList(data))
+				console.log(data.infoList)
 				for(i in data.infoList) {
 					if(data.infoList[i].time1 == true) {
 						$("#time1").hide()
@@ -314,43 +490,21 @@ $(document).ready(function(){
 						$("#time6").hide()
 					}
 				}
-				const area = document.getElementById('Chkplace')
-				area.innerHTML = document.getElementById("pickplace").value
+				
+				/* area.innerHTML = document.getElementById("pickplace").value */
 				const chkDate = document.getElementById('Chkdate')
 				chkDate.innerHTML = document.getElementById("datetime-local").value
+				console.log(closedDate)
 			}	//success
-			})       
+		})       
 	}) //viewBtn
     
-	// 시간테이블 출력
-	let toTimeList = function(data) {
-		let tmp = ''
-			tmp += '<table class="table table-striped">'
-			tmp += '<thead>'
-			tmp += '<tr>'
-			tmp += '<th scope="col" style="text-align: center;">시간</th>'
-			tmp += '<th scope="col" style="text-align: center;">예약</th>'
-			tmp += '</tr>'
-			tmp += '</thead>'
-			tmp += '<tbody>'
-			tmp += '<div>'
-			tmp += '<tr id="time1"><td>08:10 ~ 10:00</td><td><input type="radio" name="time"></td></tr>'
-			tmp += '<tr id="time2"><td>10:10 ~ 12:00</td><td><input type="radio" name="time"></td></tr>'
-			tmp += '<tr id="time3"><td>12:10 ~ 14:00</td><td><input type="radio" name="time"></td></tr>'
-			tmp += '<tr id="time4"><td>14:10 ~ 16:00</td><td><input type="radio" name="time"></td></tr>'
-			tmp += '<tr id="time5"><td>16:10 ~ 18:00</td><td><input type="radio" name="time"></td></tr>'
-			tmp += '<tr id="time6"><td>18:10 ~ 20:00</td><td><input type="radio" name="time"></td></tr>'
-			tmp += '</div>'
-		return tmp += ''
-	} 
-                            
 	$("#exampleModal").on('show.bs.modal', function(e){
 		loginCheck();
 		if (loginCheck() == false) {
 			e.preventDefault();
 		}
 	})
-
 	$("#modalBtn").on("click", function(){
 		$('input:radio').each(function (index) {
 			if($(this).is(":checked")==true){
@@ -360,14 +514,12 @@ $(document).ready(function(){
 			}
 		})
 	})                       	
-
 	//현재 시간보다 이전의 시간은 선택할 수 없는 기능
 	/* let dateElement = document.getElementById('datetime-local');	//datetime-local의 값 가져옴
 	let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
 	let maxdate = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5) + n일 이후 설정 할 부분
 	dateElement.value = date;	//현재 날짜로 date 설정
 	dateElement.setAttribute("min", date); 
-
 	//만약 선택 날짜가 오늘 날짜보다 예전일 경우 알람을 띄워주는 기능
 	function setMinValue() {
 		if (dateElement.value < date) {//선택한 날짜 < 현 날짜
@@ -375,7 +527,6 @@ $(document).ready(function(){
 			dateElement.value = date;
 		}
 	} */
-
 	/*
 	//만약 선택 날짜가 오늘 날짜 + n일 이후(maxdate)이면 알람을 띄워주는 기능
 	function setMaxValue() {

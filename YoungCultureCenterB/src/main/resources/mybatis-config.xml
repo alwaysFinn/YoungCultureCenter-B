@@ -22,7 +22,7 @@
 		
 		<typeAlias alias="ClubDto" type="com.youngtvjobs.ycc.club.ClubDto" />
 		
-		<typeAlias alias="RentalDto" type="com.youngtvjobs.ycc.rental.RentalDto" />
+		<typeAlias alias="PlaceDto" type="com.youngtvjobs.ycc.rental.PlaceDto" />
 		<typeAlias alias="LockerDto" type="com.youngtvjobs.ycc.rental.LockerDto" />
 		<typeAlias alias="StudyroomDto" type="com.youngtvjobs.ycc.rental.StudyroomDto" />
 		

@@ -5,24 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public interface RentalService {
-	
-	// 대관
-	List<RentalDto> selectInfo(String croom_id, Date prental_de) throws Exception;
-	int insertInfo(RentalDto rentalDto) throws Exception;
-	List<RentalDto> selectRentalPlace() throws Exception;
-	
-	List<RentalDto> viewRentalPlace() throws Exception;
-	List<RentalDto> getList(String croom_id, Date prental_de) throws Exception;
-	
-	//studyroom start
-	List<RentalDto> sroomRentalCheck() throws Exception;
-	int sroomRental(RentalDto rentalDto) throws Exception; 
-	int sroomRentalInsUpdate(RentalDto rentalDto) throws Exception;
-	int sroomRentalDelUpdate(RentalDto rentalDto) throws Exception;
-	int sroomClear() throws Exception;
-	List<RentalDto> sroomYCheck() throws Exception;
-	List<RentalDto> sroomRentaledCheck() throws Exception;
-	
+public interface PlaceService {
 
+	List<PlaceDto> selectInfo(String croom_id, Date prental_de) throws Exception;
+	/* List<RentalDto> selectTotalInfo() throws Exception; */
+	int insertInfo(PlaceDto rentalDto) throws Exception;
+	List<PlaceDto> selectPlace(String croom_id) throws Exception;
+	List<PlaceDto> selectRentalPlace() throws Exception;
+	
 }
