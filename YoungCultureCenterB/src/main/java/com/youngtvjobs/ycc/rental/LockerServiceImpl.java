@@ -41,4 +41,10 @@ public class LockerServiceImpl implements LockerService {
 		return lockerDao.selectReservationStat(user_id);
 	}
 
+	@Override
+	public int getReservationCnt(String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		return lockerDao.selectReservationCnt(user_id);
+	}
+
 }

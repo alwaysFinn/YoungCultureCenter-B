@@ -127,6 +127,7 @@
 				<c:forEach var="courseDto" items="${list }">
 					<tr>
 						<td>
+																											<!-- detailpage에서 목록 버튼클릭시 주소를 유지시키기 위해서 -->
 							<a class="tdeco-none" href="<c:url value="/course/detail${pr.sc.queryString }&course_id=${courseDto.course_id }" />">
 								${courseDto.course_nm }
 							</a>

@@ -43,4 +43,10 @@ public class LockerDaoImpl implements LockerDao{
 		return session.selectList(namespace + "selectReservationStat", user_id);
 	}
 
+	@Override
+	public int selectReservationCnt(String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace + "selectReservationCnt", user_id);
+	}
+
 }

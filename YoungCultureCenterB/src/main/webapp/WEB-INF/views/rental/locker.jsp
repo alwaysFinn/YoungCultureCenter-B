@@ -20,7 +20,7 @@
   <div class="container mt-5">
     <h2>사물함 신청</h2>
     <hr>
-	  <div class="pt-5" style="overflow:auto; border: 1px solid #4f565d;">
+	  <div class="pt-5 d-grid" style="overflow-x:auto; border: 1px solid #4f565d;">
 	    <ol>
 	      <li class="row">
 	        <ol class="lockers">
@@ -157,7 +157,7 @@
 			</table>
     </div>
     
-    <c:if test="${loginId == rsvStat[0].user_id }">
+    <c:if test="${loginId == rsvStat[0].user_id && loginId != null }">
 	    <div class="mt-5">
 		    <h4>나의 예약 현황</h4>
 		    <hr>
@@ -251,6 +251,11 @@
 	    </div>
 	  </div>
   </form>
+  
+  <script type="text/javascript">
+  	let msg = "${msg}"
+		if(msg == "NO_DUPLICATE") alert("중복 예약은 불가합니다.\n나의 예약현황을 확인해주세요.")
+  </script>
   
   <script type="text/javascript">
   	$("#selectLockerLoc").on("click", function() {

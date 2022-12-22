@@ -14,5 +14,7 @@ public interface LockerService {
 
 	List<LockerDto> getReservationStat(String user_id) throws Exception;
 
+	int getReservationCnt(String user_id) throws Exception;
+
 
 }

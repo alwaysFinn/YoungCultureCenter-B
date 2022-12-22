@@ -35,9 +35,6 @@ public class ReviewController {
 	@PatchMapping("/course/reviews/{review_id}")
 	public ResponseEntity<String> modify(@PathVariable Integer review_id, String user_id
 											, @RequestBody ReviewDto reviewDto, HttpSession session) {
-		
-		//String user_id = (String) session.getAttribute("id");
-		
 		reviewDto.setUser_id(user_id); // 작성자 id
 		reviewDto.setReview_id(review_id); // 작성된 reivew_id
 		
@@ -46,12 +43,10 @@ public class ReviewController {
 			if(session.getAttribute("id").equals(user_id) || session.getAttribute("grade").equals("관리자")) {
 				if(reviewService.modify(reviewDto) != 1) throw new Exception("Update failed.");
 			}		
-				
 			return new ResponseEntity<String>("MOD_OK", HttpStatus.OK);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 			return new ResponseEntity<String>("MOD_ERR", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -61,7 +56,6 @@ public class ReviewController {
 	public ResponseEntity<String> remove(@PathVariable Integer review_id, Integer course_id, String user_id
 														, ReviewDto reviewDto, HttpSession session) {
 		reviewDto.setUser_id(user_id); // 작성자 id
-		//String user_id = (String) session.getAttribute("id");
 		
 		try {
 			int rowCnt = reviewService.reviewDelete(review_id, course_id);
@@ -75,7 +69,6 @@ public class ReviewController {
 			return new ResponseEntity<String>("DEL_OK", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 			return new ResponseEntity<String>("DEL_ERR", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -111,12 +104,10 @@ public class ReviewController {
 				rattr.addFlashAttribute("msg", "NOT_STUDENT");
 				return new ResponseEntity<String>("NOT_STUDENT", HttpStatus.OK);
 			}
-			
 			return new ResponseEntity<String>("WRT_OK", HttpStatus.OK);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 			return new ResponseEntity<String>("WRT_ERR", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -124,26 +115,18 @@ public class ReviewController {
 	// 수강후기 select
 	@GetMapping("/course/reviews")
 	@ResponseBody
-	public ResponseEntity<List<ReviewDto>> list(Integer course_id/* , CourseSearchItem sc, Model m */){
+	public ResponseEntity<List<ReviewDto>> list(Integer course_id){
 		List<ReviewDto> list = null;
 		
 		try {
-			list = reviewService.selectReviewList(course_id);
-			System.out.println("list = " + list);
-			
-//			int totalCnt = reviewService.getCourseReviewCnt(sc);
-//			m.addAttribute("totalCnt", totalCnt);
-//			System.out.println("리뷰개수:"+ totalCnt);
-//			
-//			PageResolver pageResolver1 = new PageResolver(totalCnt, sc);
-//			m.addAttribute("prRe", pageResolver1);
-
-			return new ResponseEntity<List<ReviewDto>>(list, HttpStatus.OK);
+			// list라는 빈 리스트에 불러온 reviewList를 담아서 출력 
+			list = reviewService.selectReviewList(course_id); 
+			System.out.println("list = " + list); 
+			return new ResponseEntity<List<ReviewDto>>(list, HttpStatus.OK); 
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			
-			return new ResponseEntity<List<ReviewDto>>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace(); 
+			return new ResponseEntity<List<ReviewDto>>(HttpStatus.BAD_REQUEST); 
 		}
 	}
 }

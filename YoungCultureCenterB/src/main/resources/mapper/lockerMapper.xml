@@ -4,6 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.youngtvjobs.ycc.rental.lockerMapper">
+	<select id="selectReservationCnt" parameterType="String" resultType="int">
+		SELECT count(*)
+		FROM tb_locker
+		JOIN locker_location
+		ON tb_locker.locker_location_id = locker_location.locker_location_id
+		WHERE user_id = #{user_id}
+		AND current_date - locker_end_date::date <![CDATA[<=]]> 0
+	</select>
+	
 	<select id="selectReservationStat" parameterType="String" resultType="LockerDto">
 		SELECT locker_id, locker_no, tb_locker.locker_location_id, user_id
 					 , locker_cost, locker_start_date, locker_end_date, locker_location.location_name
@@ -38,6 +47,5 @@
 		UPDATE tb_locker
 		SET user_id=#{user_id}, locker_cost=#{locker_cost}, locker_start_date=#{locker_start_date}::date, locker_end_date=#{locker_end_date}::date
 		WHERE locker_id=#{locker_id}
-		
 	</update>
 </mapper>

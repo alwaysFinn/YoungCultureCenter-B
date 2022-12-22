@@ -13,5 +13,7 @@ public interface LockerDao {
 	List<LockerDto> selecetLockerRsvList(int locker_location_id) throws Exception;
 
 	List<LockerDto> selectReservationStat(String user_id) throws Exception;
+
+	int selectReservationCnt(String user_id) throws Exception;
 	
 }
