@@ -16,8 +16,6 @@ INSERT INTO public.tb_user
 (user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, user_postcode, user_rnameaddr, user_detailaddr, user_regdate, user_grade, user_social_type)
 VALUES('ezen1', '전이젠', '0111', 'F', '960305', 'ezenjeon@gmail.com', '01012345678', '06035', '강남구 도산대로34길', '상세주소입니당', now(), '일반회원', 'N');
 
-
-
 ------------------------------------------------------지호------------------------------------------------------
 -- studyroom dummy data
 insert into studyroom 
@@ -245,6 +243,42 @@ INSERT INTO course_review (review_content, review_datetime, review_updated_datet
 VALUES('후기10', now(), now(), 1, 15, 'ezen');
 
 
+
+-----------------------------------------------------나리-----------------------------------------------------------
+-- 1개월
+INSERT INTO public.inq_board	
+(inq_cate, user_id, inq_title, inq_content, inq_date)
+VALUES('교육강좌', 'ezen',  '수강 관련 문의', '수강 관련 문의 내용', '2022-11-12');
+-- 같은 날짜
+INSERT INTO public.inq_board	
+(inq_cate, user_id,  inq_title, inq_content, inq_date)
+VALUES('교육강좌', 'ezen',  '수강 관련 문의', '수강 관련 문의 내용', '2022-11-01');
+-- 3개월
+INSERT INTO public.inq_board
+(inq_cate, user_id,  inq_title, inq_content, inq_date)
+VALUES('결제', 'ezen',  '결제 관련 문의', '결제 관련 문의 내용', '2022-09-15');
+-- 6개월
+INSERT INTO public.inq_board
+(inq_cate, user_id,  inq_title, inq_content, inq_date)
+VALUES('결제', 'ezen',  '결제 관련 문의', '결제 관련 문의 내용', '2022-07-21');
+-- 1년
+INSERT INTO public.inq_board	
+(inq_cate, user_id,  inq_title, inq_content, inq_date)
+VALUES('교육강좌', 'ezen',  '수강 관련 문의', '수강 관련 문의 내용', '2021-10-15');
+-- 1년 이상 이전
+INSERT INTO public.inq_board
+(inq_cate, user_id,  inq_title, inq_content, inq_date)
+VALUES('결제', 'ezen',  '결제 관련 문의', '결제 관련 문의 내용', '2020-07-11');
+
+
+
+INSERT INTO public.inq_board
+(inq_cate, user_id,  inq_title, inq_content, inq_date)
+VALUES('결제', 'ezen1',  '영수증 문의', '현금영수증 추후발급 되나요?', '2022-10-15');
+
+INSERT INTO public.inq_board
+(inq_cate, user_id,  inq_title, inq_content, inq_date)
+VALUES('교육강좌', 'ezen1',  '수강 신청 변경 문의', '수강 신청 변경 문의 내용', '2022-10-15');
 
 -----------------------------------------------------나리-----------------------------------------------------------
 -- 1개월
