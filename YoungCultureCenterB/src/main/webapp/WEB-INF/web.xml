@@ -46,7 +46,7 @@
 	
 	<!-- Session 시간설정 (단위:분) -->
 	<session-config>
-		<session-timeout>1</session-timeout>
+		<session-timeout>20</session-timeout>
 	</session-config>
 
 	<!-- 한글변환 필터 -->

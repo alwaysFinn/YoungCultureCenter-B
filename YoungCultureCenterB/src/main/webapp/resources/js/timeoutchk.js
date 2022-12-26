@@ -7,7 +7,7 @@
     
    function fncClearTime() {
    //기준단위 : 초(second)
-       iSecond = 1 * 60;
+       iSecond = 15 * 60;
    }
     
    Lpad = function(str, len) {
