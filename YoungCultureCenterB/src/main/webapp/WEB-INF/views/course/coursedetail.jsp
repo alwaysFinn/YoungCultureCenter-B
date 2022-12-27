@@ -88,7 +88,7 @@
 										<select class="form-select w-auto" name="croom_id">
 											<option>선택</option>
 											<c:forEach var="classroom" items="${classroomList }"> 
-												<option value="${classroom.croom_id }">${classroom.croom_name }</option>
+												<option value="${classroom.croom_id }" ${courseDto.croom_id == classroom.croom_id? 'selected' : '' }>${classroom.croom_name }</option>
 											</c:forEach>
 										</select>
 									</td>
@@ -99,7 +99,7 @@
 										<select class="form-select w-auto" name="course_cate_cd">
 											<option>선택</option>
 											<c:forEach var="courseType" items="${typeList }">
-												<option value="${courseType.course_cate_cd }">${courseType.course_cate_name }</option>
+												<option value="${courseType.course_cate_cd }" ${courseDto.course_cate_cd == courseType.course_cate_cd? 'selected' : '' }>${courseType.course_cate_name }</option>
 											</c:forEach>
 										</select>
 									</td>
@@ -109,10 +109,10 @@
 									<td>
 										<select class="form-select w-auto" name="course_target">
 											<option>선택</option>
-											<option>성인</option>
-											<option>청소년</option>
-											<option>유아</option>
-											<option>노인</option>
+											<option ${courseDto.course_target.trim() == '성인'? 'selected' : '' }>성인</option>
+											<option ${courseDto.course_target.trim() == '청소년'? 'selected' : '' }>청소년</option>
+											<option ${courseDto.course_target.trim() == '유아'? 'selected' : '' }>유아</option>
+											<option ${courseDto.course_target.trim() == '노인'? 'selected' : '' }>노인</option>
 										</select>
 									</td>
 								</tr>	
@@ -154,16 +154,25 @@
 								<tr>
 									<th>수강요일</th> <!-- 체크박스로 변경 -->
 									<td>
-										<input class="form-check-input" type="checkbox" name="course_day" value="월" >월
-										<input class="form-check-input" type="checkbox" name="course_day" value="화" >화
-										<input class="form-check-input" type="checkbox" name="course_day" value="수" >수
-										<input class="form-check-input" type="checkbox" name="course_day" value="목" >목
-										<input class="form-check-input" type="checkbox" name="course_day" value="금" >금
-										<input class="form-check-input" type="checkbox" name="course_day" value="토" >토
-										<input class="form-check-input" type="checkbox" name="course_day" value="일" >일
+										<!-- courseDto.course_day.indexOf("월") != -1 ==> (해석) db에 '월'이 존재하면 -->
+										<input class="form-check-input" type="checkbox" name="course_day" value="월" 
+										${courseDto.course_day.indexOf("월") != -1 ? 'checked' : '' }>월
+										<input class="form-check-input" type="checkbox" name="course_day" value="화" 
+										${courseDto.course_day.indexOf("화") != -1 ? 'checked' : '' }>화
+										<input class="form-check-input" type="checkbox" name="course_day" value="수" 
+										${courseDto.course_day.indexOf("수") != -1 ? 'checked' : '' }>수
+										<input class="form-check-input" type="checkbox" name="course_day" value="목" 
+										${courseDto.course_day.indexOf("목") != -1 ? 'checked' : '' }>목
+										<input class="form-check-input" type="checkbox" name="course_day" value="금" 
+										${courseDto.course_day.indexOf("금") != -1 ? 'checked' : '' }>금
+										<input class="form-check-input" type="checkbox" name="course_day" value="토" 
+										${courseDto.course_day.indexOf("토") != -1 ? 'checked' : '' }>토
+										<input class="form-check-input" type="checkbox" name="course_day" value="일" 
+										${courseDto.course_day.indexOf("일") != -1 ? 'checked' : '' }>일
 									</td>
 								</tr>
 							</c:if>
+							
 							<!-- 출력값 -->
 							<c:if test="${mode ne 'new' && mode ne 'modify' }">
 								<tr>
@@ -192,6 +201,7 @@
 								</tr>
 							</c:if>
 							<!-- //출력값 -->
+							
 							<c:if test="${mode eq 'new' || mode eq 'modify' }">
 								<tr>
 									<th>강좌 소개</th>
@@ -204,19 +214,14 @@
 				</div>
 			</div>
 			<c:if test="${mode eq 'new' || mode eq 'modify' }">	
-				<!-- <div class="input-group my-3">
-				  <input type="file" class="form-control" id="inputGroupFile02" name="">
-					<input id="" class="btn btn-primary" type="button" value="이미지업로드" onclick="showUploadImage();">
-				</div> -->
 				<div class="form_section">
-     			<div class="form_section_title">
-     				<label>상품 이미지</label>
-     			</div>
-     			<div class="form_section_content">
-     				<input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
-     				<div id="uploadResult"></div>
-     			</div>
-     		</div>
+					<div class="form_section_content"> 
+						<div>
+			  			<input type="file" class="form-control my-3" id ="fileItem" name="uploadFile" multiple>
+							<div id="uploadResult"></div>
+						</div>
+					</div>
+				</div> 
 			</c:if>	
 			<div class="d-grid gap-2 d-sm-block text-center mt-3">
 				<c:if test="${mode ne 'new' && mode ne 'modify'}">
@@ -274,14 +279,14 @@
 						  </button>
 						</div> //캐러셀 -->
 						
-						<div class="col-lg-5 mb-3 form_section">
-							<div class = form_section_title>
-								<label>상품 이미지</label>
-							</div>
+						<!-- 이미지 출력 -->
+						<div class="col-lg-5 mb-3 form_section align-self-center">
 							<div class="form_section_content">
 								<div id="uploadResult2"></div>
 							</div>
 						</div>
+						<!-- // 이미지 출력  -->
+						
 						<div class="col-lg-7 mb-3">
 							<table class="container-fluid table table-bordered h-100">
 								<tbody>
@@ -341,6 +346,7 @@
 							</tbody>
 						</table>
 					</c:if>
+					
 					<!-- 안내사항 -->
 					<c:if test="${mode ne 'new' }">
 						<h6>| 안내사항</h6>
@@ -680,7 +686,7 @@
 				str += "<div id='result_card'"
 				str += "data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'"
 				str += ">"
-				str += " <img class='img img-fluid' src='/ycc/course/imagedisplay?fileName=" + fileCallPath2 + "'>"
+				str += " <img class='w-100' src='/ycc/course/imagedisplay?fileName=" + fileCallPath2 + "'>"
 				if(modify == true) {
 					str += " <div class='imgDeleteBtn' data-file='" + fileCallPath2 + "'>x</div>"
 					str += " <input type='hidden' name='imageList[0].fileName' value='"+obj.fileName+"'>"
@@ -862,14 +868,14 @@
 			$("#courseRegBtn").on("click", function() {
 				if(!confirm("수강신청을 하시겠습니까?")) return
 				
-				location.href = "<c:url value='/course/regcomplete${pr.sc.queryString }&course_id=${courseDto.course_id }' />"
+				location.href = "<c:url value='/course/regcomplete?course_id=${courseDto.course_id }' />"
 			})
 				
 			// 강좌 '수정하기'버튼 클릭
 			$('#courseModifyBtn').on("click", function() {
 				let form = $("#form")
 				
-				form.attr("action", "<c:url value='/course/modify${searchItem.queryString}' />")
+				form.attr("action", "<c:url value='/course/modify' />")
 				form.attr("method", "POST")
 				form.submit()
 			})

@@ -78,7 +78,7 @@ public class CourseServiceImpl implements CourseService {
 		courseDto.getImageList().forEach(attach -> {
 			attach.setCourse_id(courseDto.getCourse_id());
 			try {
-				// 이미지 등록에 필요로 한 course_id 값을 세팅 해주었기 때문의, Dao단계의 courseImageInsert() 메서드를 호출하고 매개변수로 CourseDto의 imageList 요소를 매개변수로 부여
+				// 이미지 등록에 필요로 한 course_id 값을 세팅 해주었기 때문에, Dao단계의 courseImageInsert() 메서드를 호출하고 매개변수로 CourseDto의 imageList 요소를 매개변수로 부여
 				courseDao.courseImageInsert(attach);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -86,10 +86,12 @@ public class CourseServiceImpl implements CourseService {
 		});
 	
 	}
-
+	
+	/* 강좌 삭제 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public int courseRemove(Integer course_id) throws Exception {
-		// TODO Auto-generated method stub
+		courseDao.courseImageDelete(course_id);
 		return courseDao.delete(course_id);
 	}
 
@@ -105,7 +107,7 @@ public class CourseServiceImpl implements CourseService {
 			courseDto.getImageList().forEach(attach -> {
 				attach.setCourse_id(courseDto.getCourse_id());
 				try {
-					// 이미지 등록에 필요로 한 course_id 값을 세팅 해주었기 때문의, Dao단계의 courseImageInsert() 메서드를 호출하고 매개변수로 CourseDto의 imageList 요소를 매개변수로 부여
+					// 이미지 등록에 필요로 한 course_id 값을 세팅 해주었기 때문에, Dao단계의 courseImageInsert() 메서드를 호출하고 매개변수로 CourseDto의 imageList 요소를 매개변수로 부여
 					courseDao.courseImageInsert(attach);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -132,6 +134,11 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseImageDto> getCourseImageList(int course_id) throws Exception {
 		// TODO Auto-generated method stub
 		return courseDao.getCourseImageList(course_id);
+	}
+
+	@Override
+	public int courseimageDelete(Integer course_id) throws Exception {
+		return courseDao.courseImageDelete(course_id);
 	}
 
 }

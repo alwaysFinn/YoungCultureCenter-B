@@ -1,11 +1,11 @@
 package com.youngtvjobs.ycc.course;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +23,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -44,6 +43,11 @@ public class CourseController {
 	@Autowired
 	CourseService courseService;
 
+	@RequestMapping("/integratedPayment")
+	public String courseip() {
+		return "/integratedPayment";
+	}
+	
 	@RequestMapping("/course/courseinfo")
 	public String courseinfo() {
 		return "/course/courseinfo";
@@ -126,14 +130,17 @@ public class CourseController {
 		logger.info("deleteImage........" + fileName);
 		File file = null;
 		
-		// URLDecoder.decode(), File.delete()가 있는데 두 개 모두 예외를 발생시킬 가능성이 큰 메서드
+		// URLDecoder.decode(), file.delete() 두 개 모두 예외를 발생시킬 가능성이 큰 메서드
 		try {
 			/* 썸네일 파일 삭제 */
-			file = new File(URLDecoder.decode(fileName, "UTF-8")); // decode() 메서드는 static 메서드이기 때문에 인스턴스화 없이 사용이 가능
+			// decode() 메서드는 static 메서드이기 때문에 인스턴스화 없이 사용이 가능
+			file = new File(URLDecoder.decode(fileName, "UTF-8")); 
 			file.delete();
 			/* 원본 파일 삭제 */
-			String originFileName = file.getAbsolutePath().replace("s_", ""); // getAbsolutePath() 메서드를 호출하면 대상 File 객체의 경로를 문자열(String) 타입의 데이터로 반환
-			logger.info("originFileName : " + originFileName); // 원본 파일 경로가 정상적인 값을 가지는지 확인을 하기 위해
+			// getAbsolutePath() 메서드를 호출하면 대상 File 객체의 경로를 문자열(String) 타입의 데이터로 반환
+			String originFileName = file.getAbsolutePath().replace("s_", ""); 
+			// 원본 파일 경로가 정상적인 값을 가지는지 확인을 하기 위해
+			logger.info("originFileName : " + originFileName); 
 			file = new File(originFileName);
 			file.delete();
 			
@@ -286,6 +293,7 @@ public class CourseController {
 //		}
 	}
 	
+	/* 강좌 수정 */
 	@PostMapping("/course/modify")
 	public String courseModify(CourseDto courseDto, Integer page, Integer pageSize, 
 								RedirectAttributes rattr, Model m, HttpSession session) {
@@ -299,7 +307,7 @@ public class CourseController {
 			rattr.addAttribute("page", page);
 			rattr.addAttribute("pageSize", pageSize);
 			rattr.addFlashAttribute("msg", "MOD_OK");
-			  
+			
 			return "redirect:/course/search";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -310,11 +318,12 @@ public class CourseController {
 			rattr.addAttribute("pageSize", pageSize);
 			
 			m.addAttribute("msg", "MOD_ERR");
-			  
+			
 			return "/course/coursedetail";
 		}
 	}
 	
+	/* 강좌 수정 페이지 */
 	@GetMapping("/course/modify")
 	public String courseModify(Model m, Integer course_id, CourseSearchItem sc, HttpServletRequest request) {
 		try {
@@ -339,6 +348,7 @@ public class CourseController {
 		return "/course/coursedetail"; // board.jsp 읽기와 쓰기에 사용. 쓰기에 사용할 때는 mode=new
 	}
 
+	/* 강좌 삭제 */
 	@PostMapping("/course/remove")
 	public String courseRemove(Integer course_id, @RequestParam("user_id")String user_id, Integer page, Integer pageSize
 			, RedirectAttributes rattr, HttpSession session) {
@@ -346,8 +356,31 @@ public class CourseController {
 		String msg = "DEL_OK";
 		
 		try {
+			List<CourseImageDto> fileList = courseService.getCourseImageList(course_id);
+			
+			// 강좌 삭제시 서버 내 원본 파일, 썸네일 파일 삭제
+			if(fileList != null) {
+				List<Path> pathList = new ArrayList();
+				
+				fileList.forEach(dto -> {
+					
+					// 원본 이미지
+					Path path = Paths.get(dto.getUploadPath(), dto.getUuid() + "_" + dto.getFileName());
+					pathList.add(path);
+					
+					// 썸네일 이미지
+					path = Paths.get(dto.getUploadPath(), "s_" + dto.getUuid() + "_" + dto.getFileName());
+					pathList.add(path);
+				});
+				
+				pathList.forEach(path -> {
+					path.toFile().delete();
+				});
+			}
+			
 			if(session.getAttribute("id").equals(user_id) || session.getAttribute("grade").equals("관리자")) {
-				if (courseService.courseRemove(course_id) != 1) throw new Exception("Delete failed.");
+				if (courseService.courseRemove(course_id) != 1) 
+					throw new Exception("Delete failed.");
 			}
 
 		} catch (Exception e) {
@@ -362,7 +395,7 @@ public class CourseController {
 		return "redirect:/course/search";
 	}
 	
-	/* 강좌등록 */
+	/* 강좌 등록 */
 	@PostMapping("/course/write")
 	public String courseWrite(CourseDto courseDto, RedirectAttributes rattr, Model m, HttpSession session) {
 		String user_id = (String) session.getAttribute("id");
@@ -386,6 +419,7 @@ public class CourseController {
 
 	}
 
+	/* 강좌 등록 페이지 */
 	@GetMapping("/course/write")
 	public String courseWrite(Model m, HttpServletRequest request) {
 		if (!logincheck(request))
@@ -400,7 +434,6 @@ public class CourseController {
 			m.addAttribute("typeList", typeList);
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 
@@ -414,13 +447,6 @@ public class CourseController {
 		logger.info("getCourseImageList........" + course_id);
 		
 		try {
-//			System.out.println("이미지가져오기");
-//			List<CourseImageDto> getIMG = courseService.getCourseImageList(course_id);
-//			m.addAttribute("getIMG", getIMG);
-//			System.out.println(getIMG);
-//			System.out.println("이미지가져오기 성공");
-//			return new ResponseEntity("SELECT_OK" , HttpStatus.OK);
-			
 			return new ResponseEntity(courseService.getCourseImageList(course_id), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

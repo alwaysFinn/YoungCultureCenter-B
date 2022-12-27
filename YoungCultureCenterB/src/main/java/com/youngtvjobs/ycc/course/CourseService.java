@@ -29,10 +29,11 @@ public interface CourseService {
 	int coursemodify(CourseDto courseDto) throws Exception;
 
 	List<CourseDto> getcroomId() throws Exception;
-
 	List<CourseDto> getCourseType() throws Exception;
 
 	List<CourseImageDto> getCourseImageList(int course_id) throws Exception;
+
+	int courseimageDelete(Integer course_id) throws Exception;
 	
 	
 
