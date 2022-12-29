@@ -31,17 +31,9 @@ public class LockerDto {
 	}
 
 	@Override
-	public String toString() {
-		return "LockerDto [locker_id=" + locker_id + ", locker_no=" + locker_no + ", user_id=" + user_id
-				+ ", locker_location_id=" + locker_location_id + ", locker_cost=" + locker_cost + ", locker_start_date="
-				+ locker_start_date + ", locker_end_date=" + locker_end_date + ", location_name="
-				+ location_name + "]";
-	}
-
-	@Override
 	public int hashCode() {
-		return Objects.hash(locker_cost, locker_end_date, locker_id, locker_location_id, location_name,
-				locker_no, locker_start_date, user_id);
+		return Objects.hash(location_name, locker_cost, locker_end_date, locker_id, locker_location_id, locker_no,
+				locker_start_date, user_id);
 	}
 
 	@Override
@@ -53,12 +45,17 @@ public class LockerDto {
 		if (getClass() != obj.getClass())
 			return false;
 		LockerDto other = (LockerDto) obj;
-		return locker_cost == other.locker_cost && Objects.equals(locker_end_date, other.locker_end_date)
-				&& Objects.equals(locker_id, other.locker_id)
-				&& Objects.equals(locker_location_id, other.locker_location_id)
-				&& Objects.equals(location_name, other.location_name)
-				&& Objects.equals(locker_no, other.locker_no)
+		return Objects.equals(location_name, other.location_name) && locker_cost == other.locker_cost
+				&& Objects.equals(locker_end_date, other.locker_end_date) && Objects.equals(locker_id, other.locker_id)
+				&& locker_location_id == other.locker_location_id && Objects.equals(locker_no, other.locker_no)
 				&& Objects.equals(locker_start_date, other.locker_start_date) && Objects.equals(user_id, other.user_id);
+	}
+
+	@Override
+	public String toString() {
+		return "LockerDto [locker_id=" + locker_id + ", locker_no=" + locker_no + ", user_id=" + user_id
+				+ ", locker_location_id=" + locker_location_id + ", locker_cost=" + locker_cost + ", locker_start_date="
+				+ locker_start_date + ", locker_end_date=" + locker_end_date + ", location_name=" + location_name + "]";
 	}
 
 	public Integer getLocker_id() {
@@ -124,5 +121,5 @@ public class LockerDto {
 	public void setLocation_name(String location_name) {
 		this.location_name = location_name;
 	}
-	
+
 }

@@ -31,22 +31,29 @@ public class LockerDaoImpl implements LockerDao{
 		return session.selectList(namespace + "selectLocker", lockerDto);
 	}
 
+//	@Override
+//	public List<LockerDto> selecetLockerRsvList(int locker_location_id) throws Exception {
+//		// TODO Auto-generated method stub
+//		return session.selectList(namespace + "selectReservation", locker_location_id);
+//	}
 	@Override
-	public List<LockerDto> selecetLockerRsvList(int locker_location_id) throws Exception {
+	public List<LockerDto> selecetLockerRsvList(LockerDto lockerDto) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace + "selectReservation", locker_location_id);
+		return session.selectList(namespace + "selectReservation", lockerDto);
 	}
-
+	
 	@Override
 	public List<LockerDto> selectReservationStat(String user_id) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace + "selectReservationStat", user_id);
+		return session.selectList(namespace + "selectMyReservationStat", user_id);
 	}
 
 	@Override
 	public int selectReservationCnt(String user_id) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectOne(namespace + "selectReservationCnt", user_id);
+		return session.selectOne(namespace + "selectMyReservationCnt", user_id);
 	}
+
+	
 
 }

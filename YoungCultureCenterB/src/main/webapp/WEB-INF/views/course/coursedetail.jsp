@@ -152,23 +152,23 @@
 							<colgroup><col width="25%"></colgroup>
 							<c:if test="${mode eq 'new' || mode eq 'modify' }">
 								<tr>
-									<th>수강요일</th> <!-- 체크박스로 변경 -->
+									<th>수강요일</th>
 									<td>
 										<!-- courseDto.course_day.indexOf("월") != -1 ==> (해석) db에 '월'이 존재하면 -->
 										<input class="form-check-input" type="checkbox" name="course_day" value="월" 
-										${courseDto.course_day.indexOf("월") != -1 ? 'checked' : '' }>월
+										${courseDto.course_day.indexOf("월") != -1 && courseDto.course_day.indexOf("월") != null  ? 'checked' : '' }>월
 										<input class="form-check-input" type="checkbox" name="course_day" value="화" 
-										${courseDto.course_day.indexOf("화") != -1 ? 'checked' : '' }>화
+										${courseDto.course_day.indexOf("화") != -1 && courseDto.course_day.indexOf("화") != null ? 'checked' : '' }>화
 										<input class="form-check-input" type="checkbox" name="course_day" value="수" 
-										${courseDto.course_day.indexOf("수") != -1 ? 'checked' : '' }>수
+										${courseDto.course_day.indexOf("수") != -1 && courseDto.course_day.indexOf("수") != null ? 'checked' : '' }>수
 										<input class="form-check-input" type="checkbox" name="course_day" value="목" 
-										${courseDto.course_day.indexOf("목") != -1 ? 'checked' : '' }>목
+										${courseDto.course_day.indexOf("목") != -1 && courseDto.course_day.indexOf("목") != null ? 'checked' : '' }>목
 										<input class="form-check-input" type="checkbox" name="course_day" value="금" 
-										${courseDto.course_day.indexOf("금") != -1 ? 'checked' : '' }>금
+										${courseDto.course_day.indexOf("금") != -1 && courseDto.course_day.indexOf("금") != null ? 'checked' : '' }>금
 										<input class="form-check-input" type="checkbox" name="course_day" value="토" 
-										${courseDto.course_day.indexOf("토") != -1 ? 'checked' : '' }>토
+										${courseDto.course_day.indexOf("토") != -1 && courseDto.course_day.indexOf("토") != null ? 'checked' : '' }>토
 										<input class="form-check-input" type="checkbox" name="course_day" value="일" 
-										${courseDto.course_day.indexOf("일") != -1 ? 'checked' : '' }>일
+										${courseDto.course_day.indexOf("일") != -1 && courseDto.course_day.indexOf("일") != null ? 'checked' : '' }>일
 									</td>
 								</tr>
 							</c:if>
@@ -688,7 +688,7 @@
 				str += ">"
 				str += " <img class='w-100' src='/ycc/course/imagedisplay?fileName=" + fileCallPath2 + "'>"
 				if(modify == true) {
-					str += " <div class='imgDeleteBtn' data-file='" + fileCallPath2 + "'>x</div>"
+					str += " <div hidden class='imgDeleteBtn' data-file='" + fileCallPath2 + "'>x</div>"
 					str += " <input type='hidden' name='imageList[0].fileName' value='"+obj.fileName+"'>"
 					str += " <input type='hidden' name='imageList[0].uuid' value='"+obj.uuid+"'>"
 					str += " <input type='hidden' name='imageList[0].uploadPath' value='"+obj.uploadPath+"'>"

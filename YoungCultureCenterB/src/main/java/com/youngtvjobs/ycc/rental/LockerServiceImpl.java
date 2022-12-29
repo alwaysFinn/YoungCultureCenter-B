@@ -29,10 +29,16 @@ public class LockerServiceImpl implements LockerService {
 		return lockerDao.selectLockerList(lockerDto);
 	}
 
+//	@Override
+//	public List<LockerDto> getLockerRsvList(int locker_location_id) throws Exception {
+//		// TODO Auto-generated method stub
+//		return lockerDao.selecetLockerRsvList(locker_location_id);
+//	}
+	
 	@Override
-	public List<LockerDto> getLockerRsvList(int locker_location_id) throws Exception {
+	public List<LockerDto> getLockerRsvList(LockerDto lockerDto) throws Exception {
 		// TODO Auto-generated method stub
-		return lockerDao.selecetLockerRsvList(locker_location_id);
+		return lockerDao.selecetLockerRsvList(lockerDto);
 	}
 
 	@Override

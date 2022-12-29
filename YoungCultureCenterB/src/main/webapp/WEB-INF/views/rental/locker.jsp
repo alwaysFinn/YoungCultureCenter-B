@@ -103,61 +103,63 @@
 		  </div>
 	  </div>
     
-    <div class="row mt-3 text-center g-2 align-middle">
-	    <table class="col-lg-4">
-	    	<colgroup>
-	    		<col width=35%>
-	    	</colgroup>
-	    	<tr>
-	    		<th>사물함 위치</th>
-	    		<td class="text-start">
-		    		<form id="locationForm">
-		    			<select class="form-select w-auto d-inline" id="location" name="locker_location_id">
+   	<form id="locationForm">
+   		<div class="row mt-3 text-center g-2 align-middle">
+		    <table class="col-lg-4">
+		    	<colgroup>
+		    		<col width=40%>
+		    	</colgroup>
+		    	<tr>
+		    		<th>사물함 위치</th>
+		    		<td class="d-grid d-md-block">
+		    			<select class="form-select w-auto" id="location" name="locker_location_id" onchange="changeLocation()">
 				      	<c:forEach var="i" begin="0" end="${locList.size()-1 }">
-				      		<option class="d-grid d-md-block" id="loc_id" value="${locList[i].locker_location_id }" 
+				      		<option id="loc_id" value="${locList[i].locker_location_id }" 
 				      		${param.locker_location_id == locList[i].locker_location_id ? 'selected' : '' }>
 				      			${locList[i].location_name }
 				      		</option>
 				      	</c:forEach>
 					    </select>
-					    <button class="btn btn-primary" id="selectLockerLoc">조회</button>
-		    		</form>
-				  </td>
-				</tr>
-			</table>
-			<table class="col-lg-4">
-				<colgroup>
-	    		<col width=35%>
-	    	</colgroup>
-				<tr>
-				  <th>시작일</th>
-				  <td class="d-grid d-md-block"><input type="date" class="form-control w-auto" id="startDate1" onchange="selectSDate()" /></td>
-				</tr>
-			</table>
-			<table class="col-lg-2">
-				<colgroup>
-	    		<col width=35% class="text-start">
-	    	</colgroup>
-				<tr>
-				  <th>기간</th>
-				  <td class="d-grid d-md-block">
-				  	<select class="form-select w-auto" id="period">
-			      	<option>선택</option>
-			      	<option value="7">7일</option>
-			      	<option value="15">15일</option>
-			      	<option value="30">30일</option>
-			      </select>
-			    </td>
-				</tr>
-			</table>
-			<table class="col-lg-2">
-				<tr>
-					<td><button type="button" id="sendBtn" class="btn btn-primary">확인</button></td>
-				</tr>
-			</table>
-    </div>
+					  </td>
+					</tr>
+				</table>
+				<table class="col-lg-4">
+					<colgroup>
+		    		<col width=40%>
+		    	</colgroup>
+					<tr>
+					  <th>시작일</th>
+					  <td class="d-grid d-md-block">
+					  	<input type="date" class="form-control w-auto" id="startDate1" name="locker_start_date" min=${nowdate } max=${afterMonth }
+					  	value="${param.locker_start_date == null ? nowdate : param.locker_start_date}" onchange="selectSDate(); changeLocation()" />
+					  	<input type="hidden" id="endDate1" name="locker_end_date" onchange="changeLocation()">
+					  </td>
+					</tr>
+				</table>
+				<table class="col-lg-2">
+					<colgroup>
+		    		<col width=40% class="text-start">
+		    	</colgroup>
+					<tr>
+					  <th>기간</th>
+					  <td class="d-grid d-md-block">
+					  	<select class="form-select w-auto" id="period" onchange="changeLocation()">
+				      	<option value="7" ${period == 7 ? 'selected' : '' } >7일</option>
+				      	<option value="15" ${period == 15 ? 'selected' : '' } >15일</option>
+				      	<option value="30" ${period == 30 ? 'selected' : '' }>30일</option>
+				      </select>
+				    </td>
+					</tr>
+				</table>
+				<table class="col-lg-2">
+					<tr>
+						<td><button type="button" id="sendBtn" class="btn btn-primary">확인</button></td>
+					</tr>
+				</table>
+    	</div>
+		</form>
     
-    <c:if test="${loginId == rsvStat[0].user_id && loginId != null }">
+    <c:if test="${myRsvStat[0].user_id == loginId }">
 	    <div class="mt-5">
 		    <h4>나의 예약 현황</h4>
 		    <hr>
@@ -173,14 +175,17 @@
 		    		</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="rsvStat" items="${rsvStat }">
+						<c:forEach var="myRsvStat" items="${myRsvStat }">
 							<tr class="align-middle">
-								<td>${rsvStat.locker_no }</td>
-								<td>${rsvStat.location_name }</td>
-								<td>${rsvStat.user_id }</td>
-								<td>${rsvStat.locker_start_date } <br/> ~ ${rsvStat.locker_end_date }</td>
-								<td>${rsvStat.locker_cost }</td>
-								<td>비고</td>
+								<td>${myRsvStat.locker_no }</td>
+								<td>${myRsvStat.location_name }</td>
+								<td>${myRsvStat.user_id }</td>
+								<td>${myRsvStat.locker_start_date } <br/> ~ ${myRsvStat.locker_end_date }</td>
+								<td>${myRsvStat.locker_cost }</td>
+								<td>연장하기 버튼<br>(예정)</td>
+								<c:if test="">
+									<td></td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -258,16 +263,22 @@
   </script>
   
   <script type="text/javascript">
-  	$("#selectLockerLoc").on("click", function() {
+  	function changeLocation() {
   		let form = $("#locationForm")
-  		for(let i=0; i<${locList.size()}; i++) {
-  			if($('#location').val() == '${locList[i].locker_location_id}') {
-  				form.attr("action", "<c:url value='/rental/locker?${locList[i].locker_location_id}' />")
-  				form.attr("method", "GET")
-  				return form.submit()
-  			}
+  		let startDe = new Date($("#startDate1").val())
+  		
+  		if(startDe != null){
+	  		var period = $("#period").val()
+	  		period = Number(period) 
+	  		let end_Date = new Date(startDe.setDate(startDe.getDate()+period))
+	  		
+	  		$("#endDate1").attr("value", dateFormat(end_Date))
   		}
-		})
+  		
+			form.attr("action", "<c:url value='/rental/locker'/>")
+			form.attr("method", "POST")
+			form.submit()
+		}
   
   	// checkbox 중복 체크 방지
     function checkOnlyOne(element) {
@@ -291,10 +302,10 @@
 		// 시작일 전달
 		function selectSDate() {
 			console.log($("#startDate1").val())
-			$("#startDateM").attr("value", $("#startDate1").val())
+			$("#startDateM").attr("value", ${param.locker_start_date })
 		}
   	
-  	// 종료일 전달(시작일 + 기간) onchange로 변경할 것 or 
+  	// 종료일 전달(시작일 + 기간)
   	$("#sendBtn").click(function() {
   		let session = '${loginId }'
   		if(session == null || session == ''){
@@ -310,6 +321,7 @@
   		
   		$("#lockerLocationId").attr("value", ${param.locker_location_id})
   		$("#lockerLocation").attr("value", $("#location option:selected").text().trim())
+  		$("#startDateM").attr("value", '${param.locker_start_date }')
   		$("#endDateM").attr("value", dateFormat(end_Date))
   		$("#lockerCostM").attr("value", cost)
   		

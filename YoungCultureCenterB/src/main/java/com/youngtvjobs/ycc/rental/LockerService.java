@@ -10,7 +10,7 @@ public interface LockerService {
 
 	List<LockerDto> getLockerList(LockerDto lockerDto) throws Exception;
 
-	List<LockerDto> getLockerRsvList(int locker_location_id) throws Exception;
+	List<LockerDto> getLockerRsvList(LockerDto lockerDto) throws Exception;
 
 	List<LockerDto> getReservationStat(String user_id) throws Exception;
 
