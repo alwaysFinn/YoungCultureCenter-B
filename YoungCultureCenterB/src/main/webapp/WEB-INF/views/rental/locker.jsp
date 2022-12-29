@@ -159,7 +159,7 @@
     	</div>
 		</form>
     
-    <c:if test="${myRsvStat[0].user_id == loginId }">
+    <c:if test="${myRsvStat[0].user_id == loginId && loginId != null }">
 	    <div class="mt-5">
 		    <h4>나의 예약 현황</h4>
 		    <hr>
