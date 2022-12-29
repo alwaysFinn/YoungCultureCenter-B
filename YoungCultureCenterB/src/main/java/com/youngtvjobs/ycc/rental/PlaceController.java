@@ -28,24 +28,14 @@ public class PlaceController {
 	@Autowired
 	PlaceService placeService;
 
-		// 대관신청
 		@GetMapping("/rental/place")
 		// Dto에서 장소들 이름 받아와 selectBox에 출력해주는 메서드
-		public String placeRental(Model m, HttpServletRequest request, PlaceDto placeDto, HttpSession session) {
+		public String placeRental(Model m, PlaceDto placeDto) {
 			try {
 				// 대관 장소 (classroom) 리스트 출력
 				List<PlaceDto> placelist = placeService.selectRentalPlace();
 				m.addAttribute("placelist", placelist);
-
-				String customer = (String)session.getAttribute("id");
-				placeDto.setUser_id(customer);
-				m.addAttribute("customer", customer);
-				
-				//String croom_id = placeDto.getCroom_id();
-				//Date prental_de = placeDto.getPrental_de();
-						
-				//System.out.println("croom_id" + placeDto.getCroom_id());
-				//System.out.println("date" + placeDto.getPrental_de());
+				System.out.println("placelist = " + placelist);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -53,24 +43,7 @@ public class PlaceController {
 			return "rental/place";
 		}
 		
-		/*
-		@ResponseBody
-		@GetMapping("/rental/place.total")
-		public Map<String, Object> placeTotalSelect(placeDto placeDto) throws Exception {
-			
-			List<placeDto> totalInfoList = rentalService.selectTotalInfo();
-			
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("totalInfoList", totalInfoList);
-			//map.put("prental_de", prental_de);
-			//totalInfoList.get(0).setPrental_de(prental_de);
-			
-			
-			return map;
-		}
-		*/
-		
-		// classroom 데이터를 받아와서 해당 장소와 동일한 날짜의 예약정보를 모아놓은 새 배열 생성
+		// 장소 선택시 classroom 데이터를 받아와서 해당 장소와 동일한 날짜의 예약정보를 모아놓은 새 배열 생성
 		@ResponseBody
 		@GetMapping("/rental/place.select")
 		public Map<String, Object> rentalPlaceSelect(PlaceDto placeDto, @RequestParam("croom_id") String croom_id) throws Exception {
@@ -79,21 +52,22 @@ public class PlaceController {
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("placeList", placeList);
-			System.out.println("placeList = " + placeList);
 			
 			return map;
 		}
 		
 		// 예약 정보 insert해주는 메서드
 		@PostMapping("/rental/place.do")
-		public String rentalInfoInsert(PlaceDto placeDto, RedirectAttributes rattr, HttpSession session, Model m, 
-				HttpServletRequest request, @RequestParam("user_id") String user_id, @RequestParam("date") String date, 
-				@RequestParam("croom_id") String croom_id, @RequestParam(value = "timeList", required = false) String timeList) throws Exception {
+		public String rentalInfoInsert(PlaceDto placeDto, @RequestParam("user_id") String user_id, 
+				@RequestParam("date") String date, @RequestParam("croom_id") String croom_id, 
+				@RequestParam("timeList") String timeList) throws Exception {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date prental_de = sdf.parse(date);
 			placeDto.setPrental_de(prental_de);
 			
+			// timeList를 string 타입으로 받아오기 때문에 timeList의 time1, tim2, ... 값을 꺼낼 수 없음 
+			// ==> string을 object로 변환하기 위해 json object로 파싱
 			JSONParser parser = new JSONParser();
 			Object timeListObj = parser.parse(timeList);
 			JSONObject jsonObj = (JSONObject) timeListObj;
@@ -104,18 +78,18 @@ public class PlaceController {
 			boolean time4 = Boolean.parseBoolean((String)jsonObj.get("time4"));
 			boolean time5 = Boolean.parseBoolean((String)jsonObj.get("time5"));
 			boolean time6 = Boolean.parseBoolean((String)jsonObj.get("time6"));
+			
 			placeDto.setTime1(time1);
 			placeDto.setTime2(time2);
 			placeDto.setTime3(time3);
 			placeDto.setTime4(time4);
 			placeDto.setTime5(time5);
 			placeDto.setTime6(time6);
-			
+
 			placeService.insertInfo(placeDto);
 		
 			return null;
 		}
-		
 		
 		@ResponseBody
 		@GetMapping("/rental/place.send")
@@ -136,14 +110,10 @@ public class PlaceController {
 			map.put("croom_id", croom_id);
 			map.put("date", date);
 			
-			//String str = URLEncoder.encode(croom_id, "utf-8");
-			
 			Cookie cookie1 = new Cookie("croom_id", croom_id);
 			response.addCookie(cookie1);
 			Cookie cookie2 = new Cookie("date", date);
 			response.addCookie(cookie2);
-			
-			
 			
 			System.out.println("croom_id = " + croom_id);
 			System.out.println("date = " + date);
@@ -152,7 +122,6 @@ public class PlaceController {
 		}
 
 	private boolean logincheck(HttpServletRequest request) {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
 		return session != null && session.getAttribute("id") != null;
 	}
